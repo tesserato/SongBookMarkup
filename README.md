@@ -1,2 +1,1 @@
-# SongBookMarkup
-Markup language for songbooks
+An absolute bare-bones web app.
