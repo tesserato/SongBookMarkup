@@ -1,0 +1,30 @@
+# Song's title ("H1", generally for song title, line starting with "#")
+
+## Artist's name ("H2, line starting with "##")
+## Composer's name 
+
+|comment (won't be rendered, line starting with "|")
+
+|chord definitions
+[0 4 x 2 5 0] A
+[002420]A/B
+
+|chord line, (line starting with ">")
+>D                           D7 
+|text line
+There is a house down in New Orleans 
+>    G               D 
+They call the Rising Sun  
+>D                           G 
+And it's been the ruin of a many poor boy 
+>     D       A          D 
+And me, oh God , for one 
+ 
+>D                        D7 
+Then fill the glasses to the brim 
+>        G                   D 
+Let the drinks go merrily around 
+>D                                  G 
+And we'll drink to the health of a rounder poor boy 
+>    D         A7       D 
+Who goes from town to town 
