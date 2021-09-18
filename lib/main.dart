@@ -2,38 +2,50 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-// import 'package:mark_book/widgets/editor.dart';
 // import 'package:rich_text_controller/rich_text_controller.dart';
 // import 'package:clairvoyant/widgets/editor.dart';
 // import 'package:provider/provider.dart';
 // import 'package:clairvoyant/models/song.dart';
 
-// final _rawText = ValueNotifier('''hardcoded
-// # Song's title ("H1", generally for song title, line starting with "#")
+String rawText =
+    '''RAW
+    # Song's title ("H1", generally for song title, line starting with "#")
 
-// ## Artist's name ("H2, line starting with "##")
-// ## Composer's name
+## Artist's name ("H2, line starting with "##")
+## Composer's name 
 
-// |comment (won't be rendered, line starting with "|")
+|comment (won't be rendered, line starting with "|")
 
-// |chord definitions
-// [0 4 x 2 5 0] A
-// [002420]A/B
+|chord definitions
+[0 4 x 2 5 0] A
+[002420]A/B
 
-// |chord line, (line starting with ">")
-// >D                           D7''');
-String _rawText = "ini";
+|chord line, (line starting with ">")
+>D                           D7 
+|text line
+There is a house down in New Orleans 
+>    G               D 
+They call the Rising Sun  
+>D                           G 
+And it's been the ruin of a many poor boy 
+>     D       A          D 
+And me, oh God , for one 
+ 
+>D                        D7 
+Then fill the glasses to the brim 
+>        G                   D 
+Let the drinks go merrily around 
+>D                                  G 
+And we'll drink to the health of a rounder poor boy 
+>    D         A7       D 
+Who goes from town to town 
+''';
 
 void main() => runApp(const MyApp());
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -67,9 +79,7 @@ class _MyAppState extends State<MyApp> {
                           return text;
                         }
 
-                        _rawText = await _read();
-
-                        setState(() {});
+                        rawText = await _read();
                       } else {
                         // User canceled the picker
                       }
@@ -84,7 +94,7 @@ class _MyAppState extends State<MyApp> {
                     },
                   ),
                 ]),
-            body: const Home()));
+            body: const Home()));;
   }
 }
 
@@ -97,17 +107,15 @@ class Home extends StatefulWidget {
   }
 }
 
-// var t =
-
 class HomeState extends State<Home> {
   // String text = rawText;
+  final _controller = TextEditingController(text: rawText);
   double _ratio = 0.5;
   final double _dividerWidth = 10;
 
   @override
   Widget build(BuildContext context) {
     var _totalWidth = MediaQuery.of(context).size.width;
-    final _controller = TextEditingController(text: _rawText);
 
     return Row(children: <Widget>[
       SizedBox(
@@ -115,18 +123,15 @@ class HomeState extends State<Home> {
         child: TextField(
           enableSuggestions: false,
           decoration: const InputDecoration(
-              label: Text("Mark Book"),
-              border: OutlineInputBorder(),
-              alignLabelWithHint: true),
-          expands: true,
+            label: Text("Mark Book"),
+            border:OutlineInputBorder(),
+            alignLabelWithHint: true),
+          expands : true,
           controller: _controller,
           autofocus: true,
           maxLines: null,
           onChanged: (text) {
-            setState(() {
-              
-            });
-            // _rawText = text;
+            setState(() {});
           },
         ),
       ),
@@ -158,7 +163,8 @@ class HomeState extends State<Home> {
             // decoration: Decoration(),
             child: processText(_controller.text)),
       ),
-    ]);
+    ]
+        );
   }
 }
 
@@ -328,40 +334,7 @@ class MyPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
+  bool shouldRepaint(CustomPainter old) {
     return true;
   }
 }
-
-// String rawText = '''hardcoded
-// # Song's title ("H1", generally for song title, line starting with "#")
-
-// ## Artist's name ("H2, line starting with "##")
-// ## Composer's name
-
-// |comment (won't be rendered, line starting with "|")
-
-// |chord definitions
-// [0 4 x 2 5 0] A
-// [002420]A/B
-
-// |chord line, (line starting with ">")
-// >D                           D7
-// |text line
-// There is a house down in New Orleans
-// >    G               D
-// They call the Rising Sun
-// >D                           G
-// And it's been the ruin of a many poor boy
-// >     D       A          D
-// And me, oh God , for one
-
-// >D                        D7
-// Then fill the glasses to the brim
-// >        G                   D
-// Let the drinks go merrily around
-// >D                                  G
-// And we'll drink to the health of a rounder poor boy
-// >    D         A7       D
-// Who goes from town to town
-// ''';
