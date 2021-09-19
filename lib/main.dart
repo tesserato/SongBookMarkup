@@ -4,7 +4,6 @@ import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 String _rawText = '''RAW
     # Song's title ("H1", generally for song title, line starting with "#")
 
@@ -216,7 +215,7 @@ Widget processText(String rawText) {
         W.add(Padding(
           padding: const EdgeInsets.fromLTRB(0.0, 17.0, 0.0, 17.0),
           child: RichText(
-            overflow : TextOverflow.ellipsis,
+              overflow: TextOverflow.visible,
               text: TextSpan(
                   text: rawLineTrimmed.substring(2),
                   style: _darkTheme.textTheme.headline2)),
@@ -226,7 +225,7 @@ Widget processText(String rawText) {
       W.add(Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 18.0, 0.0, 18.0),
         child: RichText(
-          overflow : TextOverflow.ellipsis,
+            overflow: TextOverflow.visible,
             text: TextSpan(
                 text: rawLineTrimmed.substring(1),
                 style: _darkTheme.textTheme.headline1)),
@@ -258,7 +257,7 @@ Widget processText(String rawText) {
             // print("[$i");
             start = i;
             R.add(RichText(
-              overflow : TextOverflow.ellipsis,
+                overflow: TextOverflow.ellipsis,
                 text: TextSpan(
                     text: ''.padRight(start - end, ' '),
                     style: _darkTheme.textTheme.bodyText2)));
@@ -271,13 +270,14 @@ Widget processText(String rawText) {
     }
 
     W.add(RichText(
-      overflow : TextOverflow.ellipsis,
+        overflow: TextOverflow.ellipsis,
         text: TextSpan(text: rawLine, style: _darkTheme.textTheme.bodyText1)));
   }
 
   return ListView(
-    children: W,
+    // mainAxisSize: MainAxisSize.min,
     // crossAxisAlignment: CrossAxisAlignment.start,
+    children: W,
   );
 }
 
@@ -311,7 +311,7 @@ class _ChordWidgetState extends State<ChordWidget> {
           clipBehavior: Clip.none,
           children: [
             RichText(
-              overflow : TextOverflow.ellipsis,
+              overflow: TextOverflow.clip,
               text: TextSpan(
                   text: widget.name, style: _darkTheme.textTheme.bodyText2),
             ),
