@@ -60,6 +60,8 @@ var _darkTheme = ThemeData(
   ),
 );
 
+bool _build = false;
+
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -133,7 +135,7 @@ class HomeState extends State<Home> {
     var _totalWidth = MediaQuery.of(context).size.width;
 
     return Row(children: <Widget>[
-      SizedBox(
+      if (_build) SizedBox(
         width: (_totalWidth - _dividerWidth) * _ratio,
         child: ValueListenableBuilder(
           valueListenable: _rebuildTextWidget,
@@ -290,20 +292,33 @@ class ChordWidget extends StatefulWidget {
 }
 
 class _ChordWidgetState extends State<ChordWidget> {
-  var _overText = false;
+  bool _hovering = false;
+  bool _toggle = false;
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-        onEnter: (value) {
-          setState(() {
-            _overText = true;
-          });
+    return InkWell(
+        onHover: (value) {
+          if (value) {
+            setState(() {
+              _hovering = true;
+            });
+          } else {
+            setState(() {
+              _hovering = false;
+            });
+          }
         },
-        onExit: (value) {
-          setState(() {
-            _overText = false;
-          });
+        onTap: () {
+          if (_toggle) {
+            setState(() {
+              _toggle = false;
+            });
+          } else {
+            setState(() {
+              _toggle = true;
+            });
+          }
         },
         child: Stack(
           fit: StackFit.passthrough,
@@ -326,7 +341,7 @@ class _ChordWidgetState extends State<ChordWidget> {
                   // maintainAnimation: true,
                   // maintainSize: true,
                   // maintainInteractivity: true,
-                  visible: _overText,
+                  visible: _hovering || _toggle,
                   child: Container(
                     width: 60,
                     height: 80,
