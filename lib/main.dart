@@ -1,12 +1,9 @@
-import 'dart:io';
-
-// import 'package:file_picker/file_picker.dart';
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
-// import 'package:rich_text_controller/rich_text_controller.dart';
-// import 'package:clairvoyant/widgets/editor.dart';
-// import 'package:provider/provider.dart';
-// import 'package:clairvoyant/models/song.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 String _rawText = '''RAW
     # Song's title ("H1", generally for song title, line starting with "#")
@@ -45,6 +42,25 @@ ValueNotifier<bool> _rebuildTextWidget = ValueNotifier(false);
 
 final _controller = TextEditingController(text: _rawText);
 
+var _darkTheme = ThemeData(
+  // Define the default brightness and colors.
+  brightness: Brightness.dark,
+  // primaryColor: Colors.red,
+
+  // Define the default font family.
+  fontFamily: GoogleFonts.firaMono().fontFamily,
+
+  // Define the default `TextTheme`. Use this to specify the default
+  // text styling for headlines, titles, bodies of text, and more.
+  // textTheme: GoogleFonts.firaMonoTextTheme() ,
+  textTheme: const TextTheme(
+    headline1: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+    headline2: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
+    bodyText1: TextStyle(fontSize: 16.0),
+    bodyText2: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+  ),
+);
+
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -53,60 +69,49 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        theme: _darkTheme,
         title: "Mark Book",
         home: Scaffold(
             appBar: AppBar(
-                leading: IconButton(
-                    icon: const Icon(Icons.folder_open_outlined),
-                    tooltip: 'Open a mark book (*.mb)',
-                    onPressed: () async {
-                      FilePickerCross file =
-                          await FilePickerCross.importFromStorage(
-                              type: FileTypeCross.custom, 
-                              fileExtension: '.mb'
-                              );
-                        _controller.text = file.toString();
-                        _rebuildTextWidget.value = true;
-                      
-
-                      // if (result != null) {
-                      //   // var fileBytes = result.files.first.bytes;
-                      //   var fileName = result.files.first.name;
-                      //   Future<String> _read() async {
-                      //     String text = "";
-                      //     try {
-                      //       // final Directory directory =
-                      //       // await getApplicationDocumentsDirectory();
-                      //       final File file = File(fileName);
-                      //       text = await file.readAsString();
-                      //     } catch (e) {
-                      //       print(e);
-                      //       print("Couldn't read file");
-                      //       text = "Couldn't read file";
-                      //     }
-                      //     return text;
-                      //   }
-
-                      //   // _rawText
-                      //   _controller.text = await _read();
-                      //   print(_controller.text);
-                      //   _rebuildTextWidget.value = true;
-                      // } else {
-                      //   // User canceled the picker
-                      // }
-                    }),
-                actions: <Widget>[
-                  IconButton(
-                    icon: const Icon(Icons.add_alert),
-                    tooltip: 'Show Snackbar',
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('This is a snackbar')));
-                    },
-                  ),
-                ]),
+                elevation: 0,
+                automaticallyImplyLeading: false,
+                title: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                          icon: const Icon(Icons.folder_open_outlined),
+                          tooltip: 'Open a mark book file (*.mb)',
+                          onPressed: () async {
+                            try {
+                              FilePickerCross file =
+                                  await FilePickerCross.importFromStorage(
+                                      type: FileTypeCross.custom,
+                                      fileExtension: '.mb');
+                              _controller.text = file.toString();
+                              _rebuildTextWidget.value = true;
+                            } catch (e) {
+                              print(e);
+                            }
+                          }),
+                      IconButton(
+                        icon: const Icon(Icons.save_outlined),
+                        tooltip: 'Save as',
+                        onPressed: () {
+                          // print("here");
+                          Uint8List bytes =
+                              Uint8List.fromList(utf8.encode(_controller.text));
+                          // print(bytes);
+                          var file = FilePickerCross(bytes,
+                              type: FileTypeCross.custom, fileExtension: '.mb');
+                          file.exportToStorage(
+                              fileName: "Mark Book.mb", text: "Test");
+                          print(file);
+                        },
+                      ),
+                    ]),
+                actions: []),
             body: const Home()));
-    ;
   }
 }
 
@@ -134,20 +139,23 @@ class HomeState extends State<Home> {
         child: ValueListenableBuilder(
           valueListenable: _rebuildTextWidget,
           builder: (context, hasError, child) {
-            return TextField(
-              enableSuggestions: false,
-              decoration: const InputDecoration(
-                  label: Text("Mark Book"),
-                  border: OutlineInputBorder(),
-                  alignLabelWithHint: true),
-              expands: true,
-              controller: _controller,
-              autofocus: true,
-              maxLines: null,
-              // onc: ,
-              onChanged: (text) {
-                setState(() {});
-              },
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                enableSuggestions: false,
+                decoration: const InputDecoration(
+                    label: Text("Mark Book"),
+                    border: OutlineInputBorder(),
+                    alignLabelWithHint: true),
+                expands: true,
+                controller: _controller,
+                autofocus: true,
+                maxLines: null,
+                // onc: ,
+                onChanged: (text) {
+                  setState(() {});
+                },
+              ),
             );
           },
         ),
@@ -155,7 +163,7 @@ class HomeState extends State<Home> {
       GestureDetector(
         behavior: HitTestBehavior.translucent,
         child: Container(
-          color: Colors.yellow,
+          color: Theme.of(context).colorScheme.primary,
           width: _dividerWidth,
           // height: constraints.maxHeight,
           // child: const RotationTransition(
@@ -179,7 +187,10 @@ class HomeState extends State<Home> {
         child: ValueListenableBuilder(
             valueListenable: _rebuildTextWidget,
             builder: (context, hasError, child) {
-              return processText(_controller.text);
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: processText(_controller.text),
+              );
             }),
       ),
     ]);
@@ -197,29 +208,29 @@ Widget processText(String rawText) {
     }
 
     if (rawLineTrimmed.startsWith("|")) {
-      /// comment
-      // W.add(RichText(
-      //     text: const TextSpan(
-      //         text: '\n',
-      //         style:
-      //             TextStyle(fontWeight: FontWeight.bold, color: Colors.red))));
       continue;
     }
 
     if (rawLineTrimmed.startsWith("#")) {
       if (rawLineTrimmed.length > 1 && rawLineTrimmed[1] == "#") {
-        W.add(RichText(
-            text: TextSpan(
-                text: rawLineTrimmed.substring(2),
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.green))));
+        W.add(Padding(
+          padding: const EdgeInsets.fromLTRB(0.0, 17.0, 0.0, 17.0),
+          child: RichText(
+            overflow : TextOverflow.ellipsis,
+              text: TextSpan(
+                  text: rawLineTrimmed.substring(2),
+                  style: _darkTheme.textTheme.headline2)),
+        ));
         continue;
       }
-      W.add(RichText(
-          text: TextSpan(
-              text: rawLineTrimmed.substring(1),
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.red))));
+      W.add(Padding(
+        padding: const EdgeInsets.fromLTRB(0.0, 18.0, 0.0, 18.0),
+        child: RichText(
+          overflow : TextOverflow.ellipsis,
+            text: TextSpan(
+                text: rawLineTrimmed.substring(1),
+                style: _darkTheme.textTheme.headline1)),
+      ));
       continue;
     }
 
@@ -235,7 +246,10 @@ Widget processText(String rawText) {
             // left chord
             // print("$i]");
             end = i;
-            R.add(ChordWidget(rawLine.substring(start, end)));
+            R.add(Padding(
+              padding: const EdgeInsets.fromLTRB(0.0, 10.0, 1.0, 0.0),
+              child: ChordWidget(rawLine.substring(start, end)),
+            ));
           }
           insideChord = false;
         } else {
@@ -243,8 +257,11 @@ Widget processText(String rawText) {
             //entered chord
             // print("[$i");
             start = i;
-            R.add(
-                RichText(text: TextSpan(text: ''.padRight(start - end, ' '))));
+            R.add(RichText(
+              overflow : TextOverflow.ellipsis,
+                text: TextSpan(
+                    text: ''.padRight(start - end, ' '),
+                    style: _darkTheme.textTheme.bodyText2)));
           }
           insideChord = true;
         }
@@ -254,11 +271,8 @@ Widget processText(String rawText) {
     }
 
     W.add(RichText(
-        text: TextSpan(
-      text: rawLine,
-      // style: TextStyle(
-      //     fontWeight: FontWeight.bold, color: Colors.red)
-    )));
+      overflow : TextOverflow.ellipsis,
+        text: TextSpan(text: rawLine, style: _darkTheme.textTheme.bodyText1)));
   }
 
   return ListView(
@@ -296,9 +310,10 @@ class _ChordWidgetState extends State<ChordWidget> {
           alignment: AlignmentDirectional.bottomCenter,
           clipBehavior: Clip.none,
           children: [
-            Text(
-              widget.name,
-              textWidthBasis: TextWidthBasis.longestLine,
+            RichText(
+              overflow : TextOverflow.ellipsis,
+              text: TextSpan(
+                  text: widget.name, style: _darkTheme.textTheme.bodyText2),
             ),
             Positioned(
                 top: -80,
