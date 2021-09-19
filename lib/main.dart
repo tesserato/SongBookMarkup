@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
+import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
 // import 'package:rich_text_controller/rich_text_controller.dart';
 // import 'package:clairvoyant/widgets/editor.dart';
 // import 'package:provider/provider.dart';
 // import 'package:clairvoyant/models/song.dart';
 
-String rawText =
-    '''RAW
+String _rawText = '''RAW
     # Song's title ("H1", generally for song title, line starting with "#")
 
 ## Artist's name ("H2, line starting with "##")
@@ -41,6 +41,10 @@ And we'll drink to the health of a rounder poor boy
 Who goes from town to town 
 ''';
 
+ValueNotifier<bool> _rebuildTextWidget = ValueNotifier(false);
+
+final _controller = TextEditingController(text: _rawText);
+
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -54,35 +58,42 @@ class MyApp extends StatelessWidget {
             appBar: AppBar(
                 leading: IconButton(
                     icon: const Icon(Icons.folder_open_outlined),
-                    tooltip: 'Open song book (*.sb)',
+                    tooltip: 'Open a mark book (*.mb)',
                     onPressed: () async {
-                      FilePickerResult? result =
-                          await FilePicker.platform.pickFiles(
-                        type: FileType.custom,
-                        allowedExtensions: ['mb'],
-                      );
-                      // String? path = result;
+                      FilePickerCross file =
+                          await FilePickerCross.importFromStorage(
+                              type: FileTypeCross.custom, 
+                              fileExtension: '.mb'
+                              );
+                        _controller.text = file.toString();
+                        _rebuildTextWidget.value = true;
+                      
 
-                      if (result != null) {
-                        // var fileBytes = result.files.first.bytes;
-                        var fileName = result.files.first.name;
-                        Future<String> _read() async {
-                          String text = "";
-                          try {
-                            // final Directory directory =
-                            // await getApplicationDocumentsDirectory();
-                            final File file = File(fileName);
-                            text = await file.readAsString();
-                          } catch (e) {
-                            print("Couldn't read file");
-                          }
-                          return text;
-                        }
+                      // if (result != null) {
+                      //   // var fileBytes = result.files.first.bytes;
+                      //   var fileName = result.files.first.name;
+                      //   Future<String> _read() async {
+                      //     String text = "";
+                      //     try {
+                      //       // final Directory directory =
+                      //       // await getApplicationDocumentsDirectory();
+                      //       final File file = File(fileName);
+                      //       text = await file.readAsString();
+                      //     } catch (e) {
+                      //       print(e);
+                      //       print("Couldn't read file");
+                      //       text = "Couldn't read file";
+                      //     }
+                      //     return text;
+                      //   }
 
-                        rawText = await _read();
-                      } else {
-                        // User canceled the picker
-                      }
+                      //   // _rawText
+                      //   _controller.text = await _read();
+                      //   print(_controller.text);
+                      //   _rebuildTextWidget.value = true;
+                      // } else {
+                      //   // User canceled the picker
+                      // }
                     }),
                 actions: <Widget>[
                   IconButton(
@@ -94,7 +105,8 @@ class MyApp extends StatelessWidget {
                     },
                   ),
                 ]),
-            body: const Home()));;
+            body: const Home()));
+    ;
   }
 }
 
@@ -109,7 +121,6 @@ class Home extends StatefulWidget {
 
 class HomeState extends State<Home> {
   // String text = rawText;
-  final _controller = TextEditingController(text: rawText);
   double _ratio = 0.5;
   final double _dividerWidth = 10;
 
@@ -120,18 +131,24 @@ class HomeState extends State<Home> {
     return Row(children: <Widget>[
       SizedBox(
         width: (_totalWidth - _dividerWidth) * _ratio,
-        child: TextField(
-          enableSuggestions: false,
-          decoration: const InputDecoration(
-            label: Text("Mark Book"),
-            border:OutlineInputBorder(),
-            alignLabelWithHint: true),
-          expands : true,
-          controller: _controller,
-          autofocus: true,
-          maxLines: null,
-          onChanged: (text) {
-            setState(() {});
+        child: ValueListenableBuilder(
+          valueListenable: _rebuildTextWidget,
+          builder: (context, hasError, child) {
+            return TextField(
+              enableSuggestions: false,
+              decoration: const InputDecoration(
+                  label: Text("Mark Book"),
+                  border: OutlineInputBorder(),
+                  alignLabelWithHint: true),
+              expands: true,
+              controller: _controller,
+              autofocus: true,
+              maxLines: null,
+              // onc: ,
+              onChanged: (text) {
+                setState(() {});
+              },
+            );
           },
         ),
       ),
@@ -159,12 +176,13 @@ class HomeState extends State<Home> {
       ),
       SizedBox(
         width: (_totalWidth - _dividerWidth) * (1 - _ratio),
-        child: Container(
-            // decoration: Decoration(),
-            child: processText(_controller.text)),
+        child: ValueListenableBuilder(
+            valueListenable: _rebuildTextWidget,
+            builder: (context, hasError, child) {
+              return processText(_controller.text);
+            }),
       ),
-    ]
-        );
+    ]);
   }
 }
 
