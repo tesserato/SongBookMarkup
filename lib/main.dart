@@ -53,10 +53,10 @@ var _darkTheme = ThemeData(
   // text styling for headlines, titles, bodies of text, and more.
   // textTheme: GoogleFonts.firaMonoTextTheme() ,
   textTheme: const TextTheme(
-    headline1: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-    headline2: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
+    headline1: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w900),
+    headline2: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
     bodyText1: TextStyle(fontSize: 16.0),
-    bodyText2: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+    bodyText2: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300),
   ),
 );
 
@@ -65,7 +65,12 @@ bool _buildTextOutput = true;
 
 double _ratio = 0.5;
 
-void main() => runApp(const MyApp());
+void main() {
+  LicenseRegistry.addLicense(() async* {
+    final license = await rootBundle.loadString('fonts/OFL.txt');
+    yield LicenseEntryWithLineBreaks(['Fira_Mono'], license);
+  });
+  runApp(const MyApp())};
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -119,6 +124,7 @@ class _MyAppState extends State<MyApp> {
                         },
                       ),
                       ToggleButtons(
+                        borderRadius:BorderRadius.circular(10),
                         children: const <Widget>[
                           Icon(Icons.text_fields),
                           Icon(Icons.text_snippet),
