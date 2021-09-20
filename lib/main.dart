@@ -37,7 +37,7 @@ And we'll drink to the health of a rounder poor boy
 Who goes from town to town 
 ''';
 
-ValueNotifier<bool> _rebuildTextWidget = ValueNotifier(false);
+ValueNotifier<bool> _rebuildTextWidgets = ValueNotifier(false);
 
 final _controller = TextEditingController(text: _rawText);
 
@@ -60,7 +60,10 @@ var _darkTheme = ThemeData(
   ),
 );
 
-bool _build = false;
+bool _buildTextInput = true;
+bool _buildTextOutput = true;
+
+double _ratio = 0.5;
 
 void main() => runApp(const MyApp());
 
@@ -90,7 +93,7 @@ class MyApp extends StatelessWidget {
                                       type: FileTypeCross.custom,
                                       fileExtension: '.mb');
                               _controller.text = file.toString();
-                              _rebuildTextWidget.value = true;
+                              _rebuildTextWidgets.value = true;
                             } catch (e) {
                               print(e);
                             }
@@ -107,12 +110,49 @@ class MyApp extends StatelessWidget {
                               type: FileTypeCross.custom, fileExtension: '.mb');
                           file.exportToStorage(
                               fileName: "Mark Book.mb", text: "Test");
-                          print(file);
                         },
                       ),
+                      ToggleButtons(
+                        children: const <Widget>[
+                          Icon(Icons.text_fields),
+                          Icon(Icons.text_snippet),
+                        ],
+                        onPressed: (int index) {
+                          if (index == 0) {
+                            if (_buildTextOutput && _buildTextInput) {
+                              _buildTextInput = false;
+                              _rebuildTextWidgets.value ^= true;
+                              print("destroy");
+                            } else {
+                              _buildTextInput = true;
+                              _rebuildTextWidgets.value ^= true;
+                              print("build");
+                            }
+                          }
+
+                          if (index == 1) {
+                            if (_buildTextOutput && _buildTextInput) {
+                              _buildTextOutput = false;
+                              _rebuildTextWidgets.value ^= true;
+                              _ratio = 1;
+                              print("destroy");
+                            } else {
+                              _buildTextOutput = true;
+                              _rebuildTextWidgets.value ^= true;
+                              _ratio = .5;
+                              print("build");
+                            }
+                          }
+                        },
+                        isSelected: [_buildTextInput, _buildTextOutput],
+                      ),
                     ]),
-                actions: []),
-            body: const Home()));
+                actions: const []),
+            body: ValueListenableBuilder(
+                valueListenable: _rebuildTextWidgets,
+                builder: (context, hasError, child) {
+                  return Home();
+                })));
   }
 }
 
@@ -127,7 +167,7 @@ class Home extends StatefulWidget {
 
 class HomeState extends State<Home> {
   // String text = rawText;
-  double _ratio = 0.5;
+
   final double _dividerWidth = 10;
 
   @override
@@ -135,32 +175,28 @@ class HomeState extends State<Home> {
     var _totalWidth = MediaQuery.of(context).size.width;
 
     return Row(children: <Widget>[
-      if (_build) SizedBox(
-        width: (_totalWidth - _dividerWidth) * _ratio,
-        child: ValueListenableBuilder(
-          valueListenable: _rebuildTextWidget,
-          builder: (context, hasError, child) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                enableSuggestions: false,
-                decoration: const InputDecoration(
-                    label: Text("Mark Book"),
-                    border: OutlineInputBorder(),
-                    alignLabelWithHint: true),
-                expands: true,
-                controller: _controller,
-                autofocus: true,
-                maxLines: null,
-                // onc: ,
-                onChanged: (text) {
-                  setState(() {});
-                },
-              ),
-            );
-          },
+      if (_buildTextInput)
+        SizedBox(
+          width: (_totalWidth - _dividerWidth) * _ratio,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              enableSuggestions: false,
+              decoration: const InputDecoration(
+                  label: Text("Mark Book"),
+                  border: OutlineInputBorder(),
+                  alignLabelWithHint: true),
+              expands: true,
+              controller: _controller,
+              autofocus: true,
+              maxLines: null,
+              // onc: ,
+              onChanged: (text) {
+                setState(() {});
+              },
+            ),
+          ),
         ),
-      ),
       GestureDetector(
         behavior: HitTestBehavior.translucent,
         child: Container(
@@ -183,17 +219,14 @@ class HomeState extends State<Home> {
           });
         },
       ),
-      SizedBox(
-        width: (_totalWidth - _dividerWidth) * (1 - _ratio),
-        child: ValueListenableBuilder(
-            valueListenable: _rebuildTextWidget,
-            builder: (context, hasError, child) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: processText(_controller.text),
-              );
-            }),
-      ),
+      if (_buildTextOutput)
+        SizedBox(
+          width: (_totalWidth - _dividerWidth) * (1 - _ratio),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: processText(_controller.text),
+          ),
+        ),
     ]);
   }
 }
