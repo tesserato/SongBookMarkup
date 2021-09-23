@@ -1,7 +1,7 @@
-flutter build windows
-pub run msix:create
+# flutter build windows
+# flutter pub run msix:create
 
-flutter build android
+# flutter build web
+# firebase deploy
 
-flutter build web
-firebase deploy
+flutter build apk

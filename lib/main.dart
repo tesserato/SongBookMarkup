@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:file_picker_cross/file_picker_cross.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 String _rawText = '''RAW
@@ -70,7 +72,7 @@ void main() {
     final license = await rootBundle.loadString('fonts/OFL.txt');
     yield LicenseEntryWithLineBreaks(['Fira_Mono'], license);
   });
-  runApp(const MyApp())};
+  runApp(const MyApp());}
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -134,10 +136,13 @@ class _MyAppState extends State<MyApp> {
                             if (_buildTextOutput && _buildTextInput) {
                               _buildTextInput = false;
                               _rebuildTextWidgets.value ^= true;
+                              _oldRatio = _ratio;
+                              _ratio = 0;
                               print("destroy");
                             } else {
                               _buildTextInput = true;
                               _rebuildTextWidgets.value ^= true;
+                              _ratio = _oldRatio;
                               print("build");
                             }
                           }
