@@ -8,8 +8,8 @@ enum Type {
   suspended2nd,
   power
 }
-enum Addition { add2, add4, dom6, minor7th, major7th }
-enum Alteration { b5, s5 }
+enum Addition { added2nd, addeed4th, dom6, minor7th, major7th }
+enum Alteration { flat5, sharp5 }
 
 extension NoteExtension on Note {
   Note operator +(int i) {
@@ -66,12 +66,33 @@ class Chord {
         notes.add(root);
         break;
     }
+    switch (alteration) {
+      case Alteration.flat5: // X(♭5)
+        notes.add(notes[2] -= 1);
+        break;
+      case Alteration.sharp5: // X(♯5)
+        notes.add(notes[2] += 1);
+        break;
+      default:
+        break;
+    }
     switch (addition) {
       case Addition.major7th: // X△
         notes.add(notes[1] + 4);
         break;
       case Addition.minor7th: // X7
         notes.add(notes[1] + 3);
+        break;
+      case Addition.added2nd: // Xadd2, X2, Xadd9
+        notes.add(root + 2);
+        break;
+      case Addition.addeed4th: // Xadd4
+        notes.add(root + 4);
+        break;
+      case Addition.dom6: // X6
+        notes.add(root + 9);
+        break;
+      default:
         break;
     }
   }
