@@ -1,0 +1,33 @@
+
+                            if(p0 > maxfret){maxfret = p0;}
+                            if(p1 > maxfret){maxfret = p1;}
+                            if(p2 > maxfret){maxfret = p2;}
+                            if(p3 > maxfret){maxfret = p3;}
+                            if(p4 > maxfret){maxfret = p4;}
+                            if(p5 > maxfret){maxfret = p5;}
+
+
+Cm7b5
+
+CM
+
+C
+Cm
+C+
+Co
+C-
+C5
+Cb5
+C#5
+Csus5
+Csus
+Csus5
+C7b5
+C7#5
+add5
+add5
+6 /o7
+7
+M7
+
+cm/db

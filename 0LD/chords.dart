@@ -1,7 +1,15 @@
 enum Note { c, cs, d, ds, e, f, fs, g, gs, a, as, b }
-enum Type { major, minor, augmented, diminished, power }
-enum Extension { add2, add4, dom6, min7, maj7 }
-enum Alteration { b5, s5, sus4, sus2 }
+enum Type {
+  major,
+  minor,
+  augmented,
+  diminished,
+  suspended4th,
+  suspended2nd,
+  power
+}
+enum Addition { add2, add4, dom6, minor7th, major7th }
+enum Alteration { b5, s5 }
 
 extension NoteExtension on Note {
   Note operator +(int i) {
@@ -9,8 +17,9 @@ extension NoteExtension on Note {
     return Note.values[index];
   }
 
-  Note operator -(int i) { // TODO
-    final int index = (this.index - i) % Note.values.length;
+  Note operator -(int i) {
+    final int index =
+        (this.index - i + Note.values.length) % Note.values.length;
     return Note.values[index];
   }
 }
@@ -20,44 +29,49 @@ class Chord {
   Note root;
   Type type;
 
-  Extension? extension;
+  Addition? addition;
   Alteration? alteration;
   Note? bass;
   List<Note> notes = [];
 
   Chord(this.root,
-      {this.type = Type.major, this.extension, this.alteration, this.bass}) {
+      {this.type = Type.major, this.addition, this.alteration, this.bass}) {
     switch (type) {
-      case Type.major:
+      case Type.major: // X
         notes.add(root + 4);
         notes.add(root + 7);
         break;
-      case Type.minor:
+      case Type.minor: // Xm
         notes.add(root + 3);
         notes.add(root + 7);
         break;
-      case Type.augmented:
+      case Type.augmented: // X+
         notes.add(root + 4);
         notes.add(root + 8);
         break;
-      case Type.diminished:
+      case Type.diminished: // X⚬
         notes.add(root + 3);
         notes.add(root + 6);
         break;
-      case Type.power:
+      case Type.suspended2nd: // Xsus2
+        notes.add(root + 2);
         notes.add(root + 7);
         break;
+      case Type.suspended4th: // Xsus4
+        notes.add(root + 5);
+        notes.add(root + 7);
+        break;
+      case Type.power: // X5
+        notes.add(root + 7);
+        notes.add(root);
+        break;
     }
-    switch (alteration) {
-      case Alteration.b5:
-        notes[0] -= 1;
+    switch (addition) {
+      case Addition.major7th: // X△
+        notes.add(notes[1] + 4);
         break;
-      case Alteration.s5:
-        notes[1] += 1;
-        break;
-      case Alteration.sus2:
-        notes[0] += 1;
-        notes[1] += 1;
+      case Addition.minor7th: // X7
+        notes.add(notes[1] + 3);
         break;
     }
   }
@@ -65,5 +79,6 @@ class Chord {
 
 void main() {
   const note = Note.c;
-  print("${note + 4}, ${note + 7}");
+  print(
+      "${note - 1}, ${note - 2}, ${note - 3}, ${note - 4}, ${note - 5}, ${note - 6}");
 }
