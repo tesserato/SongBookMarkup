@@ -2,6 +2,6 @@
 # flutter pub run msix:create
 
 # flutter build web
-# firebase deploy
+firebase deploy
 
-flutter build apk
+# flutter build apk

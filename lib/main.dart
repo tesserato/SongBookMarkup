@@ -90,7 +90,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: _darkTheme,
-        title: "Mark Book",
+        title: "MarkBook",
         home: Scaffold(
             appBar: AppBar(
                 elevation: 0,
