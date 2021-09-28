@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'models/chords.dart';
+
 String _rawText = '''RAW
     # Song's title ("H1", generally for song title, line starting with "#")
 
@@ -72,7 +74,8 @@ void main() {
     final license = await rootBundle.loadString('fonts/OFL.txt');
     yield LicenseEntryWithLineBreaks(['Fira_Mono'], license);
   });
-  runApp(const MyApp());}
+  runApp(const MyApp());
+}
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -126,7 +129,7 @@ class _MyAppState extends State<MyApp> {
                         },
                       ),
                       ToggleButtons(
-                        borderRadius:BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10),
                         children: const <Widget>[
                           Icon(Icons.text_fields),
                           Icon(Icons.text_snippet),
@@ -297,7 +300,6 @@ Widget processText(String rawText) {
         if (rawLineTrimmed[i] == " ") {
           if (insideChord) {
             // left chord
-            // print("$i]");
             end = i;
             R.add(Padding(
               padding: const EdgeInsets.fromLTRB(0.0, 10.0, 1.0, 0.0),
@@ -308,7 +310,6 @@ Widget processText(String rawText) {
         } else {
           if (!insideChord) {
             //entered chord
-            // print("[$i");
             start = i;
             R.add(RichText(
                 overflow: TextOverflow.ellipsis,
@@ -400,7 +401,7 @@ class _ChordWidgetState extends State<ChordWidget> {
                     color: Colors.yellow,
                     child: CustomPaint(
                       // size: Size(20, 30),
-                      painter: MyPainter(),
+                      painter: MyPainter(widget.name),
                       // child: const SizedBox(width: 60, height: 80)
                     ),
                   ),
@@ -411,8 +412,12 @@ class _ChordWidgetState extends State<ChordWidget> {
 }
 
 class MyPainter extends CustomPainter {
+  String name;
+  MyPainter(this.name);
+  
   @override
   void paint(Canvas canvas, Size size) {
+    Chord chord = Chord.fromName(name);
     var paint = Paint()
       ..color = Colors.black
       ..strokeWidth = 1

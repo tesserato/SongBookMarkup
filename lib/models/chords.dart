@@ -26,8 +26,8 @@ extension NoteExtension on Note {
 
 class Chord {
   late String name;
-  Note root;
-  Type type;
+  late Note root;
+  late Type type;
 
   Addition? addition;
   Alteration? alteration;
@@ -96,10 +96,57 @@ class Chord {
         break;
     }
   }
+
+  factory Chord.fromName(name) {
+    assert(name.isNotEmpty, "Chord name is empty");
+    final rootString = name[0].toUpperCase();
+    Note? root;
+    // assert("CDEFGAB".contains(rootString), "Root must be a valid note");
+
+    switch (rootString) {
+      case "C":
+        root = Note.c;
+        break;
+      case "D":
+        root = Note.d;
+        break;
+      case "E":
+        root = Note.e;
+        break;
+      case "F":
+        root = Note.f;
+        break;
+      case "G":
+        root = Note.g;
+        break;
+      case "A":
+        root = Note.a;
+        break;
+      case "B":
+        root = Note.b;
+        break;
+      default:
+      throw const FormatException("Root must be a valid note");
+    }
+    if (name.length > 1) {
+      switch (name[1]) {
+        case "#":
+        case "♯":
+          root += 1;
+          break;
+        case "b":
+        case "♭":
+          root -= 1;
+          break;
+      }
+    }else{
+      return Chord(root);
+    }
+    return Chord(root);
+  }
 }
 
 void main() {
-  const note = Note.c;
-  print(
-      "${note - 1}, ${note - 2}, ${note - 3}, ${note - 4}, ${note - 5}, ${note - 6}");
+  Chord C = Chord.fromName("x");
+  print("${C.root} ${C.notes}");
 }
