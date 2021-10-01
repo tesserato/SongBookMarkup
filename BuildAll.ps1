@@ -1,3 +1,5 @@
+flutter pub run flutter_launcher_icons:main
+
 # flutter build windows
 # flutter pub run msix:create
 
