@@ -42,6 +42,7 @@ Who goes from town to town
 ''';
 
 ValueNotifier<bool> _rebuildTextWidgets = ValueNotifier(false);
+ValueNotifier<bool> _rebuildAppBar = ValueNotifier(false);
 
 final _controller = TextEditingController(text: _rawText);
 
@@ -128,45 +129,56 @@ class _MyAppState extends State<MyApp> {
                               fileName: "Mark Book.mb", text: "Test");
                         },
                       ),
-                      ToggleButtons(
-                        borderRadius: BorderRadius.circular(10),
-                        children: const <Widget>[
-                          Icon(Icons.text_fields),
-                          Icon(Icons.text_snippet),
-                        ],
-                        onPressed: (int index) {
-                          if (index == 0) {
-                            if (_buildTextOutput && _buildTextInput) {
-                              _buildTextInput = false;
-                              _rebuildTextWidgets.value ^= true;
-                              _oldRatio = _ratio;
-                              _ratio = 0;
-                              print("destroy");
-                            } else {
-                              _buildTextInput = true;
-                              _rebuildTextWidgets.value ^= true;
-                              _ratio = _oldRatio;
-                              print("build");
-                            }
-                          }
+                      ValueListenableBuilder(
+                        valueListenable: _rebuildAppBar,
+                        builder: (context, value, child) {
+                          return ToggleButtons(
+                            borderRadius: BorderRadius.circular(10),
+                            children: const <Widget>[
+                              Tooltip(
+                                child: Icon(Icons.text_fields),
+                                message: "Toggle input field",
+                              ),
+                              Tooltip(
+                                child: Icon(Icons.text_snippet),
+                                message: "Toggle rendered output",
+                              ),
+                            ],
+                            onPressed: (int index) {
+                              if (index == 0) {
+                                if (_buildTextOutput && _buildTextInput) {
+                                  _buildTextInput = false;
+                                  _rebuildTextWidgets.value ^= true;
+                                  _oldRatio = _ratio;
+                                  _ratio = 0;
+                                  print("destroy");
+                                } else {
+                                  _buildTextInput = true;
+                                  _rebuildTextWidgets.value ^= true;
+                                  _ratio = _oldRatio;
+                                  print("build");
+                                }
+                              }
 
-                          if (index == 1) {
-                            if (_buildTextOutput && _buildTextInput) {
-                              _buildTextOutput = false;
-                              _rebuildTextWidgets.value ^= true;
-                              _oldRatio = _ratio;
-                              _ratio = 1;
-                              print("destroy");
-                            } else {
-                              _buildTextOutput = true;
-                              _rebuildTextWidgets.value ^= true;
-                              _ratio = _oldRatio;
-                              print("build");
-                            }
-                          }
-                          setState(() {});
+                              if (index == 1) {
+                                if (_buildTextOutput && _buildTextInput) {
+                                  _buildTextOutput = false;
+                                  _rebuildTextWidgets.value ^= true;
+                                  _oldRatio = _ratio;
+                                  _ratio = 1;
+                                  print("destroy");
+                                } else {
+                                  _buildTextOutput = true;
+                                  _rebuildTextWidgets.value ^= true;
+                                  _ratio = _oldRatio;
+                                  print("build");
+                                }
+                              }
+                              setState(() {});
+                            },
+                            isSelected: [_buildTextInput, _buildTextOutput],
+                          );
                         },
-                        isSelected: [_buildTextInput, _buildTextOutput],
                       ),
                     ]),
                 actions: const []),
@@ -219,27 +231,37 @@ class HomeState extends State<Home> {
             ),
           ),
         ),
-      GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        child: Container(
-          color: Theme.of(context).colorScheme.primary,
-          width: _dividerWidth,
-          // height: constraints.maxHeight,
-          // child: const RotationTransition(
-          //   child: Icon(Icons.drag_handle),
-          //   turns: AlwaysStoppedAnimation(0.25),
-          // ),
+      MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          child: Container(
+            color: Theme.of(context).colorScheme.primary,
+            width: _dividerWidth,
+            // height: constraints.maxHeight,
+            // child: const RotationTransition(
+            //   child: Icon(Icons.drag_handle),
+            //   turns: AlwaysStoppedAnimation(0.25),
+            // ),
+          ),
+          onDoubleTap: () {
+            _ratio = 0.5;
+            _buildTextOutput = true;
+            _buildTextInput = true;
+            _rebuildAppBar.value ^= true;
+            setState(() {});
+          },
+          onPanUpdate: (DragUpdateDetails details) {
+            setState(() {
+              _ratio += details.delta.dx / _totalWidth;
+              if (_ratio > 1) {
+                _ratio = 1;
+              } else if (_ratio < 0.0) {
+                _ratio = 0.0;
+              }
+            });
+          },
         ),
-        onPanUpdate: (DragUpdateDetails details) {
-          setState(() {
-            _ratio += details.delta.dx / _totalWidth;
-            if (_ratio > 1) {
-              _ratio = 1;
-            } else if (_ratio < 0.0) {
-              _ratio = 0.0;
-            }
-          });
-        },
       ),
       if (_buildTextOutput)
         SizedBox(
@@ -414,7 +436,7 @@ class _ChordWidgetState extends State<ChordWidget> {
 class MyPainter extends CustomPainter {
   String name;
   MyPainter(this.name);
-  
+
   @override
   void paint(Canvas canvas, Size size) {
     Chord chord = Chord.fromName(name);
