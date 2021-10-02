@@ -22,12 +22,18 @@ extension NoteExtension on Note {
         (this.index - i + Note.values.length) % Note.values.length;
     return Note.values[index];
   }
+
+  int distanceFrom(Note n) {
+    int distance = index - n.index;
+    return distance > 0 ? distance : 12 + distance;
+  }
 }
 
 class Chord {
   late String name;
   late Note root;
   late Type type;
+  List<Note> tuning = [Note.e, Note.a, Note.d, Note.g, Note.b, Note.e];
 
   Addition? addition;
   Alteration? alteration;
@@ -97,39 +103,49 @@ class Chord {
     }
   }
 
-  factory Chord.fromName(name) {
+  factory Chord.fromName(String name) {
     assert(name.isNotEmpty, "Chord name is empty");
     final rootString = name[0].toUpperCase();
     Note? root;
+    int index = 0;
+
     // assert("CDEFGAB".contains(rootString), "Root must be a valid note");
 
     switch (rootString) {
       case "C":
         root = Note.c;
+        index++;
         break;
       case "D":
         root = Note.d;
+        index++;
         break;
       case "E":
         root = Note.e;
+        index++;
         break;
       case "F":
         root = Note.f;
+        index++;
         break;
       case "G":
         root = Note.g;
+        index++;
         break;
       case "A":
         root = Note.a;
+        index++;
         break;
       case "B":
         root = Note.b;
+        index++;
         break;
       default:
-      throw const FormatException("Root must be a valid note");
+        throw const FormatException("Root must be a valid note");
     }
     if (name.length > 1) {
-      switch (name[1]) {
+      index++;
+      switch (name[1].toLowerCase()) {
         case "#":
         case "♯":
           root += 1;
@@ -139,14 +155,23 @@ class Chord {
           root -= 1;
           break;
       }
-    }else{
-      return Chord(root);
     }
+    String extensions = name.substring(index);
+    if (extensions.isEmpty) {
+      print("No extensions!");
+      return Chord(root);
+    } else {
+      print(">>>>$extensions");
+    }
+
     return Chord(root);
   }
 }
 
 void main() {
-  Chord C = Chord.fromName("x");
-  print("${C.root} ${C.notes}");
+  Chord C = Chord.fromName("C♭");
+  Note n1 = Note.g;
+  Note n2 = Note.e;
+  int dist = n1.distanceFrom(n2);
+  print("$n1 , $n2 + $dist -> ${n2 + dist}");
 }
