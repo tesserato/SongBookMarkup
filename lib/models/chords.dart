@@ -25,7 +25,7 @@ extension NoteExtension on Note {
 
   int distanceFrom(Note n) {
     int distance = index - n.index;
-    return distance > 0 ? distance : 12 + distance;
+    return distance >= 0 ? distance : 12 + distance;
   }
 }
 
@@ -166,12 +166,39 @@ class Chord {
 
     return Chord(root);
   }
+  List<int> getFingering() {
+    List<int> fingering =
+        List<int>.filled(tuning.length, -100, growable: false);
+    fingering[0] = root.distanceFrom(tuning[0]);
+    for (Note note in (notes + [root])) {
+      for (var index = 1; index < tuning.length; ++index) {
+        int fret = note.distanceFrom(tuning[index]);
+        int oldDistanceFromRoot = (fingering[0] - fingering[index]).abs();
+        int newDistanceFromRoot = (fingering[0] - fret).abs();
+        if (fret == 0) {
+          newDistanceFromRoot = 0;
+        }
+        if (fingering[index] == 0) {
+          oldDistanceFromRoot = 0;
+        }
+        print(
+            "note=$note, string=${index + 1}, fret=$fret old distance=$oldDistanceFromRoot, new distance=$newDistanceFromRoot");
+        if (newDistanceFromRoot < oldDistanceFromRoot &&
+            newDistanceFromRoot < 4) {
+          fingering[index] = fret;
+        }
+      }
+      print(fingering);
+    }
+    return fingering;
+  }
 }
 
 void main() {
-  Chord C = Chord.fromName("C♭");
+  Chord C = Chord.fromName("C");
   Note n1 = Note.g;
   Note n2 = Note.e;
   int dist = n1.distanceFrom(n2);
-  print("$n1 , $n2 + $dist -> ${n2 + dist}");
+  // print("$n1 , $n2 + $dist -> ${n2 + dist}");
+  print(C.getFingering());
 }

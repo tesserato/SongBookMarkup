@@ -418,13 +418,19 @@ class _ChordWidgetState extends State<ChordWidget> {
                   // maintainInteractivity: true,
                   visible: _hovering || _toggle,
                   child: Container(
-                    width: 60,
-                    height: 80,
-                    color: Colors.yellow,
-                    child: CustomPaint(
-                      // size: Size(20, 30),
-                      painter: MyPainter(widget.name),
-                      // child: const SizedBox(width: 60, height: 80)
+                    width: 80,
+                    height: 100,
+                    color: Colors.red,
+                    padding: const EdgeInsets.fromLTRB(9, 12, 9, 1),
+                    child: Container(
+                      width: 60,
+                      height: 80,
+                      color: Colors.white,
+                      child: CustomPaint(
+                        // size: Size(20, 30),
+                        painter: MyPainter(widget.name),
+                        // child: const SizedBox(width: 60, height: 80)
+                      ),
                     ),
                   ),
                 ))
@@ -440,6 +446,7 @@ class MyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Chord chord = Chord.fromName(name);
+    List<int> fingering = chord.getFingering();
     var paint = Paint()
       ..color = Colors.black
       ..strokeWidth = 1
@@ -449,14 +456,23 @@ class MyPainter extends CustomPainter {
       Offset startingPoint = Offset(x, 0);
       Offset endingPoint = Offset(x, size.height);
       canvas.drawLine(startingPoint, endingPoint, paint);
-    }
-
-    for (var i = 0; i < 6; i++) {
       var y = i * size.height / 5;
-      Offset startingPoint = Offset(0, y);
-      Offset endingPoint = Offset(size.width, y);
+      startingPoint = Offset(0, y);
+      endingPoint = Offset(size.width, y);
       canvas.drawLine(startingPoint, endingPoint, paint);
+      canvas.drawCircle(
+          Offset(i * size.width / 5,
+              fingering[i] * size.height / 5 - size.height / 15),
+          size.width / 15,
+          paint);
     }
+    // var fingering = chord.getFingering();
+    // for (var i = 0; i < 6; i++) {
+
+    // }
+    // for (var item in chord.) {
+
+    // }
     // canvas.drawCircle(Offset(size.width, size.height), 2, paint);
   }
 
