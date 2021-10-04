@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'models/chords.dart';
 
 String _rawText = '''RAW
-    # Song's title ("H1", generally for song title, line starting with "#")
+! Song's title ("H1", generally for song title, line starting with "#")
 
 ## Artist's name ("H2, line starting with "##")
 ## Composer's name 
@@ -200,14 +200,10 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  // String text = rawText;
-
   final double _dividerWidth = 10;
-
   @override
   Widget build(BuildContext context) {
     var _totalWidth = MediaQuery.of(context).size.width;
-
     return Row(children: <Widget>[
       if (_buildTextInput)
         SizedBox(
@@ -254,10 +250,16 @@ class HomeState extends State<Home> {
           onPanUpdate: (DragUpdateDetails details) {
             setState(() {
               _ratio += details.delta.dx / _totalWidth;
-              if (_ratio > 1) {
+              if (_ratio > .9) {
                 _ratio = 1;
-              } else if (_ratio < 0.0) {
+                _buildTextOutput = false;
+                setState(() {});
+                _rebuildAppBar.value ^= true;
+              } else if (_ratio < 0.1) {
                 _ratio = 0.0;
+                _buildTextInput = false;
+                setState(() {});
+                _rebuildAppBar.value ^= true;
               }
             });
           },
@@ -277,6 +279,8 @@ class HomeState extends State<Home> {
 
 Widget processText(String rawText) {
   List<Widget> W = [];
+  int numberOfSongs = 0;
+  Map<String, List<int>> chordNameToFingering = Map();
 
   for (var rawLine in rawText.split("\n")) {
     String rawLineTrimmed = rawLine.trim();
@@ -289,25 +293,48 @@ Widget processText(String rawText) {
       continue;
     }
 
-    if (rawLineTrimmed.startsWith("#")) {
-      if (rawLineTrimmed.length > 1 && rawLineTrimmed[1] == "#") {
-        W.add(Padding(
-          padding: const EdgeInsets.fromLTRB(0.0, 17.0, 0.0, 17.0),
-          child: RichText(
-              overflow: TextOverflow.visible,
-              text: TextSpan(
-                  text: rawLineTrimmed.substring(2),
-                  style: _darkTheme.textTheme.headline2)),
-        ));
-        continue;
-      }
+    if (rawLineTrimmed.startsWith("!")) {
+      // new song
       W.add(Padding(
+        // add song title text
         padding: const EdgeInsets.fromLTRB(0.0, 18.0, 0.0, 18.0),
         child: RichText(
             overflow: TextOverflow.visible,
             text: TextSpan(
                 text: rawLineTrimmed.substring(1),
                 style: _darkTheme.textTheme.headline1)),
+      ));
+      continue;
+    }
+
+    if (rawLineTrimmed.startsWith("[")) {
+      List<int> fingering = [];
+      int i = 0;
+      while (i < rawLineTrimmed.length && rawLineTrimmed[i] != "]") {
+        i++;
+        if (rawLineTrimmed[i].toLowerCase() == "x") {
+          fingering.add(-1);
+        } else {
+          int? fret = int.tryParse(rawLineTrimmed[i]);
+          if (fret != null) {
+            fingering.add(fret);
+          }
+        }
+      }
+      String name = rawLineTrimmed.substring(i + 1).trim();
+      chordNameToFingering[name] = fingering;
+      print("$name  $fingering");
+      continue;
+    }
+
+    if (rawLineTrimmed.startsWith("#")) {
+      W.add(Padding(
+        padding: const EdgeInsets.fromLTRB(0.0, 17.0, 0.0, 17.0),
+        child: RichText(
+            overflow: TextOverflow.visible,
+            text: TextSpan(
+                text: rawLineTrimmed.substring(2),
+                style: _darkTheme.textTheme.headline2)),
       ));
       continue;
     }
@@ -321,17 +348,19 @@ Widget processText(String rawText) {
       for (var i = 1; i < rawLineTrimmed.length; i++) {
         if (rawLineTrimmed[i] == " ") {
           if (insideChord) {
-            // left chord
+            // left chord name
             end = i;
+            final name = rawLine.substring(start, end);
+            final fingering = chordNameToFingering[name];
             R.add(Padding(
               padding: const EdgeInsets.fromLTRB(0.0, 10.0, 1.0, 0.0),
-              child: ChordWidget(rawLine.substring(start, end)),
+              child: ChordWidget(name, fingering:fingering),
             ));
           }
           insideChord = false;
         } else {
           if (!insideChord) {
-            //entered chord
+            //entered chord name
             start = i;
             R.add(RichText(
                 overflow: TextOverflow.ellipsis,
@@ -360,7 +389,8 @@ Widget processText(String rawText) {
 
 class ChordWidget extends StatefulWidget {
   String name = "";
-  ChordWidget(this.name, {Key? key}) : super(key: key);
+  List<int>? fingering;
+  ChordWidget(this.name, {Key? key, this.fingering}) : super(key: key);
 
   @override
   State<ChordWidget> createState() => _ChordWidgetState();
@@ -428,7 +458,7 @@ class _ChordWidgetState extends State<ChordWidget> {
                       color: Colors.white,
                       child: CustomPaint(
                         // size: Size(20, 30),
-                        painter: MyPainter(widget.name),
+                        painter: MyPainter(widget.name, fingering: widget.fingering),
                         // child: const SizedBox(width: 60, height: 80)
                       ),
                     ),
@@ -441,12 +471,13 @@ class _ChordWidgetState extends State<ChordWidget> {
 
 class MyPainter extends CustomPainter {
   String name;
-  MyPainter(this.name);
+  List<int>? fingering;
+  MyPainter(this.name, {this.fingering});
 
   @override
   void paint(Canvas canvas, Size size) {
     Chord chord = Chord.fromName(name);
-    List<int> fingering = chord.getFingering();
+    fingering ??= chord.getFingering();
     var paint = Paint()
       ..color = Colors.black
       ..strokeWidth = 1
@@ -462,7 +493,7 @@ class MyPainter extends CustomPainter {
       canvas.drawLine(startingPoint, endingPoint, paint);
       canvas.drawCircle(
           Offset(i * size.width / 5,
-              fingering[i] * size.height / 5 - size.height / 15),
+              fingering![i] * size.height / 5 - size.height / 15),
           size.width / 15,
           paint);
     }
