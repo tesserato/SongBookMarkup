@@ -46,22 +46,27 @@ ValueNotifier<bool> _rebuildAppBar = ValueNotifier(false);
 
 final _controller = TextEditingController(text: _rawText);
 
+double _fontSize = 16.0;
+double _fontFactor = 1.3;
+
+var _inputStyle = TextStyle(fontFamily: GoogleFonts.firaCode().fontFamily,fontSize:_fontSize);
+
 var _darkTheme = ThemeData(
   // Define the default brightness and colors.
   brightness: Brightness.dark,
   // primaryColor: Colors.red,
 
   // Define the default font family.
-  fontFamily: GoogleFonts.firaMono().fontFamily,
+  fontFamily: GoogleFonts.cutiveMono().fontFamily,
 
   // Define the default `TextTheme`. Use this to specify the default
   // text styling for headlines, titles, bodies of text, and more.
   // textTheme: GoogleFonts.firaMonoTextTheme() ,
-  textTheme: const TextTheme(
-    headline1: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w900),
-    headline2: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-    bodyText1: TextStyle(fontSize: 16.0),
-    bodyText2: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300),
+  textTheme: TextTheme(
+    headline1: TextStyle(fontSize: _fontFactor * _fontSize, fontWeight: FontWeight.w900),
+    headline2: TextStyle(fontSize: _fontFactor * _fontSize, fontWeight: FontWeight.w500),
+    bodyText1: TextStyle(fontSize: _fontFactor * _fontSize),
+    bodyText2: TextStyle(fontSize: _fontFactor * _fontSize, fontWeight: FontWeight.w300),
   ),
 );
 
@@ -211,6 +216,7 @@ class HomeState extends State<Home> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
+              style: _inputStyle,
               enableSuggestions: false,
               decoration: const InputDecoration(
                   label: Text("Mark Book"),
@@ -279,7 +285,7 @@ class HomeState extends State<Home> {
 
 Widget processText(String rawText) {
   List<Widget> W = [];
-  int numberOfSongs = 0;
+  // int numberOfSongs = 0;
   Map<String, List<int>> chordNameToFingering = Map();
 
   for (var rawLine in rawText.split("\n")) {
