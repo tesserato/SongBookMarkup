@@ -399,7 +399,7 @@ class ChordWidget extends StatefulWidget {
 class _ChordWidgetState extends State<ChordWidget> {
   bool _hovering = false;
   bool _toggle = false;
-  // Color backgroun = 
+  // Color backgroun =
 
   @override
   Widget build(BuildContext context) {
@@ -449,10 +449,10 @@ class _ChordWidgetState extends State<ChordWidget> {
                   // maintainInteractivity: true,
                   visible: _hovering || _toggle,
                   child: Container(
-                    width: 80,
+                    width: 100,
                     height: 100,
-                    color: const Color.fromARGB(120, 255, 255, 255),
-                    padding: const EdgeInsets.fromLTRB(9, 12, 9, 1),
+                    color: const Color.fromARGB(200, 255, 255, 255),
+                    padding: const EdgeInsets.fromLTRB(23, 12, 9, 6),
                     child: Container(
                       width: 60,
                       height: 80,
@@ -484,6 +484,7 @@ class MyPainter extends CustomPainter {
     int maxfret = 0;
     int numberOfFrets = 6;
     int numberOfStrings = 6;
+
     for (var fret in fingering!) {
       if (fret > 0) {
         if (fret > maxfret) {
@@ -500,6 +501,25 @@ class MyPainter extends CustomPainter {
     if (maxfret < numberOfFrets) {
       minfret = 0;
     }
+
+    const textStyle = TextStyle(
+        color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold);
+    TextSpan textSpan = TextSpan(
+      text: minfret.toString(),
+      style: textStyle,
+    );
+    TextPainter textPainter = TextPainter(
+      text: textSpan,
+      textDirection: TextDirection.ltr,
+      textAlign: TextAlign.center,
+    );
+    textPainter.layout(
+      minWidth: 0,
+      maxWidth: 20,
+    );
+
+    final offset = Offset(-22, -textPainter.height / 2);
+    textPainter.paint(canvas, offset);
 
     var paint = Paint()
       ..color = Colors.black
@@ -526,14 +546,30 @@ class MyPainter extends CustomPainter {
                     size.height / 15),
             size.width / 15,
             paint);
-      } else if (fingering![i] < 0) { // TODO draw X
-        var r = Offset(i * size.width / (numberOfStrings - 1), -
-                    size.height / 15) &
-            Size(size.width / 15, size.height / 15);
-        canvas.drawRect(r, paint);
+      } else if (fingering![i] < 0) {
+        const textStyle = TextStyle(
+            color: Colors.black, fontSize: 16, fontWeight: FontWeight.w900);
+
+        textSpan = const TextSpan(
+          text: "x",
+          style: textStyle,
+        );
+        TextPainter textPainter = TextPainter(
+          text: textSpan,
+          textDirection: TextDirection.ltr,
+          textAlign: TextAlign.center,
+        );
+        textPainter.layout(
+          // minWidth: size.width,
+          maxWidth: 0,
+        );
+
+        final xCenter = i * size.width / (numberOfStrings - 1);
+        final yCenter = -size.height / 15 - textPainter.height / 2;
+        final offset = Offset(xCenter, yCenter);
+        textPainter.paint(canvas, offset);
       }
     }
-
   }
 
   @override
