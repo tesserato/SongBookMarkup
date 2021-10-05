@@ -74,10 +74,10 @@ class Chord {
     }
     switch (alteration) {
       case Alteration.flat5: // X(♭5)
-        notes.add(notes[2] -= 1);
+        notes.add(notes[1] -= 1);
         break;
       case Alteration.sharp5: // X(♯5)
-        notes.add(notes[2] += 1);
+        notes.add(notes[1] += 1);
         break;
       default:
         break;
@@ -107,6 +107,9 @@ class Chord {
     assert(name.isNotEmpty, "Chord name is empty");
     final rootString = name[0].toUpperCase();
     Note? root;
+    Type type = Type.major;
+    Alteration? alteration;
+    Addition? addition;
     int index = 0;
 
     // assert("CDEFGAB".contains(rootString), "Root must be a valid note");
@@ -144,27 +147,64 @@ class Chord {
         throw const FormatException("Root must be a valid note");
     }
     if (name.length > 1) {
-      index++;
       switch (name[1].toLowerCase()) {
         case "#":
         case "♯":
           root += 1;
+          index++;
           break;
         case "b":
         case "♭":
           root -= 1;
+          index++;
           break;
       }
     }
-    String extensions = name.substring(index);
+    String extensions = name.substring(index).toLowerCase();
     if (extensions.isEmpty) {
       print("No extensions!");
       return Chord(root);
     } else {
-      print(">>>>$extensions");
+      if (extensions.startsWith("m") ||
+          extensions.contains("minor") ||
+          extensions.contains("min")) {
+        type = Type.minor;
+      } else if (extensions.startsWith("5") ||
+          extensions.contains("pwr") ||
+          extensions.contains("power")) {
+        type = Type.power;
+      } else if (extensions.contains("+") ||
+          extensions.contains("aug") ||
+          extensions.contains("augmented")) {
+        type = Type.augmented;
+      } else if (extensions.contains("⚬") ||
+          extensions.contains("dim") ||
+          extensions.contains("diminished")) {
+        type = Type.diminished;
+      } else if (extensions.contains("sus2")) {
+        type = Type.suspended2nd;
+      } else if (extensions.contains("sus4")) {
+        type = Type.suspended4th;
+      }
+      if (extensions.contains("(b5)") || extensions.contains("(♭5)")) {
+        alteration = Alteration.flat5;
+      } else if (extensions.contains("(#5)") || extensions.contains("(♯5)")) {
+        alteration = Alteration.sharp5;
+      }
+      if (extensions.contains("△")) {
+        addition = Addition.major7th;
+      } else if (extensions.contains("7")) {
+        addition = Addition.minor7th;
+      } else if (extensions.contains("2") || extensions.contains("add9")) {
+        addition = Addition.added2nd;
+      } else if (extensions.contains("4")) {
+        addition = Addition.addeed4th;
+      } else if (extensions.contains("6")) {
+        addition = Addition.dom6;
+      } // TODO add bass
     }
 
-    return Chord(root);
+    return Chord(root, type: type, alteration: alteration, addition: addition);
   }
   List<int> getFingering() {
     List<int> fingering =
@@ -195,10 +235,10 @@ class Chord {
 }
 
 void main() {
-  Chord C = Chord.fromName("C");
-  Note n1 = Note.g;
-  Note n2 = Note.e;
-  int dist = n1.distanceFrom(n2);
+  Chord C = Chord.fromName("C(b5)");
+  // Note n1 = Note.g;
+  // Note n2 = Note.e;
+  // int dist = n1.distanceFrom(n2);
   // print("$n1 , $n2 + $dist -> ${n2 + dist}");
   print(C.getFingering());
 }

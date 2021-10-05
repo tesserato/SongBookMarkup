@@ -22,3 +22,7 @@ https://markbook-app.web.app/#/
 \# - visible comment
 | invisible comment
 \> chord line
+
+# Tips
+
+- Defined chords fingerings have priority over inferred fingerings

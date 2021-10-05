@@ -21,7 +21,7 @@ String _rawText = '''RAW
 [002420]A/B
 
 |chord line, (line starting with ">")
->D                           D7 
+>A                           D7 
 |text line
 There is a house down in New Orleans 
 >    G               D 
@@ -354,7 +354,7 @@ Widget processText(String rawText) {
             final fingering = chordNameToFingering[name];
             R.add(Padding(
               padding: const EdgeInsets.fromLTRB(0.0, 10.0, 1.0, 0.0),
-              child: ChordWidget(name, fingering:fingering),
+              child: ChordWidget(name, fingering: fingering),
             ));
           }
           insideChord = false;
@@ -458,7 +458,8 @@ class _ChordWidgetState extends State<ChordWidget> {
                       color: Colors.white,
                       child: CustomPaint(
                         // size: Size(20, 30),
-                        painter: MyPainter(widget.name, fingering: widget.fingering),
+                        painter:
+                            MyPainter(widget.name, fingering: widget.fingering),
                         // child: const SizedBox(width: 60, height: 80)
                       ),
                     ),
@@ -478,33 +479,60 @@ class MyPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Chord chord = Chord.fromName(name);
     fingering ??= chord.getFingering();
+    int minfret = 100;
+    int maxfret = 0;
+    int numberOfFrets = 6;
+    int numberOfStrings = 6;
+    for (var fret in fingering!) {
+      if (fret > 0) {
+        if (fret > maxfret) {
+          maxfret = fret;
+        }
+        if (fret < minfret) {
+          minfret = fret;
+        }
+      }
+    }
+    if ((maxfret - minfret) >= numberOfFrets) {
+      numberOfFrets = maxfret - minfret + 1;
+    }
+    if (maxfret < numberOfFrets) {
+      minfret = 0;
+    }
+
     var paint = Paint()
       ..color = Colors.black
       ..strokeWidth = 1
       ..strokeCap = StrokeCap.butt;
-    for (var i = 0; i < 6; i++) {
-      var x = i * size.width / 5;
+
+    for (var i = 0; i < numberOfFrets; i++) {
+      var y = i * size.height / (numberOfFrets - 1);
+      Offset startingPoint = Offset(0, y);
+      Offset endingPoint = Offset(size.width, y);
+      canvas.drawLine(startingPoint, endingPoint, paint);
+    }
+
+    for (var i = 0; i < numberOfStrings; i++) {
+      var x = i * size.width / (numberOfStrings - 1);
       Offset startingPoint = Offset(x, 0);
       Offset endingPoint = Offset(x, size.height);
       canvas.drawLine(startingPoint, endingPoint, paint);
-      var y = i * size.height / 5;
-      startingPoint = Offset(0, y);
-      endingPoint = Offset(size.width, y);
-      canvas.drawLine(startingPoint, endingPoint, paint);
-      canvas.drawCircle(
-          Offset(i * size.width / 5,
-              fingering![i] * size.height / 5 - size.height / 15),
-          size.width / 15,
-          paint);
+      if (fingering![i] > 0) {
+        canvas.drawCircle(
+            Offset(
+                i * size.width / (numberOfStrings - 1),
+                (fingering![i] - minfret) * size.height / (numberOfFrets - 1) -
+                    size.height / 15),
+            size.width / 15,
+            paint);
+      } else if (fingering![i] < 0) { // TODO draw X
+        var r = Offset(i * size.width / (numberOfStrings - 1), -
+                    size.height / 15) &
+            Size(size.width / 15, size.height / 15);
+        canvas.drawRect(r, paint);
+      }
     }
-    // var fingering = chord.getFingering();
-    // for (var i = 0; i < 6; i++) {
 
-    // }
-    // for (var item in chord.) {
-
-    // }
-    // canvas.drawCircle(Offset(size.width, size.height), 2, paint);
   }
 
   @override
