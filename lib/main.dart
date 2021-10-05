@@ -399,6 +399,7 @@ class ChordWidget extends StatefulWidget {
 class _ChordWidgetState extends State<ChordWidget> {
   bool _hovering = false;
   bool _toggle = false;
+  // Color backgroun = 
 
   @override
   Widget build(BuildContext context) {
@@ -450,12 +451,12 @@ class _ChordWidgetState extends State<ChordWidget> {
                   child: Container(
                     width: 80,
                     height: 100,
-                    color: Colors.red,
+                    color: const Color.fromARGB(120, 255, 255, 255),
                     padding: const EdgeInsets.fromLTRB(9, 12, 9, 1),
                     child: Container(
                       width: 60,
                       height: 80,
-                      color: Colors.white,
+                      color: Colors.transparent,
                       child: CustomPaint(
                         // size: Size(20, 30),
                         painter:
