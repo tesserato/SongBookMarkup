@@ -5,7 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:url_launcher/url_launcher.dart';
+import 'assets/custom_icons.dart';
 import 'models/chords.dart';
 
 String _rawText = '''RAW
@@ -41,15 +42,20 @@ And we'll drink to the health of a rounder poor boy
 Who goes from town to town 
 ''';
 
+const _url = "https://carlos-tarjano.web.app/";
+void _launchURL() async =>
+    await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
+
 ValueNotifier<bool> _rebuildTextWidgets = ValueNotifier(false);
 ValueNotifier<bool> _rebuildAppBar = ValueNotifier(false);
 
 final _controller = TextEditingController(text: _rawText);
 
 double _fontSize = 16.0;
-double _fontFactor = 1.3;
+double _fontFactor = 1.2;
 
-var _inputStyle = TextStyle(fontFamily: GoogleFonts.firaCode().fontFamily,fontSize:_fontSize);
+var _inputStyle = TextStyle(
+    fontFamily: GoogleFonts.firaCode().fontFamily, fontSize: _fontSize);
 
 var _darkTheme = ThemeData(
   // Define the default brightness and colors.
@@ -57,16 +63,20 @@ var _darkTheme = ThemeData(
   // primaryColor: Colors.red,
 
   // Define the default font family.
-  fontFamily: GoogleFonts.cutiveMono().fontFamily,
+  fontFamily: GoogleFonts.inconsolata().fontFamily,
 
   // Define the default `TextTheme`. Use this to specify the default
   // text styling for headlines, titles, bodies of text, and more.
   // textTheme: GoogleFonts.firaMonoTextTheme() ,
   textTheme: TextTheme(
-    headline1: TextStyle(fontSize: _fontFactor * _fontSize, fontWeight: FontWeight.w900),
-    headline2: TextStyle(fontSize: _fontFactor * _fontSize, fontWeight: FontWeight.w500),
-    bodyText1: TextStyle(fontSize: _fontFactor * _fontSize),
-    bodyText2: TextStyle(fontSize: _fontFactor * _fontSize, fontWeight: FontWeight.w300),
+    headline1: TextStyle(
+        fontSize: _fontFactor * _fontSize, fontWeight: FontWeight.w900),
+    headline2: TextStyle(
+        fontSize: _fontFactor * _fontSize, fontWeight: FontWeight.w500),
+    bodyText1: TextStyle(
+        fontSize: _fontFactor * _fontSize, fontWeight: FontWeight.w100),
+    bodyText2: TextStyle(
+        fontSize: _fontFactor * _fontSize, fontWeight: FontWeight.w300),
   ),
 );
 
@@ -105,6 +115,14 @@ class _MyAppState extends State<MyApp> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
+                      IconButton(
+                        icon: const Icon(CustomIcons.icon),
+                        tooltip: 'Instructions, info, apps for other platforms ▶ $_url',
+                        onPressed: () {
+                          print("launch");
+                          launch(_url);
+                        },
+                      ),
                       IconButton(
                           icon: const Icon(Icons.folder_open_outlined),
                           tooltip: 'Open a mark book file (*.mb)',
@@ -275,7 +293,7 @@ class HomeState extends State<Home> {
         SizedBox(
           width: (_totalWidth - _dividerWidth) * (1 - _ratio),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.fromLTRB(25, 10, 10, 5),
             child: processText(_controller.text),
           ),
         ),
