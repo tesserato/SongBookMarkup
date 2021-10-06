@@ -9,20 +9,22 @@ import 'package:url_launcher/url_launcher.dart';
 import 'assets/custom_icons.dart';
 import 'models/chords.dart';
 
-String _rawText = '''RAW
-! Song's title ("H1", generally for song title, line starting with "#")
+String _rawText = '''
+! Song's title (Start a new song with "!")
 
-## Artist's name ("H2, line starting with "##")
-## Composer's name 
+# Artist's name ("Start a visible comment with "#")
+# Composer's name 
 
-|comment (won't be rendered, line starting with "|")
+|comment (Lines starting with "|" won't be rendered)
 
 |chord definitions
 [0 4 x 2 5 0] A
+       [x;x,2 2  2 2]      A6
+| OR
 [002420]A/B
 
 |chord line, (line starting with ">")
->A                           D7 
+>A       A/B          A6        D7 
 |text line
 There is a house down in New Orleans 
 >    G               D 
@@ -117,7 +119,8 @@ class _MyAppState extends State<MyApp> {
                     children: <Widget>[
                       IconButton(
                         icon: const Icon(CustomIcons.icon),
-                        tooltip: 'Instructions, info, apps for other platforms ▶ $_url',
+                        tooltip:
+                            'Instructions, info, apps for other platforms ▶ $_url',
                         onPressed: () {
                           print("launch");
                           launch(_url);
@@ -333,19 +336,39 @@ Widget processText(String rawText) {
 
     if (rawLineTrimmed.startsWith("[")) {
       List<int> fingering = [];
-      int i = 0;
-      while (i < rawLineTrimmed.length && rawLineTrimmed[i] != "]") {
-        i++;
-        if (rawLineTrimmed[i].toLowerCase() == "x") {
+      // int i = 0;
+      List<String> rawFingering = rawLineTrimmed.split("]");
+      String name = rawFingering.last.trim();
+      rawFingering = rawFingering.first
+          .replaceAll("[", "")
+          .replaceAll(",", " ")
+          .replaceAll(";", " ")
+          .split(" ");
+      if (rawFingering.length <= 1) {
+        rawFingering = rawLineTrimmed.split("");
+      }
+      for (var item in rawFingering) {
+        if (item.toLowerCase() == "x") {
           fingering.add(-1);
         } else {
-          int? fret = int.tryParse(rawLineTrimmed[i]);
+          int? fret = int.tryParse(item);
           if (fret != null) {
             fingering.add(fret);
           }
         }
       }
-      String name = rawLineTrimmed.substring(i + 1).trim();
+      // while (i < rawLineTrimmed.length && rawLineTrimmed[i] != "]") {
+      //   i++;
+      //   if (rawLineTrimmed[i].toLowerCase() == "x") {
+      //     fingering.add(-1);
+      //   } else {
+      //     int? fret = int.tryParse(rawLineTrimmed[i]);
+      //     if (fret != null) {
+      //       fingering.add(fret);
+      //     }
+      //   }
+      // }
+
       chordNameToFingering[name] = fingering;
       print("$name  $fingering");
       continue;

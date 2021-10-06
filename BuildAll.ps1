@@ -1,7 +1,17 @@
-flutter pub run flutter_launcher_icons:main
+## Update android and ios icons
+# flutter pub run flutter_launcher_icons:main
 
+
+# $cert = New-SelfSignedCertificate -certstorelocation cert:\localmachine\my -dnsname tesserato
+# $pwd = ConvertTo-SecureString -String ‘password1234’ -Force -AsPlainText
+# $path = ‘cert:\localMachine\my\’ + $cert.thumbprint
+# Export-PfxCertificate -cert $path -FilePath cert.pfx -Password $pwd
+# exit
+
+## WINDOWS
 # flutter build windows
-# flutter pub run msix:create
+flutter pub run msix:create
+exit
 
 flutter build web --release
 firebase deploy

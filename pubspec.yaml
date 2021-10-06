@@ -53,6 +53,7 @@ flutter_icons:
   android: true
   ios: true
   web: true
+  native: true
   image_path: "icon.png"
 
 
@@ -109,3 +110,21 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+
+msix_config:
+  display_name: MarkBook
+  publisher_display_name: Carlos Tarjano
+  identity_name: github.com/tesserato/Mark-Book
+  msix_version: 1.0.0.0
+  certificate_path: cert.pfx
+  certificate_password: password1234
+  publisher: CN=My Company, O=My Company, L=Berlin, S=Berlin, C=DE
+  logo_path: icon.png
+  start_menu_icon_path: icon.png
+  tile_icon_path: icon.png
+  # vs_generated_images_folder_path: C:\<PathToFolder>\icons
+  icons_background_color: transparent
+  file_extension: .mb
+  architecture: x64
+  # capabilities: "internetClient"
