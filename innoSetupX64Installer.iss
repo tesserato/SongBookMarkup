@@ -24,6 +24,7 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\markbook
 ChangesAssociations=yes
 DisableProgramGroupPage=yes
+InfoBeforeFile=infobefore.txt
 LicenseFile=MIT.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
@@ -34,6 +35,7 @@ SetupIconFile=windows\runner\resources\app_icon.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
+
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"

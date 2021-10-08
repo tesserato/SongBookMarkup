@@ -1,0 +1,5 @@
+Mark Book
+
+For more information about the author, visit https://carlos-tarjano.web.app/
+
+Infor about the app, including link for installers for other platforms, can be found at https://github.com/tesserato/Mark-Book

@@ -44,7 +44,7 @@ And we'll drink to the health of a rounder poor boy
 Who goes from town to town 
 ''';
 
-const _url = "https://carlos-tarjano.web.app/";
+const _url = "https://github.com/tesserato/Mark-Book";
 void _launchURL() async =>
     await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
 

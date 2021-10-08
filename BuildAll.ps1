@@ -6,11 +6,13 @@
 
 
 ## WINDOWS
-# flutter build windows
-exit
+# flutter build windows --release
 
+
+## WEB
 flutter build web --release
-firebase deploy
+firebase serve
+exit
 
 # az storage blob service-properties update --static-website --index-document "index.html" --account-name "markbookapp"
 

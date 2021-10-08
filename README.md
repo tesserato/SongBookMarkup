@@ -26,3 +26,4 @@ https://markbook-app.web.app/#/
 # Tips
 
 - Defined chords fingerings have priority over inferred fingerings
+
