@@ -11,8 +11,8 @@
 
 ## WEB
 flutter build web --release
-firebase serve
-exit
+firebase deploy
+
 
 # az storage blob service-properties update --static-website --index-document "index.html" --account-name "markbookapp"
 
