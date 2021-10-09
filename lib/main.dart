@@ -50,8 +50,9 @@ const _url = "https://github.com/tesserato/Mark-Book";
 void _launchURL() async =>
     await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
 
-ValueNotifier<bool> _rebuildTextWidgets = ValueNotifier(false);
+// ValueNotifier<bool> _rebuildTextWidgets = ValueNotifier(false);
 ValueNotifier<bool> _rebuildAppBar = ValueNotifier(false);
+bool _expandedTiles = true;
 
 final _controller = TextEditingController(text: _rawText);
 
@@ -114,7 +115,7 @@ class _MyAppState extends State<MyApp> {
         home: Scaffold(
             appBar: AppBar(
                 elevation: 0,
-                automaticallyImplyLeading: false,
+                automaticallyImplyLeading: true,
                 title: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -138,7 +139,8 @@ class _MyAppState extends State<MyApp> {
                                       type: FileTypeCross.custom,
                                       fileExtension: '.mb');
                               _controller.text = file.toString();
-                              _rebuildTextWidgets.value = true;
+                              // _rebuildTextWidgets.value = true;
+                              setState(() {});
                             } catch (e) {
                               print(e);
                             }
@@ -176,13 +178,13 @@ class _MyAppState extends State<MyApp> {
                               if (index == 0) {
                                 if (_buildTextOutput && _buildTextInput) {
                                   _buildTextInput = false;
-                                  _rebuildTextWidgets.value ^= true;
+                                  // _rebuildTextWidgets.value ^= true;
                                   _oldRatio = _ratio;
                                   _ratio = 0;
                                   print("destroy");
                                 } else {
                                   _buildTextInput = true;
-                                  _rebuildTextWidgets.value ^= true;
+                                  // _rebuildTextWidgets.value ^= true;
                                   _ratio = _oldRatio;
                                   print("build");
                                 }
@@ -191,13 +193,13 @@ class _MyAppState extends State<MyApp> {
                               if (index == 1) {
                                 if (_buildTextOutput && _buildTextInput) {
                                   _buildTextOutput = false;
-                                  _rebuildTextWidgets.value ^= true;
+                                  // _rebuildTextWidgets.value ^= true;
                                   _oldRatio = _ratio;
                                   _ratio = 1;
                                   print("destroy");
                                 } else {
                                   _buildTextOutput = true;
-                                  _rebuildTextWidgets.value ^= true;
+                                  // _rebuildTextWidgets.value ^= true;
                                   _ratio = _oldRatio;
                                   print("build");
                                 }
@@ -208,13 +210,26 @@ class _MyAppState extends State<MyApp> {
                           );
                         },
                       ),
+                      IconButton(
+                        icon: const Icon(Icons.open_in_full),
+                        onPressed: () {
+                          _expandedTiles = true;
+                          // _rebuildTextWidgets.value ^= true;
+                          setState(() {});
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close_fullscreen),
+                        onPressed: () {
+                          _expandedTiles = false;
+                          // _rebuildTextWidgets.value ^= true;
+                          setState(() {});
+                        },
+                      )
                     ]),
                 actions: const []),
-            body: ValueListenableBuilder(
-                valueListenable: _rebuildTextWidgets,
-                builder: (context, hasError, child) {
-                  return Home();
-                })));
+            body:  Home()
+                ));
   }
 }
 
@@ -398,6 +413,9 @@ Widget processText(String rawText) {
         currentSongTitle = rawLineTrimmed.substring(1);
       } else {
         final e = ExpansionTile(
+          key: UniqueKey(),
+          initiallyExpanded: _expandedTiles,
+          maintainState: true,
           title: RichText(
               overflow: TextOverflow.visible,
               text: TextSpan(
@@ -461,9 +479,10 @@ Widget processText(String rawText) {
       if (currentChordLine == null) {
         currentChordLine = " " + rawLineTrimmed.substring(1);
       } else {
-        currentWidgets
-            .addAll(makeChordsLine(chordNameToFingering, chords: currentChordLine));
-        currentChordLine = " " + rawLineTrimmed.substring(1);;
+        currentWidgets.addAll(
+            makeChordsLine(chordNameToFingering, chords: currentChordLine));
+        currentChordLine = " " + rawLineTrimmed.substring(1);
+        ;
       }
 
       continue;
