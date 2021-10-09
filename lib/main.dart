@@ -329,27 +329,31 @@ List<Widget> makeChordsLine(Map<String, List<int>> chordNameToFingering,
   }
 
   if (text.length < chords!.length) {
-    text.padRight(chords.length - text.length, ' ');
+    text = text.padRight(chords.length, ' ');
   }
 
   chords += " ";
   bool insideChord = false;
   int start = 0;
   int end = 0;
-  for (var i = 1; i < chords.length; i++) {
+  for (var i = 0; i < chords.length; i++) {
     if (chords[i] == " ") {
       if (insideChord) {
         // left chord name
         end = i;
         final name = chords.substring(start, end);
         final fingering = chordNameToFingering[name];
-        W.add(
-            // ChordWidget(name, fingering: fingering),
+        var r = Column(
+          children: [
+            ChordWidget(name, fingering: fingering),
             RichText(
                 overflow: TextOverflow.ellipsis,
                 text: TextSpan(
                     text: text.substring(start, end),
-                    style: _darkTheme.textTheme.bodyText2)));
+                    style: _darkTheme.textTheme.bodyText2))
+          ],
+        );
+        W.add(r);
       }
       insideChord = false;
     } else {
@@ -377,7 +381,7 @@ Widget processText(String rawText) {
   List<ExpansionTile> expansionPanels = [];
   List<Widget> currentWidgets = [];
   String? currentChordLine;
-  String? currentTextLine;
+  // String? currentTextLine;
   Map<String, List<int>> chordNameToFingering = {};
   String currentSongTitle = "";
   for (var rawLine in rawText.split("\n") + ["!"]) {
@@ -397,7 +401,11 @@ Widget processText(String rawText) {
               text: TextSpan(
                   text: currentSongTitle,
                   style: _darkTheme.textTheme.headline1)),
-          children: [Wrap(children: currentWidgets)],
+          children: [
+            Wrap(
+                crossAxisAlignment: WrapCrossAlignment.end,
+                children: currentWidgets)
+          ],
         );
         currentWidgets = [];
         chordNameToFingering = {};
@@ -447,7 +455,7 @@ Widget processText(String rawText) {
     }
 
     if (rawLineTrimmed.startsWith(">")) {
-      currentChordLine = rawLineTrimmed.substring(1);
+      currentChordLine = " " + rawLineTrimmed.substring(1);
       continue;
     }
 
