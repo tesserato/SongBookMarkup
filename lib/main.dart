@@ -304,13 +304,83 @@ class HomeState extends State<Home> {
   }
 }
 
+List<Widget> makeChordsLine(Map<String, List<int>> chordNameToFingering,
+    {String? chords, String? text}) {
+  List<Widget> W = [];
+  if (chords == null) {
+    final words = text!.split(" ") + [" "];
+    for (var word in words) {
+      Widget w = RichText(
+          overflow: TextOverflow.visible,
+          text: TextSpan(
+              text: word.trim(), style: _darkTheme.textTheme.headline1));
+      W.add(w);
+      return W;
+    }
+  } else if (text == null) {
+    final chordNames = chords.split(" ") + [" "];
+    for (var name in chordNames) {
+      final fingering = chordNameToFingering[name];
+      W.add(
+        ChordWidget(name, fingering: fingering),
+      );
+    }
+    return W;
+  }
+
+  if (text.length < chords!.length) {
+    text.padRight(chords.length - text.length, ' ');
+  }
+
+  chords += " ";
+  bool insideChord = false;
+  int start = 0;
+  int end = 0;
+  for (var i = 1; i < chords.length; i++) {
+    if (chords[i] == " ") {
+      if (insideChord) {
+        // left chord name
+        end = i;
+        final name = chords.substring(start, end);
+        final fingering = chordNameToFingering[name];
+        W.add(
+            // ChordWidget(name, fingering: fingering),
+            RichText(
+                overflow: TextOverflow.ellipsis,
+                text: TextSpan(
+                    text: text.substring(start, end),
+                    style: _darkTheme.textTheme.bodyText2)));
+      }
+      insideChord = false;
+    } else {
+      if (!insideChord) {
+        //entered chord name
+        start = i;
+        W.add(RichText(
+            overflow: TextOverflow.ellipsis,
+            text: TextSpan(
+                text: text.substring(end, start),
+                style: _darkTheme.textTheme.bodyText2)));
+      }
+      insideChord = true;
+    }
+  }
+  W.add(RichText(
+      overflow: TextOverflow.ellipsis,
+      text: TextSpan(
+          text: text.substring(end, text.length),
+          style: _darkTheme.textTheme.bodyText2)));
+  return W;
+}
+
 Widget processText(String rawText) {
   List<ExpansionTile> expansionPanels = [];
   List<Widget> currentWidgets = [];
-  // int numberOfSongs = 0;
-  Map<String, List<int>> chordNameToFingering = Map();
+  String? currentChordLine;
+  String? currentTextLine;
+  Map<String, List<int>> chordNameToFingering = {};
   String currentSongTitle = "";
-  for (var rawLine in rawText.split("\n")) {
+  for (var rawLine in rawText.split("\n") + ["!"]) {
     String rawLineTrimmed = rawLine.trim();
 
     if (rawLineTrimmed.isEmpty || rawLineTrimmed.startsWith("|")) {
@@ -322,22 +392,18 @@ Widget processText(String rawText) {
         currentSongTitle = rawLineTrimmed.substring(1);
       } else {
         final e = ExpansionTile(
-            title:  Container(
-                // add song title text
-                margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 30.0),
-                child: RichText(
-                    overflow: TextOverflow.visible,
-                    text: TextSpan(
-                        text: currentSongTitle,
-                        style: _darkTheme.textTheme.headline1)),
-              ),
-            
-            
-              children: currentWidgets,
-           );
+          title: RichText(
+              overflow: TextOverflow.visible,
+              text: TextSpan(
+                  text: currentSongTitle,
+                  style: _darkTheme.textTheme.headline1)),
+          children: [Wrap(children: currentWidgets)],
+        );
         currentWidgets = [];
+        chordNameToFingering = {};
         expansionPanels.add(e);
       }
+      continue;
     }
 
     if (rawLineTrimmed.startsWith("[")) {
@@ -381,44 +447,12 @@ Widget processText(String rawText) {
     }
 
     if (rawLineTrimmed.startsWith(">")) {
-      List<Widget> R = [];
-      bool insideChord = false;
-      rawLineTrimmed += " ";
-      int start = 0;
-      int end = 0;
-      for (var i = 1; i < rawLineTrimmed.length; i++) {
-        if (rawLineTrimmed[i] == " ") {
-          if (insideChord) {
-            // left chord name
-            end = i;
-            final name = rawLine.substring(start, end);
-            final fingering = chordNameToFingering[name];
-            R.add(Padding(
-              padding: const EdgeInsets.fromLTRB(0.0, 10.0, 1.0, 0.0),
-              child: ChordWidget(name, fingering: fingering),
-            ));
-          }
-          insideChord = false;
-        } else {
-          if (!insideChord) {
-            //entered chord name
-            start = i;
-            R.add(RichText(
-                overflow: TextOverflow.ellipsis,
-                text: TextSpan(
-                    text: ''.padRight(start - end, ' '),
-                    style: _darkTheme.textTheme.bodyText2)));
-          }
-          insideChord = true;
-        }
-      }
-      currentWidgets.add(Row(children: R));
+      currentChordLine = rawLineTrimmed.substring(1);
       continue;
     }
 
-    currentWidgets.add(RichText(
-        overflow: TextOverflow.ellipsis,
-        text: TextSpan(text: rawLine, style: _darkTheme.textTheme.bodyText1)));
+    currentWidgets.addAll(makeChordsLine(chordNameToFingering,
+        text: rawLine, chords: currentChordLine));
   }
 
   return ListView(
@@ -431,7 +465,7 @@ Widget processText(String rawText) {
 Widget processTextOld(String rawText) {
   List<Widget> W = [];
   // int numberOfSongs = 0;
-  Map<String, List<int>> chordNameToFingering = Map();
+  Map<String, List<int>> chordNameToFingering = {};
 
   for (var rawLine in rawText.split("\n")) {
     String rawLineTrimmed = rawLine.trim();
@@ -494,7 +528,7 @@ Widget processTextOld(String rawText) {
       // }
 
       chordNameToFingering[name] = fingering;
-      print("$name  $fingering");
+      // print("$name  $fingering");
       continue;
     }
 
