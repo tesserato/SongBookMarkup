@@ -305,6 +305,130 @@ class HomeState extends State<Home> {
 }
 
 Widget processText(String rawText) {
+  List<ExpansionTile> expansionPanels = [];
+  List<Widget> currentWidgets = [];
+  // int numberOfSongs = 0;
+  Map<String, List<int>> chordNameToFingering = Map();
+  String currentSongTitle = "";
+  for (var rawLine in rawText.split("\n")) {
+    String rawLineTrimmed = rawLine.trim();
+
+    if (rawLineTrimmed.isEmpty || rawLineTrimmed.startsWith("|")) {
+      continue;
+    }
+
+    if (rawLineTrimmed.startsWith("!")) {
+      if (currentWidgets.isEmpty) {
+        currentSongTitle = rawLineTrimmed.substring(1);
+      } else {
+        final e = ExpansionTile(
+            title:  Container(
+                // add song title text
+                margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 30.0),
+                child: RichText(
+                    overflow: TextOverflow.visible,
+                    text: TextSpan(
+                        text: currentSongTitle,
+                        style: _darkTheme.textTheme.headline1)),
+              ),
+            
+            
+              children: currentWidgets,
+           );
+        currentWidgets = [];
+        expansionPanels.add(e);
+      }
+    }
+
+    if (rawLineTrimmed.startsWith("[")) {
+      List<int> fingering = [];
+      // int i = 0;
+      List<String> rawFingering = rawLineTrimmed.split("]");
+      String name = rawFingering.last.trim();
+      rawFingering = rawFingering.first
+          .replaceAll("[", "")
+          .replaceAll(",", " ")
+          .replaceAll(";", " ")
+          .split(" ");
+      if (rawFingering.length <= 1) {
+        rawFingering = rawLineTrimmed.split("");
+      }
+      for (var item in rawFingering) {
+        if (item.toLowerCase() == "x") {
+          fingering.add(-1);
+        } else {
+          int? fret = int.tryParse(item);
+          if (fret != null) {
+            fingering.add(fret);
+          }
+        }
+      }
+      chordNameToFingering[name] = fingering;
+      continue;
+    }
+
+    if (rawLineTrimmed.startsWith("#")) {
+      currentWidgets.add(Container(
+        color: Colors.black,
+        margin: const EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
+        child: RichText(
+            overflow: TextOverflow.visible,
+            text: TextSpan(
+                text: rawLineTrimmed.substring(1),
+                style: _darkTheme.textTheme.headline2)),
+      ));
+      continue;
+    }
+
+    if (rawLineTrimmed.startsWith(">")) {
+      List<Widget> R = [];
+      bool insideChord = false;
+      rawLineTrimmed += " ";
+      int start = 0;
+      int end = 0;
+      for (var i = 1; i < rawLineTrimmed.length; i++) {
+        if (rawLineTrimmed[i] == " ") {
+          if (insideChord) {
+            // left chord name
+            end = i;
+            final name = rawLine.substring(start, end);
+            final fingering = chordNameToFingering[name];
+            R.add(Padding(
+              padding: const EdgeInsets.fromLTRB(0.0, 10.0, 1.0, 0.0),
+              child: ChordWidget(name, fingering: fingering),
+            ));
+          }
+          insideChord = false;
+        } else {
+          if (!insideChord) {
+            //entered chord name
+            start = i;
+            R.add(RichText(
+                overflow: TextOverflow.ellipsis,
+                text: TextSpan(
+                    text: ''.padRight(start - end, ' '),
+                    style: _darkTheme.textTheme.bodyText2)));
+          }
+          insideChord = true;
+        }
+      }
+      currentWidgets.add(Row(children: R));
+      continue;
+    }
+
+    currentWidgets.add(RichText(
+        overflow: TextOverflow.ellipsis,
+        text: TextSpan(text: rawLine, style: _darkTheme.textTheme.bodyText1)));
+  }
+
+  return ListView(
+    // mainAxisSize: MainAxisSize.min,
+    // crossAxisAlignment: CrossAxisAlignment.start,
+    children: expansionPanels,
+  );
+}
+
+Widget processTextOld(String rawText) {
   List<Widget> W = [];
   // int numberOfSongs = 0;
   Map<String, List<int>> chordNameToFingering = Map();
