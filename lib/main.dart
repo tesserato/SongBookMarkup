@@ -27,6 +27,7 @@ String _rawText = '''
 >A       A/B          A6        D7 
 |text line
 There is a house down in New Orleans 
+There is a house down in New Orleans 
 >    G               D 
 They call the Rising Sun  
 >D                           G 
@@ -34,6 +35,7 @@ And it's been the ruin of a many poor boy
 >     D       A          D 
 And me, oh God , for one 
  
+>D                        D7 
 >D                        D7 
 Then fill the glasses to the brim 
 >        G                   D 
@@ -312,12 +314,12 @@ List<Widget> makeChordsLine(Map<String, List<int>> chordNameToFingering,
     for (var word in words) {
       Widget w = RichText(
           overflow: TextOverflow.visible,
-          text: TextSpan(
-              text: word.trim(), style: _darkTheme.textTheme.headline1));
+          text: TextSpan(text: word, style: _darkTheme.textTheme.headline1));
       W.add(w);
-      return W;
     }
-  } else if (text == null) {
+    return W;
+  }
+  if (text == null) {
     final chordNames = chords.split(" ") + [" "];
     for (var name in chordNames) {
       final fingering = chordNameToFingering[name];
@@ -328,7 +330,7 @@ List<Widget> makeChordsLine(Map<String, List<int>> chordNameToFingering,
     return W;
   }
 
-  if (text.length < chords!.length) {
+  if (text.length < chords.length) {
     text = text.padRight(chords.length, ' ');
   }
 
@@ -445,6 +447,7 @@ Widget processText(String rawText) {
       currentWidgets.add(Container(
         color: Colors.black,
         margin: const EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
+        width: double.infinity,
         child: RichText(
             overflow: TextOverflow.visible,
             text: TextSpan(
@@ -455,12 +458,20 @@ Widget processText(String rawText) {
     }
 
     if (rawLineTrimmed.startsWith(">")) {
-      currentChordLine = " " + rawLineTrimmed.substring(1);
+      if (currentChordLine == null) {
+        currentChordLine = " " + rawLineTrimmed.substring(1);
+      } else {
+        currentWidgets
+            .addAll(makeChordsLine(chordNameToFingering, chords: currentChordLine));
+        currentChordLine = " " + rawLineTrimmed.substring(1);;
+      }
+
       continue;
     }
 
     currentWidgets.addAll(makeChordsLine(chordNameToFingering,
         text: rawLine, chords: currentChordLine));
+    currentChordLine = null;
   }
 
   return ListView(
