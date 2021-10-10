@@ -5,7 +5,7 @@ import '../models/globals.dart';
 class Output extends StatefulWidget {
   final String rawText;
   // Map<Key, bool> expand = {};
-  Output(this.rawText, {Key? key}) : super(key: key);
+  const Output(this.rawText, {Key? key}) : super(key: key);
 
   @override
   _OutputState createState() => _OutputState();
@@ -13,14 +13,14 @@ class Output extends StatefulWidget {
 
 class ExpansionPanelData {
   final String _title;
-  bool expanded = true;
+  bool expanded = false;
   final List<Widget> _children;
   ExpansionPanelData(this._title, this._children);
 
   ExpansionPanel makeExpansionPanel() {
     // String currentSongTitle;
     return ExpansionPanel(
-      headerBuilder: (context, isExpanded) {
+      headerBuilder: (BuildContext context, bool isExpanded) {
         return RichText(
             overflow: TextOverflow.visible,
             text: TextSpan(
@@ -28,7 +28,7 @@ class ExpansionPanelData {
               // style: context._darkTheme.textTheme.headline1
             ));
       },
-      // canTapOnHeader: true,
+      canTapOnHeader: true,
       isExpanded: expanded,
       body:
           Wrap(crossAxisAlignment: WrapCrossAlignment.end, children: _children),
@@ -36,17 +36,17 @@ class ExpansionPanelData {
   }
 }
 
-
-
 class _OutputState extends State<Output> {
   List<Widget> currentWidgets = [];
   String? currentChordLine;
   Map<String, List<int>> chordNameToFingering = {};
   String currentSongTitle = "";
 
+  List<ExpansionPanelData> expansionPanels = [];
+
   @override
-  Widget build(BuildContext context) {
-    List<ExpansionPanelData> expansionPanels = [];
+  void initState() {
+    super.initState();
     for (var rawLine in widget.rawText.split("\n") + ["!"]) {
       String rawLineTrimmed = rawLine.trim();
 
@@ -124,12 +124,17 @@ class _OutputState extends State<Output> {
           text: rawLine, chords: currentChordLine));
       currentChordLine = null;
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ListView(
       children: [
         ExpansionPanelList(
           key: UniqueKey(),
           expansionCallback: (int _panelIndex, bool _isExpanded) {
             setState(() {
+              print("   ");
               print(expansionPanels[_panelIndex].expanded);
               expansionPanels[_panelIndex].expanded = !_isExpanded;
               print(expansionPanels[_panelIndex].expanded);
