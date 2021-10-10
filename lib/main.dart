@@ -10,43 +10,6 @@ import 'assets/custom_icons.dart';
 import 'widgets/output.dart';
 import 'models/globals.dart' as Globals;
 
-String _rawText = '''
-! Song's title (Start a new song with "!")
-
-# Artist's name ("Start a visible comment with "#")
-# Composer's name 
-
-|comment (Lines starting with "|" won't be rendered)
-
-|chord definitions
-[0 4 x 2 5 0] A
-       [x;x,2 2  2 2]      A6
-| OR
-[002420]A/B
-
-|chord line, (line starting with ">")
->A       A/B          A6        D7 
-|text line
-There is a house down in New Orleans 
-There is a house down in New Orleans 
->    G               D 
-They call the Rising Sun  
->D                           G 
-And it's been the ruin of a many poor boy 
->     D       A          D 
-And me, oh God , for one 
- 
->D                        D7 
->D                        D7 
-Then fill the glasses to the brim 
->        G                   D 
-Let the drinks go merrily around 
->D                                  G 
-And we'll drink to the health of a rounder poor boy 
->    D         A7       D 
-Who goes from town to town 
-''';
-
 const _url = "https://github.com/tesserato/Mark-Book";
 // void _launchURL() async =>
 //     await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
@@ -98,7 +61,6 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-final TextEditingController _controller = TextEditingController(text: _rawText);
 final ValueNotifier<bool> _rebuildAppBar = ValueNotifier(false);
 // Map<Key, bool> expanded = {};
 double _ratio = 0.5;
@@ -138,7 +100,7 @@ class _MyAppState extends State<MyApp> {
                                   await FilePickerCross.importFromStorage(
                                       type: FileTypeCross.custom,
                                       fileExtension: '.mb');
-                              _controller.text = file.toString();
+                              Globals.controller.text = file.toString();
                               // _rebuildTextWidgets.value = true;
                               setState(() {});
                             } catch (e) {
@@ -150,8 +112,8 @@ class _MyAppState extends State<MyApp> {
                         tooltip: 'Save as',
                         onPressed: () {
                           // print("here");
-                          Uint8List bytes =
-                              Uint8List.fromList(utf8.encode(_controller.text));
+                          Uint8List bytes = Uint8List.fromList(
+                              utf8.encode(Globals.controller.text));
                           // print(bytes);
                           var file = FilePickerCross(bytes,
                               type: FileTypeCross.custom, fileExtension: '.mb');
@@ -215,23 +177,23 @@ class _MyAppState extends State<MyApp> {
                       IconButton(
                         icon: const Icon(Icons.open_in_full),
                         onPressed: () {
+                          // for (var i = 0; i < Globals; i++) {
+
+                          // }
                           // _expandedTiles = true;
                           // _rebuildTextWidgets.value ^= true;
-                          // for (var key in Globals.tiles) {
-                          //   key.currentState?.initiallyExpanded = true;
-                          // }
+                          for (var key in Globals.tiles) {
+                            key.currentState?.collapse();
+                          }
                           setState(() {});
                         },
                       ),
                       IconButton(
                         icon: const Icon(Icons.close_fullscreen),
                         onPressed: () {
-                          // _expandedTiles = false;
-                          // _rebuildTextWidgets.value ^= true;
-                          // for (var key in Globals.tiles) {
-                          //   key.currentState?.initiallyExpanded = false;
-                          // }
-                          setState(() {});
+                          for (var key in Globals.tiles) {
+                            key.currentState?.collapse();
+                          }
                         },
                       )
                     ]),
@@ -241,8 +203,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class Home extends StatefulWidget {
-  Home({Key? key})
-      : super(key: key);
+  Home({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -256,8 +217,11 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     var _totalWidth = MediaQuery.of(context).size.width;
     return Row(children: <Widget>[
-      if (_buildTextInput)
-        SizedBox(
+      // if (_buildTextInput)
+      Visibility(
+        visible: _buildTextInput,
+        maintainState: true,
+        child: SizedBox(
           width: (_totalWidth - _dividerWidth) * _ratio,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -269,7 +233,7 @@ class HomeState extends State<Home> {
                   border: OutlineInputBorder(),
                   alignLabelWithHint: true),
               expands: true,
-              controller: _controller,
+              controller: Globals.controller,
               autofocus: true,
               maxLines: null,
               // onc: ,
@@ -279,6 +243,7 @@ class HomeState extends State<Home> {
             ),
           ),
         ),
+      ),
       MouseRegion(
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
@@ -315,14 +280,17 @@ class HomeState extends State<Home> {
           },
         ),
       ),
-      if (_buildTextOutput)
-        SizedBox(
+      Visibility(
+        maintainState: true,
+        visible: _buildTextOutput,
+        child: SizedBox(
           width: (_totalWidth - _dividerWidth) * (1 - _ratio),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(25, 10, 10, 5),
-            child: Output(_controller.text, key: UniqueKey()),
+            child: Output(),
           ),
         ),
+      ),
     ]);
   }
 }

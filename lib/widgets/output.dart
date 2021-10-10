@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../models/chords.dart';
-import '../models/globals.dart';
+import '../models/globals.dart' as Globals;
+import '../widgets/custom_expansion_tile.dart';
 
 class Output extends StatefulWidget {
-  final String rawText;
   // Map<Key, bool> expand = {};
-  const Output(this.rawText, {Key? key}) : super(key: key);
+  Output({Key? key}) : super(key: key);
 
   @override
   _OutputState createState() => _OutputState();
@@ -13,26 +13,28 @@ class Output extends StatefulWidget {
 
 class ExpansionPanelData {
   final String _title;
-  bool expanded = false;
+  // bool expanded = true;
   final List<Widget> _children;
-  ExpansionPanelData(this._title, this._children);
+  final int index;
+  ExpansionPanelData(this._title, this._children, this.index);
 
-  ExpansionPanel makeExpansionPanel() {
-    // String currentSongTitle;
-    return ExpansionPanel(
-      headerBuilder: (BuildContext context, bool isExpanded) {
-        return RichText(
+  CustomExpansionTile makeExpansionPanel() {
+    final GlobalKey<CustomExpansionTileState> _key = GlobalKey();
+
+    var e = CustomExpansionTile(
+        key: _key,
+        title: RichText(
             overflow: TextOverflow.visible,
             text: TextSpan(
               text: _title,
               // style: context._darkTheme.textTheme.headline1
-            ));
-      },
-      canTapOnHeader: true,
-      isExpanded: expanded,
-      body:
-          Wrap(crossAxisAlignment: WrapCrossAlignment.end, children: _children),
-    );
+            )),
+        children: [
+          Wrap(crossAxisAlignment: WrapCrossAlignment.end, children: _children)
+        ]);
+
+    Globals.tiles.add(_key);
+    return e;
   }
 }
 
@@ -42,12 +44,11 @@ class _OutputState extends State<Output> {
   Map<String, List<int>> chordNameToFingering = {};
   String currentSongTitle = "";
 
-  List<ExpansionPanelData> expansionPanels = [];
-
   @override
-  void initState() {
-    super.initState();
-    for (var rawLine in widget.rawText.split("\n") + ["!"]) {
+  Widget build(BuildContext context) {
+    int counter = 0;
+    List<ExpansionPanelData> expansionPanels = [];
+    for (var rawLine in Globals.controller.text.split("\n") + ["!"]) {
       String rawLineTrimmed = rawLine.trim();
 
       if (rawLineTrimmed.isEmpty || rawLineTrimmed.startsWith("|")) {
@@ -58,8 +59,9 @@ class _OutputState extends State<Output> {
         if (currentWidgets.isEmpty) {
           currentSongTitle = rawLineTrimmed.substring(1);
         } else {
-          expansionPanels
-              .add(ExpansionPanelData(currentSongTitle, currentWidgets));
+          expansionPanels.add(
+              ExpansionPanelData(currentSongTitle, currentWidgets, counter));
+          counter++;
           currentWidgets = [];
           chordNameToFingering = {};
         }
@@ -124,25 +126,9 @@ class _OutputState extends State<Output> {
           text: rawLine, chords: currentChordLine));
       currentChordLine = null;
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return ListView(
-      children: [
-        ExpansionPanelList(
-          key: UniqueKey(),
-          expansionCallback: (int _panelIndex, bool _isExpanded) {
-            setState(() {
-              print("   ");
-              print(expansionPanels[_panelIndex].expanded);
-              expansionPanels[_panelIndex].expanded = !_isExpanded;
-              print(expansionPanels[_panelIndex].expanded);
-            });
-          },
-          children: expansionPanels.map((e) => e.makeExpansionPanel()).toList(),
-        )
-      ],
+      children: expansionPanels.map((e) => e.makeExpansionPanel()).toList(),
     );
   }
 }

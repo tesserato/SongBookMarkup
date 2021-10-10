@@ -1,48 +1,43 @@
-// import 'package:flutter/material.dart';
-
-// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../widgets/custom_expansion_tile.dart';
 
-// List<GlobalKey<SongTileState>> tiles = [];
+List<GlobalKey<CustomExpansionTileState>> tiles = [];
 
+final TextEditingController controller = TextEditingController(text: _rawText);
 
-// class SongTile extends StatefulWidget {
-//   String title = "";
-//   List<Widget> children = [];
-//   static int counter = 0;
-//   // Map<Key, bool> expanded = {};
-//   SongTile(this.title, this.children, {Key? key}) : super(key: key);
+String _rawText = '''
+! Song's title (Start a new song with "!")
 
-//   @override
-//   SongTileState createState() => SongTileState();
-// }
+# Artist's name ("Start a visible comment with "#")
+# Composer's name 
 
-// class SongTileState extends State<SongTile> {
-//   bool initiallyExpanded = true;
-//   @override
-//   Widget build(BuildContext context) {
+|comment (Lines starting with "|" won't be rendered)
 
-//     var e = ExpansionTile(
-//       maintainState: true,
-//       initiallyExpanded: initiallyExpanded,
-//       title: RichText(
-//           overflow: TextOverflow.visible,
-//           text: TextSpan(
-//             text: widget.title,
-//             // style: context._darkTheme.textTheme.headline1
-//           )),
-//       children: [
-//         Wrap(
-//             crossAxisAlignment: WrapCrossAlignment.end,
-//             children: widget.children)
-//       ],
-//       onExpansionChanged: (e) {
-//         initiallyExpanded = e;
-//       },
-//     );
+|chord definitions
+[0 4 x 2 5 0] A
+       [x;x,2 2  2 2]      A6
+| OR
+[002420]A/B
 
-    
-//     // e.
-//     return e;
-//   }
-// }
+|chord line, (line starting with ">")
+>A       A/B          A6        D7 
+|text line
+There is a house down in New Orleans 
+There is a house down in New Orleans 
+>    G               D 
+They call the Rising Sun  
+>D                           G 
+And it's been the ruin of a many poor boy 
+>     D       A          D 
+And me, oh God , for one 
+ 
+>D                        D7 
+>D                        D7 
+Then fill the glasses to the brim 
+>        G                   D 
+Let the drinks go merrily around 
+>D                                  G 
+And we'll drink to the health of a rounder poor boy 
+>    D         A7       D 
+Who goes from town to town 
+''';
