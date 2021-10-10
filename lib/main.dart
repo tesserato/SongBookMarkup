@@ -103,11 +103,10 @@ final ValueNotifier<bool> _rebuildAppBar = ValueNotifier(false);
 // Map<Key, bool> expanded = {};
 double _ratio = 0.5;
 double _oldRatio = 0.5;
+bool _buildTextInput = true;
+bool _buildTextOutput = true;
 
 class _MyAppState extends State<MyApp> {
-  bool _buildTextInput = true;
-  bool _buildTextOutput = true;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -218,9 +217,9 @@ class _MyAppState extends State<MyApp> {
                         onPressed: () {
                           // _expandedTiles = true;
                           // _rebuildTextWidgets.value ^= true;
-                          for (var key in Globals.expanded.keys) {
-                            Globals.expanded[key] = true;
-                          }
+                          // for (var key in Globals.tiles) {
+                          //   key.currentState?.initiallyExpanded = true;
+                          // }
                           setState(() {});
                         },
                       ),
@@ -229,22 +228,20 @@ class _MyAppState extends State<MyApp> {
                         onPressed: () {
                           // _expandedTiles = false;
                           // _rebuildTextWidgets.value ^= true;
-                          for (var key in Globals.expanded.keys) {
-                            Globals.expanded[key] = false;
-                          }
+                          // for (var key in Globals.tiles) {
+                          //   key.currentState?.initiallyExpanded = false;
+                          // }
                           setState(() {});
                         },
                       )
                     ]),
                 actions: const []),
-            body: Home(_buildTextInput, _buildTextOutput)));
+            body: Home()));
   }
 }
 
 class Home extends StatefulWidget {
-  bool _buildTextInput = true;
-  bool _buildTextOutput = true;
-  Home(this._buildTextInput, this._buildTextOutput, {Key? key})
+  Home({Key? key})
       : super(key: key);
 
   @override
@@ -259,7 +256,7 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     var _totalWidth = MediaQuery.of(context).size.width;
     return Row(children: <Widget>[
-      if (widget._buildTextInput)
+      if (_buildTextInput)
         SizedBox(
           width: (_totalWidth - _dividerWidth) * _ratio,
           child: Padding(
@@ -297,30 +294,28 @@ class HomeState extends State<Home> {
           ),
           onDoubleTap: () {
             _ratio = 0.5;
-            widget._buildTextOutput = true;
-            widget._buildTextInput = true;
+            _buildTextOutput = true;
+            _buildTextInput = true;
             _rebuildAppBar.value ^= true;
             setState(() {});
           },
           onPanUpdate: (DragUpdateDetails details) {
             setState(() {
               _ratio += details.delta.dx / _totalWidth;
-              if (_ratio > .9) {
-                _ratio = 1;
-                widget._buildTextOutput = false;
-                setState(() {});
-                _rebuildAppBar.value ^= true;
-              } else if (_ratio < 0.1) {
-                _ratio = 0.0;
-                widget._buildTextInput = false;
-                setState(() {});
-                _rebuildAppBar.value ^= true;
-              }
             });
+            if (_ratio > .9) {
+              _ratio = 1;
+              _buildTextOutput = false;
+            } else if (_ratio < 0.1) {
+              _ratio = 0.0;
+              _buildTextInput = false;
+            }
+            _rebuildAppBar.value ^= true;
+            setState(() {});
           },
         ),
       ),
-      if (widget._buildTextOutput)
+      if (_buildTextOutput)
         SizedBox(
           width: (_totalWidth - _dividerWidth) * (1 - _ratio),
           child: Padding(
