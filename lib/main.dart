@@ -177,13 +177,8 @@ class _MyAppState extends State<MyApp> {
                       IconButton(
                         icon: const Icon(Icons.open_in_full),
                         onPressed: () {
-                          // for (var i = 0; i < Globals; i++) {
-
-                          // }
-                          // _expandedTiles = true;
-                          // _rebuildTextWidgets.value ^= true;
                           for (var key in Globals.tiles) {
-                            key.currentState?.collapse();
+                            key.currentState?.expand();
                           }
                           setState(() {});
                         },

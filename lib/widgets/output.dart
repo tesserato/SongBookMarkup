@@ -23,6 +23,7 @@ class ExpansionPanelData {
 
     var e = CustomExpansionTile(
         key: _key,
+        initiallyExpanded: true,
         title: RichText(
             overflow: TextOverflow.visible,
             text: TextSpan(
