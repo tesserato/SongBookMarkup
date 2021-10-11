@@ -11,44 +11,18 @@ class Output extends StatefulWidget {
   _OutputState createState() => _OutputState();
 }
 
-class ExpansionPanelData {
-  final String _title;
-  // bool expanded = true;
-  final List<Widget> _children;
-  final int index;
-  ExpansionPanelData(this._title, this._children, this.index);
-
-  CustomExpansionTile makeExpansionPanel() {
-    final GlobalKey<CustomExpansionTileState> _key = GlobalKey();
-
-    var e = CustomExpansionTile(
-        key: _key,
-        initiallyExpanded: true,
-        title: RichText(
-            overflow: TextOverflow.visible,
-            text: TextSpan(
-              text: _title,
-              // style: context._darkTheme.textTheme.headline1
-            )),
-        children: [
-          Wrap(crossAxisAlignment: WrapCrossAlignment.end, children: _children)
-        ]);
-
-    Globals.tiles.add(_key);
-    return e;
-  }
-}
-
 class _OutputState extends State<Output> {
   List<Widget> currentWidgets = [];
   String? currentChordLine;
   Map<String, List<int>> chordNameToFingering = {};
   String currentSongTitle = "";
+  // static Map<int, bool> isExpanded = {};
+  // static int counter = 0;
 
   @override
   Widget build(BuildContext context) {
-    int counter = 0;
-    List<ExpansionPanelData> expansionPanels = [];
+    List<Widget> expansionPanels = [];
+    // counter = 0;
     for (var rawLine in Globals.controller.text.split("\n") + ["!"]) {
       String rawLineTrimmed = rawLine.trim();
 
@@ -60,18 +34,16 @@ class _OutputState extends State<Output> {
         if (currentWidgets.isEmpty) {
           currentSongTitle = rawLineTrimmed.substring(1);
         } else {
-          expansionPanels.add(
-              ExpansionPanelData(currentSongTitle, currentWidgets, counter));
-          counter++;
+          var e = EpWrapper(currentSongTitle, currentWidgets);
           currentWidgets = [];
           chordNameToFingering = {};
+          expansionPanels.add(e);
         }
         continue;
       }
 
       if (rawLineTrimmed.startsWith("[")) {
         List<int> fingering = [];
-        // int i = 0;
         List<String> rawFingering = rawLineTrimmed.split("]");
         String name = rawFingering.last.trim();
         rawFingering = rawFingering.first
@@ -128,11 +100,69 @@ class _OutputState extends State<Output> {
       currentChordLine = null;
     }
 
-    return ListView(
-      children: expansionPanels.map((e) => e.makeExpansionPanel()).toList(),
-    );
+    return ListView(children: expansionPanels);
   }
 }
+
+class EpWrapper extends StatefulWidget {
+  final String title;
+  final List<Widget> children;
+  const EpWrapper(this.title, this.children, {Key? key}) : super(key: key);
+
+  @override
+  _EpWrapperState createState() => _EpWrapperState();
+}
+
+class _EpWrapperState extends State<EpWrapper> {
+  final GlobalKey<CustomExpansionTileState> _key = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+    Globals.tiles.add(_key);
+    return CustomExpansionTile(
+        index: 0,
+        key: _key,
+        initiallyExpanded: true,
+        title: RichText(
+            overflow: TextOverflow.visible,
+            text: TextSpan(
+              text: widget.title,
+              // style: context._darkTheme.textTheme.headline1
+            )),
+        children: [
+          Wrap(
+              crossAxisAlignment: WrapCrossAlignment.end,
+              children: widget.children)
+        ]);
+  }
+}
+
+// class ExpansionPanelData {
+//   final String _title;
+//   // bool expanded = true;
+//   final List<Widget> _children;
+//   final int index;
+//   ExpansionPanelData(this._title, this._children, this.index);
+
+//   CustomExpansionTile makeExpansionPanel() {
+//     final GlobalKey<CustomExpansionTileState> _key = GlobalKey();
+//     var e = CustomExpansionTile(
+//         key: _key,
+//         initiallyExpanded: true,
+//         title: RichText(
+//             overflow: TextOverflow.visible,
+//             text: TextSpan(
+//               text: _title,
+//               // style: context._darkTheme.textTheme.headline1
+//             )),
+//         children: [
+//           Wrap(crossAxisAlignment: WrapCrossAlignment.end, children: _children)
+//         ]);
+
+//     Globals.tiles.add(_key);
+//     return e;
+//   }
+// }
 
 // Widget processText(String rawText) {
 //   List<ExpansionTile> expansionPanels = [];

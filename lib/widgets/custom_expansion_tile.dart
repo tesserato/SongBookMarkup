@@ -78,6 +78,7 @@ class CustomExpansionTile extends StatefulWidget {
   /// the tile to reveal or hide the [children]. The [initiallyExpanded] property must
   /// be non-null.
   const CustomExpansionTile({
+    required this.index,
     Key? key,
     this.leading,
     required this.title,
@@ -106,6 +107,8 @@ class CustomExpansionTile extends StatefulWidget {
           'are aligned in a column, not a row. Try to use another constant.',
         ),
         super(key: key);
+
+  final int index;
 
   /// A widget to display before the title.
   ///
@@ -298,10 +301,11 @@ class CustomExpansionTileState extends State<CustomExpansionTile>
     if (_isExpanded != isExpanded) {
       setState(() {
         _isExpanded = isExpanded;
-        if (_isExpanded)
+        if (_isExpanded) {
           _controller.forward();
-        else {
+        } else {
           _controller.reverse().then<void>((void value) {
+            if (!mounted) return;
             setState(() {
               // Rebuild without widget.children.
             });
@@ -309,9 +313,7 @@ class CustomExpansionTileState extends State<CustomExpansionTile>
         }
         PageStorage.of(context)?.writeState(context, _isExpanded);
       });
-      if (widget.onExpansionChanged != null) {
-        widget.onExpansionChanged!(_isExpanded);
-      }
+      widget.onExpansionChanged?.call(_isExpanded);
     }
   }
 
