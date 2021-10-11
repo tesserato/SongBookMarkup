@@ -37,9 +37,9 @@ double _ratio = 0.5;
 double _oldRatio = 0.5;
 bool _buildTextInput = true;
 bool _buildTextOutput = true;
+String appBarTitle = "mark book";
 
 class _MyAppState extends State<MyApp> {
-  String appBarTitle = "Mark Book";
   ThemeMode themeMode = ThemeMode.light;
   Icon themeIcon = const Icon(Icons.dark_mode);
   @override
@@ -52,6 +52,7 @@ class _MyAppState extends State<MyApp> {
         title: "MarkBook",
         home: Scaffold(
             appBar: AppBar(
+              // titleTextStyle : ,
               elevation: 0,
               automaticallyImplyLeading: true,
               leading: IconButton(
@@ -76,7 +77,8 @@ class _MyAppState extends State<MyApp> {
                         Globals.controller.text = file.toString();
 
                         setState(() {
-                          appBarTitle = file.fileName ?? "Mark Book";
+                          appBarTitle = file.fileName?.replaceAll(".mb", "").toLowerCase() ??
+                              "mark book";
                         });
                       } catch (e) {
                         print(e);
@@ -212,11 +214,11 @@ class HomeState extends State<Home> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              // style: _inputStyle,
+              style: Theme.of(context).textTheme.bodyText1,
               enableSuggestions: false,
-              decoration: const InputDecoration(
-                  label: Text("Mark Book"),
-                  border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                  label: Text(appBarTitle),
+                  border: const OutlineInputBorder(),
                   alignLabelWithHint: true),
               expands: true,
               controller: Globals.controller,

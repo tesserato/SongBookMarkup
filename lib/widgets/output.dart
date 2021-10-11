@@ -75,11 +75,11 @@ class _OutputState extends State<Output> {
           margin: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
           width: double.infinity,
           child: RichText(
-            // textAlign: TextAlign.center,
+              // textAlign: TextAlign.center,
               overflow: TextOverflow.visible,
               text: TextSpan(
                 text: rawLineTrimmed.substring(1),
-                // style: _darkTheme.textTheme.headline2
+                style: Theme.of(context).textTheme.headline2,
               )),
         ));
         continue;
@@ -89,15 +89,15 @@ class _OutputState extends State<Output> {
         if (currentChordLine == null) {
           currentChordLine = " " + rawLineTrimmed.substring(1);
         } else {
-          currentWidgets.addAll(
-              makeChordsLine(chordNameToFingering, chords: currentChordLine));
+          currentWidgets.addAll(makeChordsLine(context, chordNameToFingering,
+              chords: currentChordLine));
           currentChordLine = " " + rawLineTrimmed.substring(1);
         }
 
         continue;
       }
 
-      currentWidgets.addAll(makeChordsLine(chordNameToFingering,
+      currentWidgets.addAll(makeChordsLine(context, chordNameToFingering,
           text: rawLine, chords: currentChordLine));
       currentChordLine = null;
     }
@@ -137,9 +137,8 @@ class _EpWrapperState extends State<EpWrapper> {
         title: RichText(
             overflow: TextOverflow.visible,
             text: TextSpan(
-              text: widget.title,
-              // style: context._darkTheme.textTheme.headline1
-            )),
+                text: widget.title,
+                style: Theme.of(context).textTheme.headline1)),
         children: [
           Wrap(
               crossAxisAlignment: WrapCrossAlignment.end,
@@ -148,139 +147,8 @@ class _EpWrapperState extends State<EpWrapper> {
   }
 }
 
-// class ExpansionPanelData {
-//   final String _title;
-//   // bool expanded = true;
-//   final List<Widget> _children;
-//   final int index;
-//   ExpansionPanelData(this._title, this._children, this.index);
-
-//   CustomExpansionTile makeExpansionPanel() {
-//     final GlobalKey<CustomExpansionTileState> _key = GlobalKey();
-//     var e = CustomExpansionTile(
-//         key: _key,
-//         initiallyExpanded: true,
-//         title: RichText(
-//             overflow: TextOverflow.visible,
-//             text: TextSpan(
-//               text: _title,
-//               // style: context._darkTheme.textTheme.headline1
-//             )),
-//         children: [
-//           Wrap(crossAxisAlignment: WrapCrossAlignment.end, children: _children)
-//         ]);
-
-//     Globals.tiles.add(_key);
-//     return e;
-//   }
-// }
-
-// Widget processText(String rawText) {
-//   List<ExpansionTile> expansionPanels = [];
-//   List<Widget> currentWidgets = [];
-//   String? currentChordLine;
-//   Map<String, List<int>> chordNameToFingering = {};
-//   String currentSongTitle = "";
-//   for (var rawLine in rawText.split("\n") + ["!"]) {
-//     String rawLineTrimmed = rawLine.trim();
-
-//     if (rawLineTrimmed.isEmpty || rawLineTrimmed.startsWith("|")) {
-//       continue;
-//     }
-
-//     if (rawLineTrimmed.startsWith("!")) {
-//       if (currentWidgets.isEmpty) {
-//         currentSongTitle = rawLineTrimmed.substring(1);
-//       } else {
-//         final e = ExpansionTile(
-//           // key: UniqueKey(),
-//           initiallyExpanded: _expandedTiles,
-//           maintainState: true,
-//           title: RichText(
-//               overflow: TextOverflow.visible,
-//               text: TextSpan(
-//                   text: currentSongTitle,
-//                   style: _darkTheme.textTheme.headline1)),
-//           children: [
-//             Wrap(
-//                 crossAxisAlignment: WrapCrossAlignment.end,
-//                 children: currentWidgets)
-//           ],
-//         );
-//         currentWidgets = [];
-//         chordNameToFingering = {};
-//         expansionPanels.add(e);
-//       }
-//       continue;
-//     }
-
-//     if (rawLineTrimmed.startsWith("[")) {
-//       List<int> fingering = [];
-//       // int i = 0;
-//       List<String> rawFingering = rawLineTrimmed.split("]");
-//       String name = rawFingering.last.trim();
-//       rawFingering = rawFingering.first
-//           .replaceAll("[", "")
-//           .replaceAll(",", " ")
-//           .replaceAll(";", " ")
-//           .split(" ");
-//       if (rawFingering.length <= 1) {
-//         rawFingering = rawLineTrimmed.split("");
-//       }
-//       for (var item in rawFingering) {
-//         if (item.toLowerCase() == "x") {
-//           fingering.add(-1);
-//         } else {
-//           int? fret = int.tryParse(item);
-//           if (fret != null) {
-//             fingering.add(fret);
-//           }
-//         }
-//       }
-//       chordNameToFingering[name] = fingering;
-//       continue;
-//     }
-
-//     if (rawLineTrimmed.startsWith("#")) {
-//       currentWidgets.add(Container(
-//         color: Colors.black,
-//         margin: const EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
-//         width: double.infinity,
-//         child: RichText(
-//             overflow: TextOverflow.visible,
-//             text: TextSpan(
-//                 text: rawLineTrimmed.substring(1),
-//                 style: _darkTheme.textTheme.headline2)),
-//       ));
-//       continue;
-//     }
-
-//     if (rawLineTrimmed.startsWith(">")) {
-//       if (currentChordLine == null) {
-//         currentChordLine = " " + rawLineTrimmed.substring(1);
-//       } else {
-//         currentWidgets.addAll(
-//             makeChordsLine(chordNameToFingering, chords: currentChordLine));
-//         currentChordLine = " " + rawLineTrimmed.substring(1);
-//         ;
-//       }
-
-//       continue;
-//     }
-
-//     currentWidgets.addAll(makeChordsLine(chordNameToFingering,
-//         text: rawLine, chords: currentChordLine));
-//     currentChordLine = null;
-//   }
-
-//   return ListView(
-//     // mainAxisSize: MainAxisSize.min,
-//     // crossAxisAlignment: CrossAxisAlignment.start,
-//     children: expansionPanels,
-//   );
-// }
-
-List<Widget> makeChordsLine(Map<String, List<int>> chordNameToFingering,
+List<Widget> makeChordsLine(
+    BuildContext context, Map<String, List<int>> chordNameToFingering,
     {String? chords, String? text}) {
   List<Widget> W = [];
   if (chords == null) {
@@ -290,7 +158,7 @@ List<Widget> makeChordsLine(Map<String, List<int>> chordNameToFingering,
           overflow: TextOverflow.visible,
           text: TextSpan(
             text: word,
-            // style: _darkTheme.textTheme.headline1
+            style: Theme.of(context).textTheme.bodyText2
           ));
       W.add(w);
     }
@@ -328,9 +196,8 @@ List<Widget> makeChordsLine(Map<String, List<int>> chordNameToFingering,
             RichText(
                 overflow: TextOverflow.ellipsis,
                 text: TextSpan(
-                  text: text.substring(start, end),
-                  // style: _darkTheme.textTheme.bodyText2
-                ))
+                    text: text.substring(start, end),
+                    style: Theme.of(context).textTheme.bodyText2))
           ],
         );
         W.add(r);
@@ -343,9 +210,8 @@ List<Widget> makeChordsLine(Map<String, List<int>> chordNameToFingering,
         W.add(RichText(
             overflow: TextOverflow.ellipsis,
             text: TextSpan(
-              text: text.substring(end, start),
-              // style: _darkTheme.textTheme.bodyText2
-            )));
+                text: text.substring(end, start),
+                style: Theme.of(context).textTheme.bodyText2)));
       }
       insideChord = true;
     }
@@ -354,7 +220,7 @@ List<Widget> makeChordsLine(Map<String, List<int>> chordNameToFingering,
       overflow: TextOverflow.ellipsis,
       text: TextSpan(
         text: text.substring(end, text.length),
-        // style: _darkTheme.textTheme.bodyText2
+        style: Theme.of(context).textTheme.bodyText2
       )));
   return W;
 }
@@ -406,9 +272,8 @@ class _ChordWidgetState extends State<ChordWidget> {
             RichText(
               overflow: TextOverflow.clip,
               text: TextSpan(
-                text: widget.name,
-                // style: _darkTheme.textTheme.bodyText2
-              ),
+                  text: widget.name,
+                  style: Theme.of(context).textTheme.headline3),
             ),
             Positioned(
                 top: -80,
@@ -434,7 +299,7 @@ class _ChordWidgetState extends State<ChordWidget> {
                       child: CustomPaint(
                         // size: Size(20, 30),
                         painter:
-                            MyPainter(widget.name, fingering: widget.fingering),
+                            MyPainter(context, widget.name, fingering: widget.fingering),
                         // child: const SizedBox(width: 60, height: 80)
                       ),
                     ),
@@ -448,10 +313,12 @@ class _ChordWidgetState extends State<ChordWidget> {
 class MyPainter extends CustomPainter {
   String name;
   List<int>? fingering;
-  MyPainter(this.name, {this.fingering});
+  BuildContext context;          
+  MyPainter(this.context, this.name, {this.fingering});
 
   @override
   void paint(Canvas canvas, Size size) {
+    TextStyle? textStyle = Theme.of(context).textTheme.headline4;
     Chord chord = Chord.fromName(name);
     fingering ??= chord.getFingering();
     int minfret = 100;
@@ -476,12 +343,8 @@ class MyPainter extends CustomPainter {
       minfret = 0;
     }
 
-    const textStyle = TextStyle(
-        color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold);
     TextSpan textSpan = TextSpan(
-      text: minfret.toString(),
-      style: textStyle,
-    );
+        text: minfret.toString(), style: textStyle);
     TextPainter textPainter = TextPainter(
       text: textSpan,
       textDirection: TextDirection.ltr,
@@ -521,10 +384,8 @@ class MyPainter extends CustomPainter {
             size.width / 15,
             paint);
       } else if (fingering![i] < 0) {
-        const textStyle = TextStyle(
-            color: Colors.black, fontSize: 16, fontWeight: FontWeight.w900);
 
-        textSpan = const TextSpan(
+        textSpan = TextSpan(
           text: "x",
           style: textStyle,
         );

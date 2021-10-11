@@ -3,29 +3,49 @@ import 'package:google_fonts/google_fonts.dart';
 
 // import 'colors.dart';
 
-var mainWhiteColor =Colors.blueGrey;
+var mainWhiteColor = Colors.blueGrey;
 
-ColorScheme lightColorScheme =
-    ThemeData.light().colorScheme.copyWith(
-      primary: mainWhiteColor.shade500, 
-      primaryVariant: mainWhiteColor.shade600,
-      secondary: mainWhiteColor.shade700,
-      secondaryVariant: mainWhiteColor.shade800
-      );
+ColorScheme lightColorScheme = ThemeData.light().colorScheme.copyWith(
+    primary: mainWhiteColor.shade500,
+    primaryVariant: mainWhiteColor.shade600,
+    secondary: mainWhiteColor.shade700,
+    secondaryVariant: mainWhiteColor.shade800);
 
 class CustomTheme {
   static ThemeData get light {
     return ThemeData.light().copyWith(
-        colorScheme: lightColorScheme,
-        toggleButtonsTheme: ToggleButtonsThemeData(
-          borderRadius: BorderRadius.circular(10),
-          color: lightColorScheme.onBackground,
-          selectedColor: lightColorScheme.onPrimary,
-          fillColor: lightColorScheme.primaryVariant,
-          hoverColor: lightColorScheme.secondary,
-
-          // : ThemeData.light().colorScheme.secondaryVariant
-        ));
+      appBarTheme: ThemeData.light().appBarTheme.copyWith(
+          titleTextStyle:
+              TextStyle(fontFamily: GoogleFonts.majorMonoDisplay().fontFamily, fontSize: 20, fontWeight: FontWeight.bold)
+              ),
+      colorScheme: lightColorScheme,
+      toggleButtonsTheme: ThemeData.light().toggleButtonsTheme.copyWith(
+            borderRadius: BorderRadius.circular(10),
+            color: lightColorScheme.onBackground,
+            selectedColor: lightColorScheme.onPrimary,
+            fillColor: lightColorScheme.primaryVariant,
+            hoverColor: lightColorScheme.secondary,
+          ),
+      textTheme: ThemeData.light().textTheme.copyWith(
+        // header
+            headline1: const TextStyle(
+                fontSize: 20, color: Colors.black, fontWeight: FontWeight.w900),
+            headline2: const TextStyle(
+                fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500),
+            // chord name
+            headline3: const TextStyle(
+                fontSize: 20, color: Colors.black, fontWeight: FontWeight.w900),
+            // chord panel annotations
+            headline4: const TextStyle(
+                fontSize: 20, color: Colors.black, fontWeight: FontWeight.w900),
+            //input
+            bodyText1: const TextStyle(
+                fontSize: 20, color: Colors.black, fontWeight: FontWeight.w100),
+            //output
+            bodyText2: const TextStyle(
+                fontSize: 20, color: Colors.black, fontWeight: FontWeight.w300),
+          ),
+    );
   }
 
   static ThemeData get dark {
