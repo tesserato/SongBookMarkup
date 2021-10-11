@@ -4,47 +4,18 @@ import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'assets/custom_icons.dart';
 import 'widgets/output.dart';
 import 'models/globals.dart' as Globals;
+import 'theme/custom_theme.dart';
 
 const _url = "https://github.com/tesserato/Mark-Book";
-// void _launchURL() async =>
-//     await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
-
-// ValueNotifier<bool> _rebuildTextWidgets = ValueNotifier(false);
-// bool _expandedTiles = true;
-
 double _fontSize = 16.0;
 double _fontFactor = 1.2;
 
 // var _inputStyle = TextStyle(
 //     fontFamily: GoogleFonts.firaCode().fontFamily, fontSize: _fontSize);
-
-var _darkTheme = ThemeData(
-  // Define the default brightness and colors.
-  brightness: Brightness.dark,
-  // primaryColor: Colors.red,
-
-  // Define the default font family.
-  fontFamily: GoogleFonts.inconsolata().fontFamily,
-
-  // Define the default `TextTheme`. Use this to specify the default
-  // text styling for headlines, titles, bodies of text, and more.
-  // textTheme: GoogleFonts.firaMonoTextTheme() ,
-  textTheme: TextTheme(
-    headline1: TextStyle(
-        fontSize: _fontFactor * _fontSize, fontWeight: FontWeight.w900),
-    headline2: TextStyle(
-        fontSize: _fontFactor * _fontSize, fontWeight: FontWeight.w500),
-    bodyText1: TextStyle(
-        fontSize: _fontFactor * _fontSize, fontWeight: FontWeight.w100),
-    bodyText2: TextStyle(
-        fontSize: _fontFactor * _fontSize, fontWeight: FontWeight.w300),
-  ),
-);
 
 void main() {
   LicenseRegistry.addLicense(() async* {
@@ -62,7 +33,6 @@ class MyApp extends StatefulWidget {
 }
 
 final ValueNotifier<bool> _rebuildAppBar = ValueNotifier(false);
-// Map<Key, bool> expanded = {};
 double _ratio = 0.5;
 double _oldRatio = 0.5;
 bool _buildTextInput = true;
@@ -70,12 +40,14 @@ bool _buildTextOutput = true;
 
 class _MyAppState extends State<MyApp> {
   String appBarTitle = "Mark Book";
-  ThemeMode themeMode = ThemeMode.dark;
+  ThemeMode themeMode = ThemeMode.light;
+  Icon themeIcon = const Icon(Icons.dark_mode);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData.light(),
-        darkTheme: ThemeData.dark(),
+        debugShowCheckedModeBanner: false,
+        theme: CustomTheme.light,
+        darkTheme: CustomTheme.dark,
         themeMode: themeMode,
         title: "MarkBook",
         home: Scaffold(
@@ -93,7 +65,7 @@ class _MyAppState extends State<MyApp> {
               title: Text(appBarTitle),
               actions: [
                 IconButton(
-                    icon: const Icon(Icons.folder_open_outlined),
+                    icon: const Icon(Icons.folder),
                     tooltip: 'Open a mark book file (*.mb)',
                     onPressed: () async {
                       try {
@@ -111,7 +83,7 @@ class _MyAppState extends State<MyApp> {
                       }
                     }),
                 IconButton(
-                  icon: const Icon(Icons.save_outlined),
+                  icon: const Icon(Icons.save),
                   tooltip: 'Save as',
                   onPressed: () {
                     // print("here");
@@ -128,7 +100,8 @@ class _MyAppState extends State<MyApp> {
                   valueListenable: _rebuildAppBar,
                   builder: (context, value, child) {
                     return ToggleButtons(
-                      borderRadius: BorderRadius.circular(10),
+                      // ho
+                      // borderRadius: BorderRadius.circular(10),
                       // color: Theme.of(context).colorScheme.onBackground,
                       // selectedColor:Theme.of(context).colorScheme.onBackground ,
                       // highlightColor: ,
@@ -136,7 +109,7 @@ class _MyAppState extends State<MyApp> {
                       children: const <Widget>[
                         Tooltip(
                           child: Icon(
-                            Icons.text_fields,
+                            Icons.subject,
                           ),
                           message: "Toggle input field",
                         ),
@@ -177,7 +150,7 @@ class _MyAppState extends State<MyApp> {
                 ),
                 IconButton(
                   tooltip: "Expand all songs",
-                  icon: const Icon(Icons.open_in_full),
+                  icon: const Icon(Icons.expand),
                   onPressed: () {
                     for (var key in Globals.tiles) {
                       key.currentState?.expand();
@@ -187,26 +160,26 @@ class _MyAppState extends State<MyApp> {
                 ),
                 IconButton(
                   tooltip: "Collapse all songs",
-                  icon: const Icon(Icons.close_fullscreen),
+                  icon: const Icon(Icons.compress),
                   onPressed: () {
                     for (var key in Globals.tiles) {
                       key.currentState?.collapse();
                     }
                   },
-                ),IconButton(
-                  tooltip: "Dark / Light theme",
-                  icon: const Icon(Icons.toggle_off),
-                  onPressed: () {
-                    if (themeMode == ThemeMode.dark) {
-                      themeMode = ThemeMode.light;
-                    } else {
-                      themeMode = ThemeMode.dark;
-                    }
-                      setState(() {});
-                    }
-                    
-                  
                 ),
+                IconButton(
+                    tooltip: "Dark / Light theme",
+                    icon: themeIcon,
+                    onPressed: () {
+                      if (themeMode == ThemeMode.dark) {
+                        themeMode = ThemeMode.light;
+                        themeIcon = const Icon(Icons.dark_mode);
+                      } else {
+                        themeMode = ThemeMode.dark;
+                        themeIcon = const Icon(Icons.light_mode);
+                      }
+                      setState(() {});
+                    }),
               ],
               // actions: const []
             ),

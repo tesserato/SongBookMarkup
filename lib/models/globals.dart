@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../widgets/custom_expansion_tile.dart';
 
 Set<GlobalKey<CustomExpansionTileState>> tiles = {};
-
 final TextEditingController controller = TextEditingController(text: _rawText);
 
 String _rawText = '''
