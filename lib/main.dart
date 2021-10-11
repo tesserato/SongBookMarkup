@@ -140,35 +140,27 @@ class _MyAppState extends State<MyApp> {
                               if (index == 0) {
                                 if (_buildTextOutput && _buildTextInput) {
                                   _buildTextInput = false;
-                                  // _rebuildTextWidgets.value ^= true;
                                   _oldRatio = _ratio;
                                   _ratio = 0;
-                                  print("destroy");
+                                  // print("destroy");
                                 } else {
                                   _buildTextInput = true;
-                                  // _rebuildTextWidgets.value ^= true;
                                   _ratio = _oldRatio;
-                                  print("build");
+                                  // print("build");
                                 }
-                              }
-
-                              if (index == 1) {
+                              } else if (index == 1) {
                                 if (_buildTextOutput && _buildTextInput) {
                                   _buildTextOutput = false;
-                                  // _rebuildTextWidgets.value ^= true;
                                   _oldRatio = _ratio;
                                   _ratio = 1;
-                                  print("destroy");
+                                  // print("destroy");
                                 } else {
                                   _buildTextOutput = true;
-                                  // _rebuildTextWidgets.value ^= true;
                                   _ratio = _oldRatio;
-                                  print("build");
+                                  // print("build");
                                 }
                               }
-                              setState(() {
-                                // _buildTextOutput = _buildTextOutput;
-                              });
+                              setState(() {});
                             },
                             isSelected: [_buildTextInput, _buildTextOutput],
                           );
@@ -271,13 +263,16 @@ class HomeState extends State<Home> {
               _buildTextInput = false;
             }
             _rebuildAppBar.value ^= true;
-            setState(() {});
           },
         ),
       ),
       Visibility(
-        maintainState: true,
+        // key: UniqueKey(),
         visible: _buildTextOutput,
+        maintainState: true,
+        maintainAnimation: true,
+        maintainSize: true,
+        maintainInteractivity: true,
         child: SizedBox(
           width: (_totalWidth - _dividerWidth) * (1 - _ratio),
           child: Padding(

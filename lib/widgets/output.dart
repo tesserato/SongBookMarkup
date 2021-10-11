@@ -17,12 +17,11 @@ class _OutputState extends State<Output> {
   Map<String, List<int>> chordNameToFingering = {};
   String currentSongTitle = "";
   // static Map<int, bool> isExpanded = {};
-  // static int counter = 0;
 
   @override
   Widget build(BuildContext context) {
     List<Widget> expansionPanels = [];
-    // counter = 0;
+    int counter = 0;
     for (var rawLine in Globals.controller.text.split("\n") + ["!"]) {
       String rawLineTrimmed = rawLine.trim();
 
@@ -34,10 +33,12 @@ class _OutputState extends State<Output> {
         if (currentWidgets.isEmpty) {
           currentSongTitle = rawLineTrimmed.substring(1);
         } else {
-          var e = EpWrapper(currentSongTitle, currentWidgets);
+          expansionPanels
+              .add(EpWrapper(counter, currentSongTitle, currentWidgets));
+          counter++;
           currentWidgets = [];
           chordNameToFingering = {};
-          expansionPanels.add(e);
+          currentSongTitle = rawLineTrimmed.substring(1);
         }
         continue;
       }
@@ -107,20 +108,29 @@ class _OutputState extends State<Output> {
 class EpWrapper extends StatefulWidget {
   final String title;
   final List<Widget> children;
-  const EpWrapper(this.title, this.children, {Key? key}) : super(key: key);
+  final int index;
+
+  const EpWrapper(this.index, this.title, this.children, {Key? key})
+      : super(key: key);
 
   @override
   _EpWrapperState createState() => _EpWrapperState();
 }
 
 class _EpWrapperState extends State<EpWrapper> {
-  final GlobalKey<CustomExpansionTileState> _key = GlobalKey();
+  late GlobalKey<CustomExpansionTileState> _key;
+
+  @override
+  void initState() {
+    _key = GlobalKey();
+    Globals.tiles.add(_key);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Globals.tiles.add(_key);
     return CustomExpansionTile(
-        index: 0,
+        index: widget.index,
         key: _key,
         initiallyExpanded: true,
         title: RichText(
