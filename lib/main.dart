@@ -145,7 +145,7 @@ class _MyAppState extends State<MyApp> {
                                   // print("destroy");
                                 } else {
                                   _buildTextInput = true;
-                                  _ratio = _oldRatio;
+                                  if (_buildTextOutput) _ratio = _oldRatio;
                                   // print("build");
                                 }
                               } else if (index == 1) {
@@ -156,7 +156,7 @@ class _MyAppState extends State<MyApp> {
                                   // print("destroy");
                                 } else {
                                   _buildTextOutput = true;
-                                  _ratio = _oldRatio;
+                                  if (_buildTextInput) _ratio = _oldRatio;
                                   // print("build");
                                 }
                               }
@@ -206,9 +206,10 @@ class HomeState extends State<Home> {
     return Row(children: <Widget>[
       // if (_buildTextInput)
       Visibility(
+        // duration: const Duration(milliseconds: 300),
         visible: _buildTextInput,
         maintainState: true,
-        child: SizedBox(
+        child:  SizedBox(
           width: (_totalWidth - _dividerWidth) * _ratio,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -229,7 +230,7 @@ class HomeState extends State<Home> {
               },
             ),
           ),
-        ),
+        ) ,
       ),
       MouseRegion(
         cursor: SystemMouseCursors.click,
