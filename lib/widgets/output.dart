@@ -71,10 +71,11 @@ class _OutputState extends State<Output> {
 
       if (rawLineTrimmed.startsWith("#")) {
         currentWidgets.add(Container(
-          color: Colors.black,
-          margin: const EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
+          // color: Theme.of(context).colorScheme.primaryVariant,
+          margin: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
           width: double.infinity,
           child: RichText(
+            // textAlign: TextAlign.center,
               overflow: TextOverflow.visible,
               text: TextSpan(
                 text: rawLineTrimmed.substring(1),

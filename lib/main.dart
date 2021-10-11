@@ -20,8 +20,8 @@ const _url = "https://github.com/tesserato/Mark-Book";
 double _fontSize = 16.0;
 double _fontFactor = 1.2;
 
-var _inputStyle = TextStyle(
-    fontFamily: GoogleFonts.firaCode().fontFamily, fontSize: _fontSize);
+// var _inputStyle = TextStyle(
+//     fontFamily: GoogleFonts.firaCode().fontFamily, fontSize: _fontSize);
 
 var _darkTheme = ThemeData(
   // Define the default brightness and colors.
@@ -69,122 +69,147 @@ bool _buildTextInput = true;
 bool _buildTextOutput = true;
 
 class _MyAppState extends State<MyApp> {
+  String appBarTitle = "Mark Book";
+  ThemeMode themeMode = ThemeMode.dark;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: _darkTheme,
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        themeMode: themeMode,
         title: "MarkBook",
         home: Scaffold(
             appBar: AppBar(
-                elevation: 0,
-                automaticallyImplyLeading: true,
-                title: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      IconButton(
-                        icon: const Icon(CustomIcons.icon),
-                        tooltip:
-                            'Instructions, info, apps for other platforms ▶ $_url',
-                        onPressed: () {
-                          print("launch");
-                          launch(_url);
-                        },
-                      ),
-                      IconButton(
-                          icon: const Icon(Icons.folder_open_outlined),
-                          tooltip: 'Open a mark book file (*.mb)',
-                          onPressed: () async {
-                            try {
-                              FilePickerCross file =
-                                  await FilePickerCross.importFromStorage(
-                                      type: FileTypeCross.custom,
-                                      fileExtension: '.mb');
-                              Globals.controller.text = file.toString();
-                              // _rebuildTextWidgets.value = true;
-                              setState(() {});
-                            } catch (e) {
-                              print(e);
-                            }
-                          }),
-                      IconButton(
-                        icon: const Icon(Icons.save_outlined),
-                        tooltip: 'Save as',
-                        onPressed: () {
-                          // print("here");
-                          Uint8List bytes = Uint8List.fromList(
-                              utf8.encode(Globals.controller.text));
-                          // print(bytes);
-                          var file = FilePickerCross(bytes,
-                              type: FileTypeCross.custom, fileExtension: '.mb');
-                          file.exportToStorage(
-                              fileName: "Mark Book.mb", text: "Test");
-                        },
-                      ),
-                      ValueListenableBuilder(
-                        valueListenable: _rebuildAppBar,
-                        builder: (context, value, child) {
-                          return ToggleButtons(
-                            borderRadius: BorderRadius.circular(10),
-                            children: const <Widget>[
-                              Tooltip(
-                                child: Icon(Icons.text_fields),
-                                message: "Toggle input field",
-                              ),
-                              Tooltip(
-                                child: Icon(Icons.text_snippet),
-                                message: "Toggle rendered output",
-                              ),
-                            ],
-                            onPressed: (int index) {
-                              if (index == 0) {
-                                if (_buildTextOutput && _buildTextInput) {
-                                  _buildTextInput = false;
-                                  _oldRatio = _ratio;
-                                  _ratio = 0;
-                                  // print("destroy");
-                                } else {
-                                  _buildTextInput = true;
-                                  if (_buildTextOutput) _ratio = _oldRatio;
-                                  // print("build");
-                                }
-                              } else if (index == 1) {
-                                if (_buildTextOutput && _buildTextInput) {
-                                  _buildTextOutput = false;
-                                  _oldRatio = _ratio;
-                                  _ratio = 1;
-                                  // print("destroy");
-                                } else {
-                                  _buildTextOutput = true;
-                                  if (_buildTextInput) _ratio = _oldRatio;
-                                  // print("build");
-                                }
-                              }
-                              setState(() {});
-                            },
-                            isSelected: [_buildTextInput, _buildTextOutput],
-                          );
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.open_in_full),
-                        onPressed: () {
-                          for (var key in Globals.tiles) {
-                            key.currentState?.expand();
+              elevation: 0,
+              automaticallyImplyLeading: true,
+              leading: IconButton(
+                icon: const Icon(CustomIcons.icon),
+                tooltip: 'Instructions, info, apps for other platforms ▶ $_url',
+                onPressed: () {
+                  // print("launch");
+                  launch(_url);
+                },
+              ),
+              title: Text(appBarTitle),
+              actions: [
+                IconButton(
+                    icon: const Icon(Icons.folder_open_outlined),
+                    tooltip: 'Open a mark book file (*.mb)',
+                    onPressed: () async {
+                      try {
+                        FilePickerCross file =
+                            await FilePickerCross.importFromStorage(
+                                type: FileTypeCross.custom,
+                                fileExtension: '.mb');
+                        Globals.controller.text = file.toString();
+
+                        setState(() {
+                          appBarTitle = file.fileName ?? "Mark Book";
+                        });
+                      } catch (e) {
+                        print(e);
+                      }
+                    }),
+                IconButton(
+                  icon: const Icon(Icons.save_outlined),
+                  tooltip: 'Save as',
+                  onPressed: () {
+                    // print("here");
+                    Uint8List bytes = Uint8List.fromList(
+                        utf8.encode(Globals.controller.text));
+                    // print(bytes);
+                    var file = FilePickerCross(bytes,
+                        type: FileTypeCross.custom, fileExtension: '.mb');
+                    file.exportToStorage(
+                        fileName: "Mark Book.mb", text: "Test");
+                  },
+                ),
+                ValueListenableBuilder(
+                  valueListenable: _rebuildAppBar,
+                  builder: (context, value, child) {
+                    return ToggleButtons(
+                      borderRadius: BorderRadius.circular(10),
+                      // color: Theme.of(context).colorScheme.onBackground,
+                      // selectedColor:Theme.of(context).colorScheme.onBackground ,
+                      // highlightColor: ,
+                      // hoverColor: Theme.of(context).colorScheme.primaryVariant,
+                      children: const <Widget>[
+                        Tooltip(
+                          child: Icon(
+                            Icons.text_fields,
+                          ),
+                          message: "Toggle input field",
+                        ),
+                        Tooltip(
+                          child: Icon(Icons.text_snippet),
+                          message: "Toggle rendered output",
+                        ),
+                      ],
+                      onPressed: (int index) {
+                        if (index == 0) {
+                          if (_buildTextOutput && _buildTextInput) {
+                            _buildTextInput = false;
+                            _oldRatio = _ratio;
+                            _ratio = 0;
+                            // print("destroy");
+                          } else {
+                            _buildTextInput = true;
+                            if (_buildTextOutput) _ratio = _oldRatio;
+                            // print("build");
                           }
-                          setState(() {});
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.close_fullscreen),
-                        onPressed: () {
-                          for (var key in Globals.tiles) {
-                            key.currentState?.collapse();
+                        } else if (index == 1) {
+                          if (_buildTextOutput && _buildTextInput) {
+                            _buildTextOutput = false;
+                            _oldRatio = _ratio;
+                            _ratio = 1;
+                            // print("destroy");
+                          } else {
+                            _buildTextOutput = true;
+                            if (_buildTextInput) _ratio = _oldRatio;
+                            // print("build");
                           }
-                        },
-                      )
-                    ]),
-                actions: const []),
+                        }
+                        setState(() {});
+                      },
+                      isSelected: [_buildTextInput, _buildTextOutput],
+                    );
+                  },
+                ),
+                IconButton(
+                  tooltip: "Expand all songs",
+                  icon: const Icon(Icons.open_in_full),
+                  onPressed: () {
+                    for (var key in Globals.tiles) {
+                      key.currentState?.expand();
+                    }
+                    setState(() {});
+                  },
+                ),
+                IconButton(
+                  tooltip: "Collapse all songs",
+                  icon: const Icon(Icons.close_fullscreen),
+                  onPressed: () {
+                    for (var key in Globals.tiles) {
+                      key.currentState?.collapse();
+                    }
+                  },
+                ),IconButton(
+                  tooltip: "Dark / Light theme",
+                  icon: const Icon(Icons.toggle_off),
+                  onPressed: () {
+                    if (themeMode == ThemeMode.dark) {
+                      themeMode = ThemeMode.light;
+                    } else {
+                      themeMode = ThemeMode.dark;
+                    }
+                      setState(() {});
+                    }
+                    
+                  
+                ),
+              ],
+              // actions: const []
+            ),
             body: Home()));
   }
 }
@@ -209,12 +234,12 @@ class HomeState extends State<Home> {
         // duration: const Duration(milliseconds: 300),
         visible: _buildTextInput,
         maintainState: true,
-        child:  SizedBox(
+        child: SizedBox(
           width: (_totalWidth - _dividerWidth) * _ratio,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              style: _inputStyle,
+              // style: _inputStyle,
               enableSuggestions: false,
               decoration: const InputDecoration(
                   label: Text("Mark Book"),
@@ -230,7 +255,7 @@ class HomeState extends State<Home> {
               },
             ),
           ),
-        ) ,
+        ),
       ),
       MouseRegion(
         cursor: SystemMouseCursors.click,
