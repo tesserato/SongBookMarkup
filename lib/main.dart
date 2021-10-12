@@ -4,6 +4,7 @@ import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'assets/custom_icons.dart';
 import 'widgets/output.dart';
@@ -11,11 +12,6 @@ import 'models/globals.dart' as Globals;
 import 'theme/custom_theme.dart';
 
 const _url = "https://github.com/tesserato/Mark-Book";
-double _fontSize = 16.0;
-double _fontFactor = 1.2;
-
-// var _inputStyle = TextStyle(
-//     fontFamily: GoogleFonts.firaCode().fontFamily, fontSize: _fontSize);
 
 void main() {
   LicenseRegistry.addLicense(() async* {
@@ -33,11 +29,12 @@ class MyApp extends StatefulWidget {
 }
 
 final ValueNotifier<bool> _rebuildAppBar = ValueNotifier(false);
-double _ratio = 0.5;
-double _oldRatio = 0.5;
+double _ratio = 0.4;
+double _oldRatio = 0.4;
 bool _buildTextInput = true;
 bool _buildTextOutput = true;
 String appBarTitle = "mark book";
+GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
 class _MyAppState extends State<MyApp> {
   ThemeMode themeMode = ThemeMode.light;
@@ -51,18 +48,92 @@ class _MyAppState extends State<MyApp> {
         themeMode: themeMode,
         title: "MarkBook",
         home: Scaffold(
+            key: _scaffoldKey,
+            drawer: Drawer(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back),
+                      tooltip:
+                          'Return to app',
+                      onPressed: () {
+                        BuildContext? context =
+                            _scaffoldKey.currentState?.context;
+                        Navigator.of(context!).pop();
+                        // _scaffoldKey.currentState?.context;
+                      },
+                    ),
+
+                    IconButton(
+                        tooltip: "Dark / Light theme",
+                        icon: themeIcon,
+                        onPressed: () {
+                          if (themeMode == ThemeMode.dark) {
+                            themeMode = ThemeMode.light;
+                            themeIcon = const Icon(Icons.dark_mode);
+                          } else {
+                            themeMode = ThemeMode.dark;
+                            themeIcon = const Icon(Icons.light_mode);
+                          }
+                          setState(() {});
+                        }),
+                        Text("input font", style: drawer),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        IconButton(
+                            tooltip: "Decrease input font",
+                            icon: const Icon(Icons.remove_circle),
+                            onPressed: () {
+                              inputfontSize -= .5;
+                              setState(() {});
+                            }),
+                        IconButton(
+                            tooltip: "Increase input font",
+                            icon: const Icon(Icons.add_circle),
+                            onPressed: () {
+                              inputfontSize += .5;
+                              setState(() {});
+                            })
+                      ],
+                    ),
+                    Text("output font", style: drawer),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        IconButton(
+                            tooltip: "Decrease input font",
+                            icon: const Icon(Icons.remove_circle),
+                            onPressed: () {
+                              outputFontSize -= .5;
+                              setState(() {});
+                            }),
+                        IconButton(
+                            tooltip: "Increase input font",
+                            icon: const Icon(Icons.add_circle),
+                            onPressed: () {
+                              outputFontSize += .5;
+                              setState(() {});
+                            })
+                      ],
+                    ),
+                                        IconButton(
+                      icon: const Icon(CustomIcons.icon),
+                      tooltip:
+                          'Instructions, info, apps for other platforms ▶ $_url',
+                      onPressed: () {
+                        // print("launch");
+                        launch(_url);
+                      },
+                    ),
+                  ]),
+            ),
             appBar: AppBar(
-              // titleTextStyle : ,
+              centerTitle: true,
               elevation: 0,
               automaticallyImplyLeading: true,
-              leading: IconButton(
-                icon: const Icon(CustomIcons.icon),
-                tooltip: 'Instructions, info, apps for other platforms ▶ $_url',
-                onPressed: () {
-                  // print("launch");
-                  launch(_url);
-                },
-              ),
+
               title: Text(appBarTitle),
               actions: [
                 IconButton(
@@ -77,7 +148,9 @@ class _MyAppState extends State<MyApp> {
                         Globals.controller.text = file.toString();
 
                         setState(() {
-                          appBarTitle = file.fileName?.replaceAll(".mb", "").toLowerCase() ??
+                          appBarTitle = file.fileName
+                                  ?.replaceAll(".mb", "")
+                                  .toLowerCase() ??
                               "mark book";
                         });
                       } catch (e) {
@@ -169,19 +242,6 @@ class _MyAppState extends State<MyApp> {
                     }
                   },
                 ),
-                IconButton(
-                    tooltip: "Dark / Light theme",
-                    icon: themeIcon,
-                    onPressed: () {
-                      if (themeMode == ThemeMode.dark) {
-                        themeMode = ThemeMode.light;
-                        themeIcon = const Icon(Icons.dark_mode);
-                      } else {
-                        themeMode = ThemeMode.dark;
-                        themeIcon = const Icon(Icons.light_mode);
-                      }
-                      setState(() {});
-                    }),
               ],
               // actions: const []
             ),

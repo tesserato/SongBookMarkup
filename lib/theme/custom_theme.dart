@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// import 'colors.dart';
-
+double inputfontSize = 20.0;
+double outputFontSize = 20.0;
 var mainWhiteColor = Colors.blueGrey;
 
 ColorScheme lightColorScheme = ThemeData.light().colorScheme.copyWith(
@@ -11,13 +11,19 @@ ColorScheme lightColorScheme = ThemeData.light().colorScheme.copyWith(
     secondary: mainWhiteColor.shade700,
     secondaryVariant: mainWhiteColor.shade800);
 
+TextStyle drawer = TextStyle(
+    fontFamily: GoogleFonts.majorMonoDisplay().fontFamily,
+    fontSize: 18,
+    fontWeight: FontWeight.w900);
+
 class CustomTheme {
   static ThemeData get light {
     return ThemeData.light().copyWith(
       appBarTheme: ThemeData.light().appBarTheme.copyWith(
-          titleTextStyle:
-              TextStyle(fontFamily: GoogleFonts.majorMonoDisplay().fontFamily, fontSize: 20, fontWeight: FontWeight.bold)
-              ),
+          titleTextStyle: TextStyle(
+              fontFamily: GoogleFonts.majorMonoDisplay().fontFamily,
+              fontSize: 20,
+              fontWeight: FontWeight.bold)),
       colorScheme: lightColorScheme,
       toggleButtonsTheme: ThemeData.light().toggleButtonsTheme.copyWith(
             borderRadius: BorderRadius.circular(10),
@@ -27,23 +33,35 @@ class CustomTheme {
             hoverColor: lightColorScheme.secondary,
           ),
       textTheme: ThemeData.light().textTheme.copyWith(
-        // header
-            headline1: const TextStyle(
-                fontSize: 20, color: Colors.black, fontWeight: FontWeight.w900),
-            headline2: const TextStyle(
-                fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500),
+            // header
+            headline1: TextStyle(
+                fontSize: outputFontSize,
+                color: Colors.black,
+                fontWeight: FontWeight.w700),
+            headline2: TextStyle(
+                fontSize: outputFontSize,
+                color: Colors.black,
+                fontWeight: FontWeight.w600),
             // chord name
-            headline3: const TextStyle(
-                fontSize: 20, color: Colors.black, fontWeight: FontWeight.w900),
+            headline3: TextStyle(
+                fontSize: outputFontSize,
+                color: Colors.black,
+                fontWeight: FontWeight.w700),
             // chord panel annotations
-            headline4: const TextStyle(
-                fontSize: 20, color: Colors.black, fontWeight: FontWeight.w900),
+            headline4: TextStyle(
+                fontSize: outputFontSize,
+                color: Colors.black,
+                fontWeight: FontWeight.w900),
             //input
-            bodyText1: const TextStyle(
-                fontSize: 20, color: Colors.black, fontWeight: FontWeight.w100),
+            bodyText1: TextStyle(
+                fontSize: inputfontSize,
+                color: Colors.black,
+                fontWeight: FontWeight.w500),
             //output
-            bodyText2: const TextStyle(
-                fontSize: 20, color: Colors.black, fontWeight: FontWeight.w300),
+            bodyText2: TextStyle(
+                fontSize: outputFontSize,
+                color: Colors.black,
+                fontWeight: FontWeight.w500),
           ),
     );
   }
