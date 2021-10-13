@@ -14,6 +14,7 @@ import 'theme/custom_theme.dart';
 const _url = "https://github.com/tesserato/Mark-Book";
 
 void main() {
+  
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('fonts/OFL.txt');
     yield LicenseEntryWithLineBreaks(['Fira_Mono'], license);
@@ -39,6 +40,7 @@ GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 class _MyAppState extends State<MyApp> {
   ThemeMode themeMode = ThemeMode.light;
   Icon themeIcon = const Icon(Icons.dark_mode);
+  Icon lineStartIcon = const Icon(Icons.toggle_on);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -53,6 +55,7 @@ class _MyAppState extends State<MyApp> {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    Text("settings:", style: drawer),
                     IconButton(
                       icon: const Icon(Icons.arrow_back),
                       tooltip:
@@ -75,6 +78,18 @@ class _MyAppState extends State<MyApp> {
                           } else {
                             themeMode = ThemeMode.dark;
                             themeIcon = const Icon(Icons.light_mode);
+                          }
+                          setState(() {});
+                        }),
+                                            IconButton(
+                        tooltip: "Toggle line start markers",
+                        icon: lineStartIcon,
+                        onPressed: () {
+                          showLineStart = !showLineStart; 
+                          if (showLineStart == true) {
+                            lineStartIcon = const Icon(Icons.toggle_on);
+                          } else {
+                            lineStartIcon = const Icon(Icons.toggle_off);
                           }
                           setState(() {});
                         }),
@@ -306,7 +321,7 @@ class HomeState extends State<Home> {
             // ),
           ),
           onDoubleTap: () {
-            _ratio = 0.5;
+            _ratio = 0.4;
             _buildTextOutput = true;
             _buildTextInput = true;
             _rebuildAppBar.value ^= true;

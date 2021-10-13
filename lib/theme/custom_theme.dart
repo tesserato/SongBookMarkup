@@ -54,6 +54,7 @@ class CustomTheme {
                 fontWeight: FontWeight.w900),
             //input
             bodyText1: TextStyle(
+              fontFamily: GoogleFonts.firaCode().fontFamily,
                 fontSize: inputfontSize,
                 color: Colors.black,
                 fontWeight: FontWeight.w500),

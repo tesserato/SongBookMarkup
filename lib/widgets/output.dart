@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mark_book/theme/custom_theme.dart';
 import '../models/chords.dart';
 import '../models/globals.dart' as Globals;
 import '../widgets/custom_expansion_tile.dart';
+
+
+bool showLineStart = true;
+
 
 class Output extends StatefulWidget {
   // Map<Key, bool> expand = {};
@@ -87,11 +92,11 @@ class _OutputState extends State<Output> {
 
       if (rawLineTrimmed.startsWith(">")) {
         if (currentChordLine == null) {
-          currentChordLine = " " + rawLineTrimmed.substring(1);
+          currentChordLine = rawLine.replaceFirst(">", " ");
         } else {
           currentWidgets.addAll(makeChordsLine(context, chordNameToFingering,
               chords: currentChordLine));
-          currentChordLine = " " + rawLineTrimmed.substring(1);
+          currentChordLine = rawLine.replaceFirst(">", " ");
         }
 
         continue;
@@ -141,45 +146,82 @@ class _EpWrapperState extends State<EpWrapper> {
                 style: Theme.of(context).textTheme.headline1)),
         children: [
           Wrap(
+              // runSpacing: outputFontSize,
               crossAxisAlignment: WrapCrossAlignment.end,
               children: widget.children)
         ]);
   }
 }
 
+
+
 List<Widget> makeChordsLine(
     BuildContext context, Map<String, List<int>> chordNameToFingering,
     {String? chords, String? text}) {
+  // final chords = rawChords?.codeUnits;
+  // final text = rawChords?.codeUnits;
+
   List<Widget> W = [];
+
+  // var t = Theme.of(context).textTheme.headline1?.copyWith(color: Theme.of(context).colorScheme.primary);
+
+  if (showLineStart) {
+    var txt = Text("❯",
+        style: Theme.of(context)
+            .textTheme
+            .headline1
+            ?.copyWith(color: Theme.of(context).colorScheme.primary));
+    W.add(Container(
+        alignment: Alignment.centerRight,
+        // color: Colors.amber.withOpacity(.5),
+        width: 2 * outputFontSize,
+        height: outputFontSize * 2.5,
+        padding: EdgeInsets.fromLTRB(0, 0, outputFontSize / 3, 0),
+        child: txt));
+  }
+
   if (chords == null) {
-    final words = text!.split(" ") + [" "];
+    final words = text!.split(" ");
     for (var word in words) {
       Widget w = RichText(
           overflow: TextOverflow.visible,
           text: TextSpan(
-            text: word,
-            style: Theme.of(context).textTheme.bodyText2
-          ));
+              text: word.trim(), style: Theme.of(context).textTheme.bodyText2));
       W.add(w);
+
+      W.add(SizedBox(
+        width: outputFontSize / 2,
+      ));
     }
     return W;
   }
   if (text == null) {
-    final chordNames = chords.split(" ") + [" "];
+    final chordNames = chords.split(" ");
     for (var name in chordNames) {
-      final fingering = chordNameToFingering[name];
-      W.add(
-        ChordWidget(name, fingering: fingering),
-      );
+      final trimmedName = name.trim();
+      if (trimmedName.isNotEmpty) {
+        final fingering = chordNameToFingering[trimmedName];
+        W.add(
+          ChordWidget("  ".padRight(trimmedName.length), trimmedName,
+              fingering: fingering),
+        );
+        W.add(SizedBox(
+          width: outputFontSize,
+        ));
+      }
     }
     return W;
   }
+  // chords + text
 
-  if (text.length < chords.length) {
-    text = text.padRight(chords.length, ' ');
-  }
 
   chords += " ";
+  if (text.length < chords.length) {
+    text = text.padRight(chords.length + 1, ' ');
+  }
+
+
+
   bool insideChord = false;
   int start = 0;
   int end = 0;
@@ -187,48 +229,64 @@ List<Widget> makeChordsLine(
     if (chords[i] == " ") {
       if (insideChord) {
         // left chord name
+        insideChord = false;
         end = i;
         final name = chords.substring(start, end);
         final fingering = chordNameToFingering[name];
-        var r = Column(
-          children: [
-            ChordWidget(name, fingering: fingering),
-            RichText(
-                overflow: TextOverflow.ellipsis,
-                text: TextSpan(
-                    text: text.substring(start, end),
-                    style: Theme.of(context).textTheme.bodyText2))
-          ],
-        );
-        W.add(r);
+        W.add(ChordWidget(text.substring(start, end), name,
+            fingering: fingering));
       }
-      insideChord = false;
     } else {
       if (!insideChord) {
         //entered chord name
+        insideChord = true;
         start = i;
+        var words = text.substring(end, start).split(" ");
+        if (words.isNotEmpty) {
+          for (var word in words) {
+            if (word != " ") {
+              W.add(Text(word, style: Theme.of(context).textTheme.bodyText2));
+              W.add(SizedBox(
+                width: outputFontSize / 2,
+              ));
+            }
+          }
+          W.removeLast();
+        }
+      }
+    }
+  }
+  // W.add(RichText(
+  //     overflow: TextOverflow.ellipsis,
+  //     text: TextSpan(
+  //         text: text.substring(end, text.length),
+  //         style: Theme.of(context).textTheme.bodyText2)));
+
+  var words = text.substring(end, text.length).split(" ");
+  if (words.isNotEmpty) {
+    for (var word in words) {
+      if (word != " ") {
         W.add(RichText(
             overflow: TextOverflow.ellipsis,
             text: TextSpan(
-                text: text.substring(end, start),
-                style: Theme.of(context).textTheme.bodyText2)));
+                text: word, style: Theme.of(context).textTheme.bodyText2)));
+        W.add(SizedBox(
+          width: outputFontSize / 2,
+        ));
       }
-      insideChord = true;
     }
+    W.removeLast();
   }
-  W.add(RichText(
-      overflow: TextOverflow.ellipsis,
-      text: TextSpan(
-        text: text.substring(end, text.length),
-        style: Theme.of(context).textTheme.bodyText2
-      )));
+
   return W;
 }
 
 class ChordWidget extends StatefulWidget {
+  String text = "";
   String name = "";
   List<int>? fingering;
-  ChordWidget(this.name, {Key? key, this.fingering}) : super(key: key);
+  ChordWidget(this.text, this.name, {Key? key, this.fingering})
+      : super(key: key);
 
   @override
   State<ChordWidget> createState() => _ChordWidgetState();
@@ -241,79 +299,81 @@ class _ChordWidgetState extends State<ChordWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-        onHover: (value) {
-          if (value) {
-            setState(() {
-              _hovering = true;
-            });
-          } else {
-            setState(() {
-              _hovering = false;
-            });
-          }
-        },
-        onTap: () {
-          if (_toggle) {
-            setState(() {
-              _toggle = false;
-            });
-          } else {
-            setState(() {
-              _toggle = true;
-            });
-          }
-        },
-        child: Stack(
-          fit: StackFit.passthrough,
-          alignment: AlignmentDirectional.bottomCenter,
-          clipBehavior: Clip.none,
-          children: [
-            RichText(
-              overflow: TextOverflow.clip,
-              text: TextSpan(
-                  text: widget.name,
-                  style: Theme.of(context).textTheme.headline3),
-            ),
-            Positioned(
-                top: -80,
-                left: 0,
-                // height: 80,
-                // width: 60,
-                child: Visibility(
-                  // replacement: Text("chh"),
-                  // maintainState: true,
-                  // maintainAnimation: true,
-                  // maintainSize: true,
-                  // maintainInteractivity: true,
-                  visible: _hovering || _toggle,
+    var txt = Text(widget.text, style: Theme.of(context).textTheme.bodyText2);
+    var crd = Text(widget.name, style: Theme.of(context).textTheme.headline3);
+
+    var szb = InkWell(
+      child: Container(
+        // alignment: Alignment.bottomCenter,
+        color: Colors.green.withOpacity(.5),
+        // width: .6*outputFontSize * max(widget.text.length, widget.name.length),
+        height: outputFontSize * 2.3,
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.end, children: [txt]),
+      ),
+      onTap: () {
+        setState(() {
+          _toggle = !_toggle;
+        });
+      },
+      onHover: (value) {
+        if (value) {
+          setState(() {
+            _hovering = true;
+          });
+        } else {
+          setState(() {
+            _hovering = false;
+          });
+        }
+      },
+    );
+
+    return Stack(
+      fit: StackFit.loose,
+      alignment: AlignmentDirectional.bottomStart,
+      clipBehavior: Clip.none,
+      children: [
+        // txt,
+        Positioned(
+          top: -outputFontSize * .2,
+          child: crd,
+        ),
+        Positioned(
+            top: -80,
+            left: 0,
+            child: Visibility(
+              visible: _hovering || _toggle,
+              child: IgnorePointer(
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  color: const Color.fromARGB(200, 255, 255, 255),
+                  padding: const EdgeInsets.fromLTRB(23, 12, 9, 6),
                   child: Container(
-                    width: 100,
-                    height: 100,
-                    color: const Color.fromARGB(200, 255, 255, 255),
-                    padding: const EdgeInsets.fromLTRB(23, 12, 9, 6),
-                    child: Container(
-                      width: 60,
-                      height: 80,
-                      color: Colors.transparent,
-                      child: CustomPaint(
-                        // size: Size(20, 30),
-                        painter:
-                            MyPainter(context, widget.name, fingering: widget.fingering),
-                        // child: const SizedBox(width: 60, height: 80)
-                      ),
+                    width: 60,
+                    height: 80,
+                    color: Colors.transparent,
+                    child: CustomPaint(
+                      // size: Size(20, 30),
+                      painter: MyPainter(context, widget.name,
+                          fingering: widget.fingering),
+                      // child: const SizedBox(width: 60, height: 80)
                     ),
                   ),
-                ))
-          ],
-        ));
+                ),
+              ),
+            )),
+        szb,
+      ],
+    );
   }
 }
 
 class MyPainter extends CustomPainter {
   String name;
   List<int>? fingering;
-  BuildContext context;          
+  BuildContext context;
   MyPainter(this.context, this.name, {this.fingering});
 
   @override
@@ -343,8 +403,7 @@ class MyPainter extends CustomPainter {
       minfret = 0;
     }
 
-    TextSpan textSpan = TextSpan(
-        text: minfret.toString(), style: textStyle);
+    TextSpan textSpan = TextSpan(text: minfret.toString(), style: textStyle);
     TextPainter textPainter = TextPainter(
       text: textSpan,
       textDirection: TextDirection.ltr,
@@ -384,7 +443,6 @@ class MyPainter extends CustomPainter {
             size.width / 15,
             paint);
       } else if (fingering![i] < 0) {
-
         textSpan = TextSpan(
           text: "x",
           style: textStyle,
