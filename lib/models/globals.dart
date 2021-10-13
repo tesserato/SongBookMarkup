@@ -104,7 +104,7 @@ Future<void> savethemeMode(ThemeMode themeMode) async {
 // rawText
 Future<void> saveRawText() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString('rawText', _rawText);
+  prefs.setString('rawText', controller.text);
 }
 
 String _rawText = '''
