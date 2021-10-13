@@ -1,9 +1,68 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_expansion_tile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Set<GlobalKey<CustomExpansionTileState>> tiles = {};
+
 final TextEditingController controller = TextEditingController(text: _rawText);
+
+// preferences
+
+Future<void> clearPreferences() async {
+  final SharedPreferences preferences = await SharedPreferences.getInstance();
+  await preferences.clear();
+}
+
+Future<void> getPreferences() async {
+  // theme
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool darkTheme = prefs.getBool('darkTheme') ?? true;
+  if (darkTheme) {
+    themeMode = ThemeMode.dark;
+  } else {
+    themeMode = ThemeMode.light;
+  }
+
+  // rawText
+  _rawText = prefs.getString('rawText') ?? _rawText;
+
+  // ratio
+  ratio = prefs.getDouble('ratio') ?? 0.4;
+  oldRatio = prefs.getDouble('oldRatio') ?? 0.4;
+  buildTextInput = prefs.getBool("buildTextInput") ?? true;
+  buildTextOutput = prefs.getBool("buildTextOutput") ?? true;
+}
+
+// ratio
+double ratio = 0.4;
+double oldRatio = 0.4;
+bool buildTextInput = true;
+bool buildTextOutput = true;
+Future<void> saveRatio() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setDouble('ratio', ratio);
+  prefs.setDouble('oldRatio', oldRatio);
+  prefs.setBool('buildTextInput', buildTextInput);
+  prefs.setBool('buildTextOutput', buildTextOutput);
+}
+
+// themeMode
 ThemeMode themeMode = ThemeMode.dark;
+
+Future<void> savethemeMode(ThemeMode themeMode) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  if (themeMode == ThemeMode.dark) {
+    prefs.setBool('darkTheme', true);
+  } else {
+    prefs.setBool('darkTheme', false);
+  }
+}
+
+// rawText
+Future<void> saveRawText(String rawText) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('rawText', rawText);
+}
 
 String _rawText = '''
 ! 1 Song's title (Start a new song with "!")

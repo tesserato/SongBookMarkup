@@ -14,7 +14,7 @@ import 'theme/custom_theme.dart';
 const _url = "https://github.com/tesserato/Mark-Book";
 
 void main() {
-  
+  Globals.getPreferences();
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('fonts/OFL.txt');
     yield LicenseEntryWithLineBreaks(['Fira_Mono'], license);
@@ -30,17 +30,13 @@ class MyApp extends StatefulWidget {
 }
 
 final ValueNotifier<bool> _rebuildAppBar = ValueNotifier(false);
-double _ratio = 0.4;
-double _oldRatio = 0.4;
-bool _buildTextInput = true;
-bool _buildTextOutput = true;
+
 String appBarTitle = "mark book";
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
 class _MyAppState extends State<MyApp> {
-  
-  Icon themeIcon = const Icon(Icons.light_mode);
-  Icon lineStartIcon = const Icon(Icons.toggle_on);
+  // Icon themeIcon = const Icon(Icons.light_mode);
+  // Icon lineStartIcon = const Icon(Icons.toggle_on);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -58,8 +54,7 @@ class _MyAppState extends State<MyApp> {
                     Text("settings:", style: drawer),
                     IconButton(
                       icon: const Icon(Icons.arrow_back),
-                      tooltip:
-                          'Return to app',
+                      tooltip: 'Return to app',
                       onPressed: () {
                         BuildContext? context =
                             _scaffoldKey.currentState?.context;
@@ -67,33 +62,32 @@ class _MyAppState extends State<MyApp> {
                         // _scaffoldKey.currentState?.context;
                       },
                     ),
-
                     IconButton(
                         tooltip: "Dark / Light theme",
-                        icon: themeIcon,
+                        icon: Globals.themeMode == ThemeMode.dark
+                            ? const Icon(Icons.light_mode)
+                            : const Icon(Icons.dark_mode),
                         onPressed: () {
                           if (Globals.themeMode == ThemeMode.dark) {
                             Globals.themeMode = ThemeMode.light;
-                            themeIcon = const Icon(Icons.dark_mode);
+                            // themeIcon = const Icon(Icons.dark_mode);
                           } else {
                             Globals.themeMode = ThemeMode.dark;
-                            themeIcon = const Icon(Icons.light_mode);
+                            // themeIcon = const Icon(Icons.light_mode);
                           }
+                          Globals.savethemeMode(Globals.themeMode);
                           setState(() {});
                         }),
-                                            IconButton(
+                    IconButton(
                         tooltip: "Toggle line start markers",
-                        icon: lineStartIcon,
+                        icon: showLineStart
+                            ? const Icon(Icons.toggle_off)
+                            : const Icon(Icons.toggle_on),
                         onPressed: () {
-                          showLineStart = !showLineStart; 
-                          if (showLineStart == true) {
-                            lineStartIcon = const Icon(Icons.toggle_on);
-                          } else {
-                            lineStartIcon = const Icon(Icons.toggle_off);
-                          }
+                          showLineStart = !showLineStart;
                           setState(() {});
                         }),
-                        Text("input font", style: drawer),
+                    Text("input font", style: drawer),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -133,7 +127,7 @@ class _MyAppState extends State<MyApp> {
                             })
                       ],
                     ),
-                                        Text("chord panel size", style: drawer),
+                    Text("chord panel size", style: drawer),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -153,13 +147,22 @@ class _MyAppState extends State<MyApp> {
                             })
                       ],
                     ),
-                                        IconButton(
+                    IconButton(
                       icon: const Icon(CustomIcons.icon),
                       tooltip:
                           'Instructions, info, apps for other platforms ▶ $_url',
                       onPressed: () {
                         // print("launch");
                         launch(_url);
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.dangerous),
+                      tooltip: 'Reset settings',
+                      onPressed: () {
+                        Globals.clearPreferences();
+                        Globals.getPreferences();
+                        setState(() {});
                       },
                     ),
                   ]),
@@ -230,37 +233,47 @@ class _MyAppState extends State<MyApp> {
                       ],
                       onPressed: (int index) {
                         if (index == 0) {
-                          if (_buildTextOutput && _buildTextInput) {
-                            _buildTextInput = false;
-                            _oldRatio = _ratio;
-                            _ratio = 0;
+                          if (Globals.buildTextOutput &&
+                              Globals.buildTextInput) {
+                            Globals.buildTextInput = false;
+                            Globals.oldRatio = Globals.ratio;
+                            Globals.ratio = 0;
                             // print("destroy");
                           } else {
-                            _buildTextInput = true;
-                            if (_buildTextOutput) _ratio = _oldRatio;
+                            Globals.buildTextInput = true;
+                            if (Globals.buildTextOutput) {
+                              Globals.ratio = Globals.oldRatio;
+                            }
                             // print("build");
                           }
                         } else if (index == 1) {
-                          if (_buildTextOutput && _buildTextInput) {
-                            _buildTextOutput = false;
-                            _oldRatio = _ratio;
-                            _ratio = 1;
+                          if (Globals.buildTextOutput &&
+                              Globals.buildTextInput) {
+                            Globals.buildTextOutput = false;
+                            Globals.oldRatio = Globals.ratio;
+                            Globals.ratio = 1;
                             // print("destroy");
                           } else {
-                            _buildTextOutput = true;
-                            if (_buildTextInput) _ratio = _oldRatio;
+                            Globals.buildTextOutput = true;
+                            if (Globals.buildTextInput) {
+                              Globals.ratio = Globals.oldRatio;
+                            }
                             // print("build");
                           }
                         }
+                        Globals.saveRatio();
                         setState(() {});
                       },
-                      isSelected: [_buildTextInput, _buildTextOutput],
+                      isSelected: [
+                        Globals.buildTextInput,
+                        Globals.buildTextOutput
+                      ],
                     );
                   },
                 ),
                 IconButton(
                   tooltip: "Expand all songs",
-                  icon: const Icon(Icons.expand),
+                  icon: const Icon(Icons.unfold_more),
                   onPressed: () {
                     for (var key in Globals.tiles) {
                       key.currentState?.expand();
@@ -270,7 +283,7 @@ class _MyAppState extends State<MyApp> {
                 ),
                 IconButton(
                   tooltip: "Collapse all songs",
-                  icon: const Icon(Icons.compress),
+                  icon: const Icon(Icons.unfold_less),
                   onPressed: () {
                     for (var key in Globals.tiles) {
                       key.currentState?.collapse();
@@ -302,10 +315,10 @@ class HomeState extends State<Home> {
       // if (_buildTextInput)
       Visibility(
         // duration: const Duration(milliseconds: 300),
-        visible: _buildTextInput,
+        visible: Globals.buildTextInput,
         maintainState: true,
         child: SizedBox(
-          width: (_totalWidth - _dividerWidth) * _ratio,
+          width: (_totalWidth - _dividerWidth) * Globals.ratio,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -321,6 +334,7 @@ class HomeState extends State<Home> {
               maxLines: null,
               // onc: ,
               onChanged: (text) {
+                Globals.saveRawText(text);
                 setState(() {});
               },
             ),
@@ -341,36 +355,38 @@ class HomeState extends State<Home> {
             // ),
           ),
           onDoubleTap: () {
-            _ratio = 0.4;
-            _buildTextOutput = true;
-            _buildTextInput = true;
+            Globals.ratio = 0.4;
+            Globals.buildTextOutput = true;
+            Globals.buildTextInput = true;
             _rebuildAppBar.value ^= true;
+            Globals.saveRatio();
             setState(() {});
           },
           onPanUpdate: (DragUpdateDetails details) {
             setState(() {
-              _ratio += details.delta.dx / _totalWidth;
+              Globals.ratio += details.delta.dx / _totalWidth;
             });
-            if (_ratio > .9) {
-              _ratio = 1;
-              _buildTextOutput = false;
-            } else if (_ratio < 0.1) {
-              _ratio = 0.0;
-              _buildTextInput = false;
+            if (Globals.ratio > .9) {
+              Globals.ratio = 1;
+              Globals.buildTextOutput = false;
+            } else if (Globals.ratio < 0.1) {
+              Globals.ratio = 0.0;
+              Globals.buildTextInput = false;
             }
             _rebuildAppBar.value ^= true;
+            Globals.saveRatio();
           },
         ),
       ),
       Visibility(
         // key: UniqueKey(),
-        visible: _buildTextOutput,
+        visible: Globals.buildTextOutput,
         maintainState: true,
         maintainAnimation: true,
         maintainSize: true,
         maintainInteractivity: true,
         child: SizedBox(
-          width: (_totalWidth - _dividerWidth) * (1 - _ratio),
+          width: (_totalWidth - _dividerWidth) * (1 - Globals.ratio),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(25, 10, 10, 5),
             child: Output(),

@@ -171,7 +171,7 @@ List<Widget> makeChordsLine(
     W.add(Container(
         alignment: Alignment.centerRight,
         // color: Colors.amber.withOpacity(.5),
-        width: 2 * outputFontSize,
+        width: 1.5 * outputFontSize,
         height: outputFontSize * 2.5,
         padding: EdgeInsets.fromLTRB(0, 0, outputFontSize / 3, 0),
         child: txt));
