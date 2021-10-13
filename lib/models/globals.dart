@@ -3,6 +3,7 @@ import '../widgets/custom_expansion_tile.dart';
 
 Set<GlobalKey<CustomExpansionTileState>> tiles = {};
 final TextEditingController controller = TextEditingController(text: _rawText);
+ThemeMode themeMode = ThemeMode.dark;
 
 String _rawText = '''
 ! 1 Song's title (Start a new song with "!")

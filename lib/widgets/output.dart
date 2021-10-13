@@ -299,7 +299,7 @@ class _ChordWidgetState extends State<ChordWidget> {
     var szb = InkWell(
       child: Container(
         // alignment: Alignment.bottomCenter,
-        color: Colors.green.withOpacity(.5),
+        // color: Colors.green.withOpacity(.5),
         // width: .6*outputFontSize * max(widget.text.length, widget.name.length),
         height: outputFontSize * 2.3,
         child:
@@ -333,6 +333,7 @@ class _ChordWidgetState extends State<ChordWidget> {
           top: -outputFontSize * .2,
           child: crd,
         ),
+        szb,
         Positioned(
             top: -chordPanelSize * 4,
             left: 0,
@@ -340,25 +341,21 @@ class _ChordWidgetState extends State<ChordWidget> {
               visible: _hovering || _toggle,
               child: IgnorePointer(
                 child: Container(
-                  width: chordPanelSize * 5,
+                  width: chordPanelSize * 5.5,
                   height: chordPanelSize * 5,
-                  color: const Color.fromARGB(200, 255, 255, 255),
-                  padding: const EdgeInsets.fromLTRB(23, 12, 9, 6),
-                  child: Container(
-                    width: chordPanelSize * 3,
-                    height: chordPanelSize * 4,
-                    color: Colors.transparent,
-                    child: CustomPaint(
+                  color: Globals.themeMode == ThemeMode.dark ? Colors.black.withAlpha(200) : Colors.white.withAlpha(200),
+                  padding:  EdgeInsets.fromLTRB(chordPanelSize * 2, chordPanelSize, chordPanelSize / 4, chordPanelSize / 6),
+                  child: CustomPaint(
                       // size: Size(20, 30),
                       painter: MyPainter(context, widget.name,
                           fingering: widget.fingering),
                       // child: const SizedBox(width: 60, height: 80)
                     ),
-                  ),
+               
                 ),
               ),
             )),
-        szb,
+        
       ],
     );
   }
@@ -409,13 +406,15 @@ class MyPainter extends CustomPainter {
       maxWidth: chordPanelSize,
     );
 
-    final offset = Offset(-textPainter.width * 1.2, -textPainter.height / 2);
+    final offset = Offset(-textPainter.width * 1.6, -textPainter.height / 2);
     textPainter.paint(canvas, offset);
 
     var paint = Paint()
-      ..color = Colors.black
       ..strokeWidth = 1
-      ..strokeCap = StrokeCap.butt;
+      ..strokeCap = StrokeCap.butt
+      ..color =
+          Globals.themeMode == ThemeMode.dark ? Colors.white : Colors.black;
+
 
     for (var i = 0; i < numberOfFrets; i++) {
       var y = i * size.height / (numberOfFrets - 1);
@@ -439,7 +438,7 @@ class MyPainter extends CustomPainter {
             paint);
       } else if (fingering![i] < 0) {
         textSpan = TextSpan(
-          text: "x",
+          text: "⮿",
           style: textStyle,
         );
         TextPainter textPainter = TextPainter(
@@ -453,7 +452,7 @@ class MyPainter extends CustomPainter {
         );
 
         final xCenter = i * size.width / (numberOfStrings - 1);
-        final yCenter = -size.height / 15 - textPainter.height/1.5;
+        final yCenter = -size.height / 15 - textPainter.height / 1.5;
         final offset = Offset(xCenter, yCenter);
         textPainter.paint(canvas, offset);
       }

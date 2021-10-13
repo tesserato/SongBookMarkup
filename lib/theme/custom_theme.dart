@@ -6,11 +6,22 @@ double inputfontSize = 20.0;
 double outputFontSize = 20.0;
 var mainWhiteColor = Colors.blueGrey;
 
+var mainBlackColor = Colors.grey;
+
+
+var mainFontFamily = GoogleFonts.nunito().fontFamily;
+
 ColorScheme lightColorScheme = ThemeData.light().colorScheme.copyWith(
     primary: mainWhiteColor.shade500,
     primaryVariant: mainWhiteColor.shade600,
     secondary: mainWhiteColor.shade700,
     secondaryVariant: mainWhiteColor.shade800);
+
+ColorScheme darkColorScheme = ThemeData.light().colorScheme.copyWith(
+    primary: mainBlackColor.shade600,
+    primaryVariant: mainBlackColor.shade700,
+    secondary: mainBlackColor.shade800,
+    secondaryVariant: mainBlackColor.shade900);
 
 TextStyle drawer = TextStyle(
     fontFamily: GoogleFonts.majorMonoDisplay().fontFamily,
@@ -38,24 +49,28 @@ class CustomTheme {
             headline1: TextStyle(
                 fontSize: outputFontSize,
                 color: Colors.black,
-                fontWeight: FontWeight.w700),
+                fontWeight: FontWeight.w700,
+                fontFamily: mainFontFamily),
             headline2: TextStyle(
                 fontSize: outputFontSize,
                 color: Colors.black,
-                fontWeight: FontWeight.w600),
+                fontWeight: FontWeight.w600,
+                fontFamily: mainFontFamily),
             // chord name
             headline3: TextStyle(
                 fontSize: outputFontSize,
                 color: Colors.black,
-                fontWeight: FontWeight.w700),
+                fontWeight: FontWeight.w700,
+                fontFamily: mainFontFamily),
             // chord panel annotations
             headline4: TextStyle(
                 fontSize: chordPanelSize * .8,
                 color: Colors.black,
-                fontWeight: FontWeight.w800),
+                fontWeight: FontWeight.w800,
+                fontFamily: mainFontFamily),
             //input
             bodyText1: TextStyle(
-              fontFamily: GoogleFonts.firaCode().fontFamily,
+                fontFamily: GoogleFonts.firaCode().fontFamily,
                 fontSize: inputfontSize,
                 color: Colors.black,
                 fontWeight: FontWeight.w500),
@@ -63,15 +78,65 @@ class CustomTheme {
             bodyText2: TextStyle(
                 fontSize: outputFontSize,
                 color: Colors.black,
-                fontWeight: FontWeight.w500),
+                fontWeight: FontWeight.w500,
+                fontFamily: mainFontFamily),
           ),
     );
   }
 
   static ThemeData get dark {
     return ThemeData.dark().copyWith(
-        toggleButtonsTheme:
-            ToggleButtonsThemeData(borderRadius: BorderRadius.circular(10)));
+      appBarTheme: ThemeData.dark().appBarTheme.copyWith(
+          titleTextStyle: TextStyle(
+              fontFamily: GoogleFonts.majorMonoDisplay().fontFamily,
+              fontSize: 20,
+              fontWeight: FontWeight.bold)),
+      colorScheme: darkColorScheme,
+      toggleButtonsTheme: ThemeData.dark().toggleButtonsTheme.copyWith(
+            borderRadius: BorderRadius.circular(10),
+            color: darkColorScheme.onBackground,
+            selectedColor: darkColorScheme.onPrimary,
+            fillColor: darkColorScheme.primaryVariant,
+            hoverColor: darkColorScheme.secondary,
+          ),
+      textTheme: ThemeData.dark().textTheme.copyWith(
+            // header
+            headline1: TextStyle(
+                fontSize: outputFontSize,
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontFamily: mainFontFamily),
+            headline2: TextStyle(
+                fontSize: outputFontSize,
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+                fontFamily: mainFontFamily),
+            // chord name
+            headline3: TextStyle(
+                fontSize: outputFontSize,
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontFamily: mainFontFamily),
+            // chord panel annotations
+            headline4: TextStyle(
+                fontSize: chordPanelSize * .8,
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+                fontFamily: mainFontFamily),
+            //input
+            bodyText1: TextStyle(
+                fontFamily: GoogleFonts.firaCode().fontFamily,
+                fontSize: inputfontSize,
+                color: Colors.white,
+                fontWeight: FontWeight.w500),
+            //output
+            bodyText2: TextStyle(
+                fontSize: outputFontSize,
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontFamily: mainFontFamily),
+          ),
+    );
   }
 }
 

@@ -38,8 +38,8 @@ String appBarTitle = "mark book";
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
 class _MyAppState extends State<MyApp> {
-  ThemeMode themeMode = ThemeMode.light;
-  Icon themeIcon = const Icon(Icons.dark_mode);
+  
+  Icon themeIcon = const Icon(Icons.light_mode);
   Icon lineStartIcon = const Icon(Icons.toggle_on);
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         theme: CustomTheme.light,
         darkTheme: CustomTheme.dark,
-        themeMode: themeMode,
+        themeMode: Globals.themeMode,
         title: "MarkBook",
         home: Scaffold(
             key: _scaffoldKey,
@@ -72,11 +72,11 @@ class _MyAppState extends State<MyApp> {
                         tooltip: "Dark / Light theme",
                         icon: themeIcon,
                         onPressed: () {
-                          if (themeMode == ThemeMode.dark) {
-                            themeMode = ThemeMode.light;
+                          if (Globals.themeMode == ThemeMode.dark) {
+                            Globals.themeMode = ThemeMode.light;
                             themeIcon = const Icon(Icons.dark_mode);
                           } else {
-                            themeMode = ThemeMode.dark;
+                            Globals.themeMode = ThemeMode.dark;
                             themeIcon = const Icon(Icons.light_mode);
                           }
                           setState(() {});
