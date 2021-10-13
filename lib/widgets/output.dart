@@ -4,9 +4,8 @@ import '../models/chords.dart';
 import '../models/globals.dart' as Globals;
 import '../widgets/custom_expansion_tile.dart';
 
-
 bool showLineStart = true;
-
+double chordPanelSize = 20;
 
 class Output extends StatefulWidget {
   // Map<Key, bool> expand = {};
@@ -153,8 +152,6 @@ class _EpWrapperState extends State<EpWrapper> {
   }
 }
 
-
-
 List<Widget> makeChordsLine(
     BuildContext context, Map<String, List<int>> chordNameToFingering,
     {String? chords, String? text}) {
@@ -214,13 +211,10 @@ List<Widget> makeChordsLine(
   }
   // chords + text
 
-
   chords += " ";
   if (text.length < chords.length) {
     text = text.padRight(chords.length + 1, ' ');
   }
-
-
 
   bool insideChord = false;
   int start = 0;
@@ -340,19 +334,19 @@ class _ChordWidgetState extends State<ChordWidget> {
           child: crd,
         ),
         Positioned(
-            top: -80,
+            top: -chordPanelSize * 4,
             left: 0,
             child: Visibility(
               visible: _hovering || _toggle,
               child: IgnorePointer(
                 child: Container(
-                  width: 100,
-                  height: 100,
+                  width: chordPanelSize * 5,
+                  height: chordPanelSize * 5,
                   color: const Color.fromARGB(200, 255, 255, 255),
                   padding: const EdgeInsets.fromLTRB(23, 12, 9, 6),
                   child: Container(
-                    width: 60,
-                    height: 80,
+                    width: chordPanelSize * 3,
+                    height: chordPanelSize * 4,
                     color: Colors.transparent,
                     child: CustomPaint(
                       // size: Size(20, 30),
@@ -409,12 +403,13 @@ class MyPainter extends CustomPainter {
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
     );
+
     textPainter.layout(
       minWidth: 0,
-      maxWidth: 20,
+      maxWidth: chordPanelSize,
     );
 
-    final offset = Offset(-22, -textPainter.height / 2);
+    final offset = Offset(-textPainter.width * 1.2, -textPainter.height / 2);
     textPainter.paint(canvas, offset);
 
     var paint = Paint()
@@ -458,7 +453,7 @@ class MyPainter extends CustomPainter {
         );
 
         final xCenter = i * size.width / (numberOfStrings - 1);
-        final yCenter = -size.height / 15 - textPainter.height / 2;
+        final yCenter = -size.height / 15 - textPainter.height/1.5;
         final offset = Offset(xCenter, yCenter);
         textPainter.paint(canvas, offset);
       }

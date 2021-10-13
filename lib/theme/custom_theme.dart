@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../widgets/output.dart';
 
 double inputfontSize = 20.0;
 double outputFontSize = 20.0;
@@ -49,9 +50,9 @@ class CustomTheme {
                 fontWeight: FontWeight.w700),
             // chord panel annotations
             headline4: TextStyle(
-                fontSize: outputFontSize,
+                fontSize: chordPanelSize * .8,
                 color: Colors.black,
-                fontWeight: FontWeight.w900),
+                fontWeight: FontWeight.w800),
             //input
             bodyText1: TextStyle(
               fontFamily: GoogleFonts.firaCode().fontFamily,

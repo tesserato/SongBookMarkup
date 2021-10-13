@@ -4,7 +4,7 @@ import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'assets/custom_icons.dart';
 import 'widgets/output.dart';
@@ -129,6 +129,26 @@ class _MyAppState extends State<MyApp> {
                             icon: const Icon(Icons.add_circle),
                             onPressed: () {
                               outputFontSize += .5;
+                              setState(() {});
+                            })
+                      ],
+                    ),
+                                        Text("chord panel size", style: drawer),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        IconButton(
+                            tooltip: "Decrease chord panel size",
+                            icon: const Icon(Icons.remove_circle),
+                            onPressed: () {
+                              chordPanelSize -= .5;
+                              setState(() {});
+                            }),
+                        IconButton(
+                            tooltip: "Increase chord panel size",
+                            icon: const Icon(Icons.add_circle),
+                            onPressed: () {
+                              chordPanelSize += .5;
                               setState(() {});
                             })
                       ],
