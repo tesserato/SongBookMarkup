@@ -174,6 +174,7 @@ class _MyAppState extends State<MyApp> {
                   ]),
             ),
             appBar: AppBar(
+              toolbarHeight: 40,
               centerTitle: true,
               elevation: 0,
               automaticallyImplyLeading: true,

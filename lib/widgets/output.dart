@@ -4,9 +4,6 @@ import '../models/chords.dart';
 import '../models/globals.dart' as Globals;
 import '../widgets/custom_expansion_tile.dart';
 
-
-
-
 class Output extends StatefulWidget {
   // Map<Key, bool> expand = {};
   Output({Key? key}) : super(key: key);
@@ -163,11 +160,14 @@ List<Widget> makeChordsLine(
   // var t = Theme.of(context).textTheme.headline1?.copyWith(color: Theme.of(context).colorScheme.primary);
 
   if (Globals.showLineStart) {
-    var txt = Text("❯",
-        style: Theme.of(context)
-            .textTheme
-            .headline1
-            ?.copyWith(color: Theme.of(context).colorScheme.primary));
+    var txt =
+        Icon(Icons.chevron_right, color: Theme.of(context).colorScheme.primary);
+
+    // Text("❯",
+    //     style: Theme.of(context)
+    //         .textTheme
+    //         .headline1
+    //         ?.copyWith(color: Theme.of(context).colorScheme.primary));
     W.add(Container(
         alignment: Alignment.centerRight,
         // color: Colors.amber.withOpacity(.5),
@@ -341,21 +341,30 @@ class _ChordWidgetState extends State<ChordWidget> {
               visible: _hovering || _toggle,
               child: IgnorePointer(
                 child: Container(
-                  width: Globals.chordPanelSize * 5.5,
+                  width: Globals.chordPanelSize * 5,
                   height: Globals.chordPanelSize * 5,
-                  color: Globals.themeMode == ThemeMode.dark ? Colors.black.withAlpha(200) : Colors.white.withAlpha(200),
-                  padding:  EdgeInsets.fromLTRB(Globals.chordPanelSize * 2, Globals.chordPanelSize, Globals.chordPanelSize / 4, Globals.chordPanelSize / 6),
-                  child: CustomPaint(
+                  color: Globals.themeMode == ThemeMode.dark
+                      ? Colors.black.withAlpha(200)
+                      : Colors.white.withAlpha(200),
+                  padding: EdgeInsets.fromLTRB(
+                      Globals.chordPanelSize * 1.8,
+                      Globals.chordPanelSize,
+                      Globals.chordPanelSize / 4,
+                      Globals.chordPanelSize / 6),
+                  child: Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    // color: Colors.amber,
+                    child: CustomPaint(
                       // size: Size(20, 30),
                       painter: MyPainter(context, widget.name,
                           fingering: widget.fingering),
                       // child: const SizedBox(width: 60, height: 80)
                     ),
-               
+                  ),
                 ),
               ),
             )),
-        
       ],
     );
   }
@@ -409,52 +418,60 @@ class MyPainter extends CustomPainter {
     final offset = Offset(-textPainter.width * 1.6, -textPainter.height / 2);
     textPainter.paint(canvas, offset);
 
-    var paint = Paint()
+    var circlePaint = Paint()
       ..strokeWidth = 1
       ..strokeCap = StrokeCap.butt
       ..color =
           Globals.themeMode == ThemeMode.dark ? Colors.white : Colors.black;
 
+    var linePaint = Paint()
+      ..strokeWidth = Globals.chordPanelSize / 10
+      ..strokeCap = StrokeCap.round
+      ..color =
+          Globals.themeMode == ThemeMode.dark ? Colors.white : Colors.black;
 
     for (var i = 0; i < numberOfFrets; i++) {
       var y = i * size.height / (numberOfFrets - 1);
       Offset startingPoint = Offset(0, y);
       Offset endingPoint = Offset(size.width, y);
-      canvas.drawLine(startingPoint, endingPoint, paint);
+      canvas.drawLine(startingPoint, endingPoint, circlePaint);
     }
 
     for (var i = 0; i < numberOfStrings; i++) {
-      var x = i * size.width / (numberOfStrings - 1);
+      final x = i * size.width / (numberOfStrings - 1);
+      final r = size.width / 15;
       Offset startingPoint = Offset(x, 0);
       Offset endingPoint = Offset(x, size.height);
-      canvas.drawLine(startingPoint, endingPoint, paint);
+      canvas.drawLine(startingPoint, endingPoint, circlePaint);
+      final y =
+          (fingering![i] - minfret) * size.height / (numberOfFrets - 1) - r;
       if (fingering![i] > 0) {
-        canvas.drawCircle(
-            Offset(
-                i * size.width / (numberOfStrings - 1),
-                (fingering![i] - minfret) * size.height / (numberOfFrets - 1) -
-                    size.height / 15),
-            size.width / 15,
-            paint);
+        canvas.drawCircle(Offset(x, y), r, circlePaint);
       } else if (fingering![i] < 0) {
-        textSpan = TextSpan(
-          text: "⮿",
-          style: textStyle,
-        );
-        TextPainter textPainter = TextPainter(
-          text: textSpan,
-          textDirection: TextDirection.ltr,
-          textAlign: TextAlign.center,
-        );
-        textPainter.layout(
-          // minWidth: size.width,
-          maxWidth: 0,
-        );
+        var p1 = Offset(x - r, 0);
+        var p2 = Offset(x + r, y + 2 * r);
+        canvas.drawLine(p1, p2, linePaint);
+        p1 = Offset(x + r, 0);
+        p2 = Offset(x - r, y + 2 * r);
+        canvas.drawLine(p1, p2, linePaint);
+        // textSpan = TextSpan(
+        //   text: "x",
+        //   style: textStyle,
+        // );
+        // TextPainter textPainter = TextPainter(
+        //   text: textSpan,
+        //   textDirection: TextDirection.ltr,
+        //   textAlign: TextAlign.center,
+        // );
+        // textPainter.layout(
+        //   // minWidth: size.width,
+        //   maxWidth: 0,
+        // );
 
-        final xCenter = i * size.width / (numberOfStrings - 1);
-        final yCenter = -size.height / 15 - textPainter.height / 1.5;
-        final offset = Offset(xCenter, yCenter);
-        textPainter.paint(canvas, offset);
+        // final xCenter = i * size.width / (numberOfStrings - 1);
+        // final yCenter = -size.height / 15 - textPainter.height / 1.5;
+        // final offset = Offset(xCenter, yCenter);
+        // textPainter.paint(canvas, offset);
       }
     }
   }

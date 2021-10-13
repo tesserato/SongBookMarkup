@@ -36,11 +36,11 @@ Future<void> getPreferences() async {
   showLineStart = prefs.getBool("showLineStart") ?? true;
 
   // font
-  inputfontSize = prefs.getDouble('inputfontSize') ?? 20;
-  outputFontSize = prefs.getDouble('outputFontSize') ?? 20;
+  inputfontSize = prefs.getDouble('inputfontSize') ?? 16.0;
+  outputFontSize = prefs.getDouble('outputFontSize') ?? 16.0;
 
   // Chord panel size
-  chordPanelSize = prefs.getDouble('chordPanelSize') ?? 20;
+  chordPanelSize = prefs.getDouble('chordPanelSize') ?? 20.0;
 
   // App bar title
   appBarTitle = prefs.getString('appBarTitle') ?? "mark book";
@@ -61,8 +61,8 @@ Future<void> saveChordPanelSize() async {
 }
 
 // font
-double inputfontSize = 20.0;
-double outputFontSize = 20.0;
+double inputfontSize = 16.0;
+double outputFontSize = 16.0;
 Future<void> saveFont() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setDouble('inputfontSize', inputfontSize);

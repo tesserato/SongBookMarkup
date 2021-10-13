@@ -32,6 +32,7 @@ class CustomTheme {
       appBarTheme: ThemeData.light().appBarTheme.copyWith(
           titleTextStyle: TextStyle(
               fontFamily: GoogleFonts.majorMonoDisplay().fontFamily,
+              color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.bold)),
       colorScheme: lightColorScheme,
@@ -87,6 +88,7 @@ class CustomTheme {
       appBarTheme: ThemeData.dark().appBarTheme.copyWith(
           titleTextStyle: TextStyle(
               fontFamily: GoogleFonts.majorMonoDisplay().fontFamily,
+              color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.bold)),
       colorScheme: darkColorScheme,
