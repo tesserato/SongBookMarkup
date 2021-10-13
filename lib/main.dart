@@ -31,7 +31,6 @@ class MyApp extends StatefulWidget {
 
 final ValueNotifier<bool> _rebuildAppBar = ValueNotifier(false);
 
-String appBarTitle = "mark book";
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
 class _MyAppState extends State<MyApp> {
@@ -80,11 +79,12 @@ class _MyAppState extends State<MyApp> {
                         }),
                     IconButton(
                         tooltip: "Toggle line start markers",
-                        icon: showLineStart
+                        icon: Globals.showLineStart
                             ? const Icon(Icons.toggle_off)
                             : const Icon(Icons.toggle_on),
                         onPressed: () {
-                          showLineStart = !showLineStart;
+                          Globals.showLineStart = !Globals.showLineStart;
+                          Globals.saveShowLineStart();
                           setState(() {});
                         }),
                     Text("input font", style: drawer),
@@ -95,14 +95,16 @@ class _MyAppState extends State<MyApp> {
                             tooltip: "Decrease input font",
                             icon: const Icon(Icons.remove_circle),
                             onPressed: () {
-                              inputfontSize -= .5;
+                              Globals.inputfontSize -= .5;
+                              Globals.saveFont();
                               setState(() {});
                             }),
                         IconButton(
                             tooltip: "Increase input font",
                             icon: const Icon(Icons.add_circle),
                             onPressed: () {
-                              inputfontSize += .5;
+                              Globals.inputfontSize += .5;
+                              Globals.saveFont();
                               setState(() {});
                             })
                       ],
@@ -115,14 +117,16 @@ class _MyAppState extends State<MyApp> {
                             tooltip: "Decrease input font",
                             icon: const Icon(Icons.remove_circle),
                             onPressed: () {
-                              outputFontSize -= .5;
+                              Globals.outputFontSize -= .5;
+                              Globals.saveFont();
                               setState(() {});
                             }),
                         IconButton(
                             tooltip: "Increase input font",
                             icon: const Icon(Icons.add_circle),
                             onPressed: () {
-                              outputFontSize += .5;
+                              Globals.outputFontSize += .5;
+                              Globals.saveFont();
                               setState(() {});
                             })
                       ],
@@ -135,14 +139,16 @@ class _MyAppState extends State<MyApp> {
                             tooltip: "Decrease chord panel size",
                             icon: const Icon(Icons.remove_circle),
                             onPressed: () {
-                              chordPanelSize -= .5;
+                              Globals.chordPanelSize -= .5;
+                              Globals.saveChordPanelSize();
                               setState(() {});
                             }),
                         IconButton(
                             tooltip: "Increase chord panel size",
                             icon: const Icon(Icons.add_circle),
                             onPressed: () {
-                              chordPanelSize += .5;
+                              Globals.chordPanelSize += .5;
+                              Globals.saveChordPanelSize();
                               setState(() {});
                             })
                       ],
@@ -172,7 +178,7 @@ class _MyAppState extends State<MyApp> {
               elevation: 0,
               automaticallyImplyLeading: true,
 
-              title: Text(appBarTitle),
+              title: Text(Globals.appBarTitle),
               actions: [
                 IconButton(
                     icon: const Icon(Icons.folder),
@@ -184,9 +190,10 @@ class _MyAppState extends State<MyApp> {
                                 type: FileTypeCross.custom,
                                 fileExtension: '.mb');
                         Globals.controller.text = file.toString();
-
+                        Globals.saveRawText();
+                        Globals.saveAppBarTitle();
                         setState(() {
-                          appBarTitle = file.fileName
+                          Globals.appBarTitle = file.fileName
                                   ?.replaceAll(".mb", "")
                                   .toLowerCase() ??
                               "mark book";
@@ -325,7 +332,7 @@ class HomeState extends State<Home> {
               style: Theme.of(context).textTheme.bodyText1,
               enableSuggestions: false,
               decoration: InputDecoration(
-                  label: Text(appBarTitle),
+                  label: Text(Globals.appBarTitle),
                   border: const OutlineInputBorder(),
                   alignLabelWithHint: true),
               expands: true,
@@ -334,7 +341,7 @@ class HomeState extends State<Home> {
               maxLines: null,
               // onc: ,
               onChanged: (text) {
-                Globals.saveRawText(text);
+                Globals.saveRawText();
                 setState(() {});
               },
             ),

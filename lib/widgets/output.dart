@@ -4,8 +4,8 @@ import '../models/chords.dart';
 import '../models/globals.dart' as Globals;
 import '../widgets/custom_expansion_tile.dart';
 
-bool showLineStart = true;
-double chordPanelSize = 20;
+
+
 
 class Output extends StatefulWidget {
   // Map<Key, bool> expand = {};
@@ -162,7 +162,7 @@ List<Widget> makeChordsLine(
 
   // var t = Theme.of(context).textTheme.headline1?.copyWith(color: Theme.of(context).colorScheme.primary);
 
-  if (showLineStart) {
+  if (Globals.showLineStart) {
     var txt = Text("❯",
         style: Theme.of(context)
             .textTheme
@@ -171,9 +171,9 @@ List<Widget> makeChordsLine(
     W.add(Container(
         alignment: Alignment.centerRight,
         // color: Colors.amber.withOpacity(.5),
-        width: 1.5 * outputFontSize,
-        height: outputFontSize * 2.5,
-        padding: EdgeInsets.fromLTRB(0, 0, outputFontSize / 3, 0),
+        width: 1.5 * Globals.outputFontSize,
+        height: Globals.outputFontSize * 2.5,
+        padding: EdgeInsets.fromLTRB(0, 0, Globals.outputFontSize / 3, 0),
         child: txt));
   }
 
@@ -187,7 +187,7 @@ List<Widget> makeChordsLine(
       W.add(w);
 
       W.add(SizedBox(
-        width: outputFontSize / 2,
+        width: Globals.outputFontSize / 2,
       ));
     }
     return W;
@@ -203,7 +203,7 @@ List<Widget> makeChordsLine(
               fingering: fingering),
         );
         W.add(SizedBox(
-          width: outputFontSize,
+          width: Globals.outputFontSize,
         ));
       }
     }
@@ -241,7 +241,7 @@ List<Widget> makeChordsLine(
             if (word != " ") {
               W.add(Text(word, style: Theme.of(context).textTheme.bodyText2));
               W.add(SizedBox(
-                width: outputFontSize / 2,
+                width: Globals.outputFontSize / 2,
               ));
             }
           }
@@ -265,7 +265,7 @@ List<Widget> makeChordsLine(
             text: TextSpan(
                 text: word, style: Theme.of(context).textTheme.bodyText2)));
         W.add(SizedBox(
-          width: outputFontSize / 2,
+          width: Globals.outputFontSize / 2,
         ));
       }
     }
@@ -301,7 +301,7 @@ class _ChordWidgetState extends State<ChordWidget> {
         // alignment: Alignment.bottomCenter,
         // color: Colors.green.withOpacity(.5),
         // width: .6*outputFontSize * max(widget.text.length, widget.name.length),
-        height: outputFontSize * 2.3,
+        height: Globals.outputFontSize * 2.3,
         child:
             Column(mainAxisAlignment: MainAxisAlignment.end, children: [txt]),
       ),
@@ -330,21 +330,21 @@ class _ChordWidgetState extends State<ChordWidget> {
       children: [
         // txt,
         Positioned(
-          top: -outputFontSize * .2,
+          top: -Globals.outputFontSize * .2,
           child: crd,
         ),
         szb,
         Positioned(
-            top: -chordPanelSize * 4,
+            top: -Globals.chordPanelSize * 4,
             left: 0,
             child: Visibility(
               visible: _hovering || _toggle,
               child: IgnorePointer(
                 child: Container(
-                  width: chordPanelSize * 5.5,
-                  height: chordPanelSize * 5,
+                  width: Globals.chordPanelSize * 5.5,
+                  height: Globals.chordPanelSize * 5,
                   color: Globals.themeMode == ThemeMode.dark ? Colors.black.withAlpha(200) : Colors.white.withAlpha(200),
-                  padding:  EdgeInsets.fromLTRB(chordPanelSize * 2, chordPanelSize, chordPanelSize / 4, chordPanelSize / 6),
+                  padding:  EdgeInsets.fromLTRB(Globals.chordPanelSize * 2, Globals.chordPanelSize, Globals.chordPanelSize / 4, Globals.chordPanelSize / 6),
                   child: CustomPaint(
                       // size: Size(20, 30),
                       painter: MyPainter(context, widget.name,
@@ -403,7 +403,7 @@ class MyPainter extends CustomPainter {
 
     textPainter.layout(
       minWidth: 0,
-      maxWidth: chordPanelSize,
+      maxWidth: Globals.chordPanelSize,
     );
 
     final offset = Offset(-textPainter.width * 1.6, -textPainter.height / 2);

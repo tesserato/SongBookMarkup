@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widgets/output.dart';
+import '../models/globals.dart' as Globals;
 
-double inputfontSize = 20.0;
-double outputFontSize = 20.0;
 var mainWhiteColor = Colors.blueGrey;
-
 var mainBlackColor = Colors.grey;
 
 
@@ -47,36 +45,36 @@ class CustomTheme {
       textTheme: ThemeData.light().textTheme.copyWith(
             // header
             headline1: TextStyle(
-                fontSize: outputFontSize,
+                fontSize: Globals.outputFontSize,
                 color: Colors.black,
                 fontWeight: FontWeight.w700,
                 fontFamily: mainFontFamily),
             headline2: TextStyle(
-                fontSize: outputFontSize,
+                fontSize: Globals.outputFontSize,
                 color: Colors.black,
                 fontWeight: FontWeight.w600,
                 fontFamily: mainFontFamily),
             // chord name
             headline3: TextStyle(
-                fontSize: outputFontSize,
+                fontSize: Globals.outputFontSize,
                 color: Colors.black,
                 fontWeight: FontWeight.w700,
                 fontFamily: mainFontFamily),
             // chord panel annotations
             headline4: TextStyle(
-                fontSize: chordPanelSize * .8,
+                fontSize: Globals.chordPanelSize * .8,
                 color: Colors.black,
                 fontWeight: FontWeight.w800,
                 fontFamily: mainFontFamily),
             //input
             bodyText1: TextStyle(
                 fontFamily: GoogleFonts.firaCode().fontFamily,
-                fontSize: inputfontSize,
+                fontSize: Globals.inputfontSize,
                 color: Colors.black,
                 fontWeight: FontWeight.w500),
             //output
             bodyText2: TextStyle(
-                fontSize: outputFontSize,
+                fontSize: Globals.outputFontSize,
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
                 fontFamily: mainFontFamily),
@@ -102,36 +100,36 @@ class CustomTheme {
       textTheme: ThemeData.dark().textTheme.copyWith(
             // header
             headline1: TextStyle(
-                fontSize: outputFontSize,
+                fontSize: Globals.outputFontSize,
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
                 fontFamily: mainFontFamily),
             headline2: TextStyle(
-                fontSize: outputFontSize,
+                fontSize: Globals.outputFontSize,
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
                 fontFamily: mainFontFamily),
             // chord name
             headline3: TextStyle(
-                fontSize: outputFontSize,
+                fontSize: Globals.outputFontSize,
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
                 fontFamily: mainFontFamily),
             // chord panel annotations
             headline4: TextStyle(
-                fontSize: chordPanelSize * .8,
+                fontSize: Globals.chordPanelSize * .8,
                 color: Colors.white,
                 fontWeight: FontWeight.w800,
                 fontFamily: mainFontFamily),
             //input
             bodyText1: TextStyle(
                 fontFamily: GoogleFonts.firaCode().fontFamily,
-                fontSize: inputfontSize,
+                fontSize: Globals.inputfontSize,
                 color: Colors.white,
                 fontWeight: FontWeight.w500),
             //output
             bodyText2: TextStyle(
-                fontSize: outputFontSize,
+                fontSize: Globals.outputFontSize,
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
                 fontFamily: mainFontFamily),

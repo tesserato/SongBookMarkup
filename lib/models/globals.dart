@@ -31,6 +31,49 @@ Future<void> getPreferences() async {
   oldRatio = prefs.getDouble('oldRatio') ?? 0.4;
   buildTextInput = prefs.getBool("buildTextInput") ?? true;
   buildTextOutput = prefs.getBool("buildTextOutput") ?? true;
+
+  // line start
+  showLineStart = prefs.getBool("showLineStart") ?? true;
+
+  // font
+  inputfontSize = prefs.getDouble('inputfontSize') ?? 20;
+  outputFontSize = prefs.getDouble('outputFontSize') ?? 20;
+
+  // Chord panel size
+  chordPanelSize = prefs.getDouble('chordPanelSize') ?? 20;
+
+  // App bar title
+  appBarTitle = prefs.getString('appBarTitle') ?? "mark book";
+}
+
+// App bar title
+String appBarTitle = "mark book";
+Future<void> saveAppBarTitle() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('appBarTitle', appBarTitle);
+}
+
+// Chord panel size
+double chordPanelSize = 20;
+Future<void> saveChordPanelSize() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setDouble('chordPanelSize', chordPanelSize);
+}
+
+// font
+double inputfontSize = 20.0;
+double outputFontSize = 20.0;
+Future<void> saveFont() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setDouble('inputfontSize', inputfontSize);
+  prefs.setDouble('outputFontSize', outputFontSize);
+}
+
+// line start
+bool showLineStart = true;
+Future<void> saveShowLineStart() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool('showLineStart', showLineStart);
 }
 
 // ratio
@@ -59,9 +102,9 @@ Future<void> savethemeMode(ThemeMode themeMode) async {
 }
 
 // rawText
-Future<void> saveRawText(String rawText) async {
+Future<void> saveRawText() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString('rawText', rawText);
+  prefs.setString('rawText', _rawText);
 }
 
 String _rawText = '''

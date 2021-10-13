@@ -6,7 +6,7 @@
 
 
 ## WINDOWS
-# flutter build windows --release
+flutter build windows --release
 
 
 ## WEB
