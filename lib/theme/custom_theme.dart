@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../widgets/output.dart';
+// import '../widgets/output.dart';
 import '../models/globals.dart' as Globals;
 
 var mainWhiteColor = Colors.blueGrey;
 var mainBlackColor = Colors.grey;
 
 
-var mainFontFamily = GoogleFonts.nunito().fontFamily;
+var mainFontFamily = GoogleFonts.quattrocento().fontFamily;
 
 ColorScheme lightColorScheme = ThemeData.light().colorScheme.copyWith(
     primary: mainWhiteColor.shade500,
@@ -48,11 +48,11 @@ class CustomTheme {
             headline1: TextStyle(
                 fontSize: Globals.outputFontSize,
                 color: Colors.black,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w900,
                 fontFamily: mainFontFamily),
             headline2: TextStyle(
                 fontSize: Globals.outputFontSize,
-                color: Colors.black,
+                color: Colors.black.withAlpha(150),
                 fontWeight: FontWeight.w600,
                 fontFamily: mainFontFamily),
             // chord name
@@ -108,7 +108,7 @@ class CustomTheme {
                 fontFamily: mainFontFamily),
             headline2: TextStyle(
                 fontSize: Globals.outputFontSize,
-                color: Colors.white,
+                color: Colors.white.withAlpha(150),
                 fontWeight: FontWeight.w600,
                 fontFamily: mainFontFamily),
             // chord name

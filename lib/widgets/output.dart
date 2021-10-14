@@ -335,7 +335,7 @@ class _ChordWidgetState extends State<ChordWidget> {
         ),
         szb,
         Positioned(
-            top: -Globals.chordPanelSize * 4,
+            top: -Globals.outputFontSize/4 - Globals.chordPanelSize * 5, // height
             left: 0,
             child: Visibility(
               visible: _hovering || _toggle,

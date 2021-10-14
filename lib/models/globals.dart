@@ -40,7 +40,7 @@ Future<void> getPreferences() async {
   outputFontSize = prefs.getDouble('outputFontSize') ?? 16.0;
 
   // Chord panel size
-  chordPanelSize = prefs.getDouble('chordPanelSize') ?? 20.0;
+  chordPanelSize = prefs.getDouble('chordPanelSize') ?? 15.0;
 
   // App bar title
   appBarTitle = prefs.getString('appBarTitle') ?? "mark book";
@@ -54,7 +54,7 @@ Future<void> saveAppBarTitle() async {
 }
 
 // Chord panel size
-double chordPanelSize = 20;
+double chordPanelSize = 15.0;
 Future<void> saveChordPanelSize() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setDouble('chordPanelSize', chordPanelSize);
@@ -108,7 +108,8 @@ Future<void> saveRawText() async {
 }
 
 String _rawText = '''
-! 1 Song's title (Start a new song with "!")
+| Welcome to Mark Book, a 
+! First Song's title (Start a new song with "!")
 
 # Artist's name ("Start a visible comment with "#")
 # Composer's name 

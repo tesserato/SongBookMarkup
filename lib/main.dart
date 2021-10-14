@@ -329,22 +329,26 @@ class HomeState extends State<Home> {
           width: (_totalWidth - _dividerWidth) * Globals.ratio,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              style: Theme.of(context).textTheme.bodyText1,
-              enableSuggestions: false,
-              decoration: InputDecoration(
-                  label: Text(Globals.appBarTitle),
-                  border: const OutlineInputBorder(),
-                  alignLabelWithHint: true),
-              expands: true,
-              controller: Globals.controller,
-              autofocus: true,
-              maxLines: null,
-              // onc: ,
-              onChanged: (text) {
-                Globals.saveRawText();
-                setState(() {});
-              },
+            child: Expanded(
+              child: TextField(
+                
+                enableSuggestions:false,
+                autocorrect: false,
+                style: Theme.of(context).textTheme.bodyText1,
+                decoration: InputDecoration(
+                    label: Text(Globals.appBarTitle),
+                    border: const OutlineInputBorder(),
+                    alignLabelWithHint: true),
+                // expands: true,
+                controller: Globals.controller,
+                autofocus: true,
+                maxLines: null,
+                // onc: ,
+                onChanged: (text) {
+                  Globals.saveRawText();
+                  setState(() {});
+                },
+              ),
             ),
           ),
         ),

@@ -6,6 +6,17 @@ The field of app development went a long way since my last attempt, and now I ch
 
 The idea is to make operation as simple as possible, with the shallowest learning curve. Chords are generated on the fly, and the best possible fingering for each song is chosen automatically.
 
+# features
+
+# limitations
+
+Flutter is a great library, and made it possible to make those 3 app with a single codebase. It was, however, initially designed with mobile in mind, and it shows.
+
+- area of chords
+- undo
+- keyboard shortcuts
+- textfield scrollbar
+
 
 # links
 

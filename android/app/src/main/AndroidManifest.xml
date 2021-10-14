@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.song_book_markup">
    <application
-        android:label="song_book_markup"
+        android:label="Mark Book"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
