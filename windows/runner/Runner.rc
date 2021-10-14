@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "A songbook markup language implementation." "\0"
+            VALUE "CompanyName", "Tesserato" "\0"
+            VALUE "FileDescription", "A songbook mark-up language implementation." "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "song_book_markup" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2021 com.example. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2021 Carlos Tarjano. All rights reserved." "\0"
             VALUE "OriginalFilename", "song_book_markup.exe" "\0"
-            VALUE "ProductName", "song_book_markup" "\0"
+            VALUE "ProductName", "Mark Book" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

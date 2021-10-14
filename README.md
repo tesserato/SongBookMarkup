@@ -38,3 +38,9 @@ https://markbook-app.web.app/#/
 
 - Defined chords fingerings have priority over inferred fingerings
 
+# Tips
+
+## Change windows bar name:
+!window.CreateAndShow in runner/main.cpp
+
+

@@ -1,12 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:file_picker_cross/file_picker_cross.dart';
-// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
-// import 'assets/custom_icons.dart';
 import 'widgets/output.dart';
 import 'models/globals.dart' as Globals;
 import 'theme/custom_theme.dart';
