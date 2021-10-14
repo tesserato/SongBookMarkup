@@ -103,7 +103,7 @@ class _OutputState extends State<Output> {
       currentChordLine = null;
     }
 
-    return ListView(children: expansionPanels);
+    return ListView(keyboardDismissBehavior : ScrollViewKeyboardDismissBehavior.onDrag, children: expansionPanels);
   }
 }
 

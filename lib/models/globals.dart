@@ -2,21 +2,25 @@ import 'package:flutter/material.dart';
 import '../widgets/custom_expansion_tile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Set<GlobalKey<CustomExpansionTileState>> tiles = {};
+// preferences
+SharedPreferences? preferences;
 
+
+
+Set<GlobalKey<CustomExpansionTileState>> tiles = {};
 final TextEditingController controller = TextEditingController(text: _rawText);
 
-// preferences
+void clearPreferences()  {
 
-Future<void> clearPreferences() async {
-  final SharedPreferences preferences = await SharedPreferences.getInstance();
-  await preferences.clear();
+   preferences?.clear();
 }
 
+
 Future<void> getPreferences() async {
-  // theme
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool darkTheme = prefs.getBool('darkTheme') ?? true;
+  WidgetsFlutterBinding.ensureInitialized();
+  preferences = await SharedPreferences.getInstance();
+// theme
+  bool darkTheme = preferences?.getBool('darkTheme') ?? true;
   if (darkTheme) {
     themeMode = ThemeMode.dark;
   } else {
@@ -24,56 +28,56 @@ Future<void> getPreferences() async {
   }
 
   // rawText
-  _rawText = prefs.getString('rawText') ?? _rawText;
+  _rawText = preferences?.getString('rawText') ?? _rawText;
 
   // ratio
-  ratio = prefs.getDouble('ratio') ?? 0.4;
-  oldRatio = prefs.getDouble('oldRatio') ?? 0.4;
-  buildTextInput = prefs.getBool("buildTextInput") ?? true;
-  buildTextOutput = prefs.getBool("buildTextOutput") ?? true;
+  ratio = preferences?.getDouble('ratio') ?? 0.4;
+  oldRatio = preferences?.getDouble('oldRatio') ?? 0.4;
+  buildTextInput = preferences?.getBool("buildTextInput") ?? true;
+  buildTextOutput = preferences?.getBool("buildTextOutput") ?? true;
 
   // line start
-  showLineStart = prefs.getBool("showLineStart") ?? true;
+  showLineStart = preferences?.getBool("showLineStart") ?? true;
 
   // font
-  inputfontSize = prefs.getDouble('inputfontSize') ?? 16.0;
-  outputFontSize = prefs.getDouble('outputFontSize') ?? 16.0;
+  inputfontSize = preferences?.getDouble('inputfontSize') ?? 16.0;
+  outputFontSize = preferences?.getDouble('outputFontSize') ?? 16.0;
 
   // Chord panel size
-  chordPanelSize = prefs.getDouble('chordPanelSize') ?? 15.0;
+  chordPanelSize = preferences?.getDouble('chordPanelSize') ?? 15.0;
 
   // App bar title
-  appBarTitle = prefs.getString('appBarTitle') ?? "mark book";
+  appBarTitle = preferences?.getString('appBarTitle') ?? "mark book";
 }
 
 // App bar title
 String appBarTitle = "mark book";
-Future<void> saveAppBarTitle() async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString('appBarTitle', appBarTitle);
+void saveAppBarTitle() {
+  // final SharedPreferences prefs = await SharedPreferences.getInstance();
+  preferences?.setString('appBarTitle', appBarTitle);
 }
 
 // Chord panel size
 double chordPanelSize = 15.0;
-Future<void> saveChordPanelSize() async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setDouble('chordPanelSize', chordPanelSize);
+void saveChordPanelSize() {
+  // final SharedPreferences prefs = await SharedPreferences.getInstance();
+  preferences?.setDouble('chordPanelSize', chordPanelSize);
 }
 
 // font
 double inputfontSize = 16.0;
 double outputFontSize = 16.0;
-Future<void> saveFont() async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setDouble('inputfontSize', inputfontSize);
-  prefs.setDouble('outputFontSize', outputFontSize);
+void saveFont() {
+  // final SharedPreferences prefs = await SharedPreferences.getInstance();
+  preferences?.setDouble('inputfontSize', inputfontSize);
+  preferences?.setDouble('outputFontSize', outputFontSize);
 }
 
 // line start
 bool showLineStart = true;
-Future<void> saveShowLineStart() async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setBool('showLineStart', showLineStart);
+void saveShowLineStart() {
+  // final SharedPreferences prefs = await SharedPreferences.getInstance();
+  preferences?.setBool('showLineStart', showLineStart);
 }
 
 // ratio
@@ -81,30 +85,29 @@ double ratio = 0.4;
 double oldRatio = 0.4;
 bool buildTextInput = true;
 bool buildTextOutput = true;
-Future<void> saveRatio() async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setDouble('ratio', ratio);
-  prefs.setDouble('oldRatio', oldRatio);
-  prefs.setBool('buildTextInput', buildTextInput);
-  prefs.setBool('buildTextOutput', buildTextOutput);
+void saveRatio() {
+  preferences?.setDouble('ratio', ratio);
+  preferences?.setDouble('oldRatio', oldRatio);
+  preferences?.setBool('buildTextInput', buildTextInput);
+  preferences?.setBool('buildTextOutput', buildTextOutput);
 }
 
 // themeMode
-ThemeMode themeMode = ThemeMode.dark;
+ThemeMode themeMode = ThemeMode.system;
 
-Future<void> savethemeMode(ThemeMode themeMode) async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
+void savethemeMode(ThemeMode themeMode) {
+  // final SharedPreferences prefs = await SharedPreferences.getInstance();
   if (themeMode == ThemeMode.dark) {
-    prefs.setBool('darkTheme', true);
+    preferences?.setBool('darkTheme', true);
   } else {
-    prefs.setBool('darkTheme', false);
+    preferences?.setBool('darkTheme', false);
   }
 }
 
 // rawText
-Future<void> saveRawText() async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString('rawText', controller.text);
+void saveRawText() {
+  // final SharedPreferences prefs = await SharedPreferences.getInstance();
+  preferences?.setString('rawText', controller.text);
 }
 
 String _rawText = '''

@@ -1,27 +1,64 @@
+
+
+
+
+
+# $windows = $TRUE
+$windows = $FALSE
+
+$web = $FALSE
+# $web = $FALSE
+
+# $android = $TRUE
+$android = $FALSE
+
+
+$upgrade = $TRUE
+
+if ($upgrade) {
+  flutter upgrade
+  flutter pub upgrade
+  flutter pub outdated
+}
+
 ## Update android and ios icons
 flutter pub run flutter_launcher_icons:main
 
-
-
-
-
 ## WINDOWS
-flutter build windows --release
+if ($windows) {
+  flutter build windows --release
+
+}
+
 
 
 ## WEB
-flutter build web --release
-### firebase
-firebase deploy
+if ($web) {
+  try {
+    flutter build web --release
+  }
+  catch {
+    "VVVVVVVVVVVVV Web build failed VVVVVVVVVVVVV"
+    $_
+    ">>>>>>>>>>>> Web build failed <<<<<<<<<<<<<."
+    exit
+  } 
+  
+  ### firebase
+  firebase deploy
 
-# az storage blob service-properties update --static-website --index-document "index.html" --account-name "markbookapp"
+  # az storage blob service-properties update --static-website --index-document "index.html" --account-name "markbookapp"
 
-### azure
-az storage blob upload-batch -s ".\build\web\" -d '$web' --account-name "markbookapp" --content-type 'text/html; charset=utf-8'
-az storage account show -n "markbookapp" -g "MarkBook" --query "primaryEndpoints.web" --output tsv
+  ### azure
+  az storage blob upload-batch -s ".\build\web\" -d '$web' --account-name "markbookapp" --content-type 'text/html; charset=utf-8'
+  az storage account show -n "markbookapp" -g "MarkBook" --query "primaryEndpoints.web" --output tsv
+}
+
 
 ## Android
-flutter build apk --release
+if ($android) {
+  flutter build apk --release
+}
 
 
 

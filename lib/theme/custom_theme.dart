@@ -7,7 +7,7 @@ var mainWhiteColor = Colors.blueGrey;
 var mainBlackColor = Colors.grey;
 
 
-var mainFontFamily = GoogleFonts.quattrocento().fontFamily;
+var mainFontFamily = GoogleFonts.roboto().fontFamily;
 
 ColorScheme lightColorScheme = ThemeData.light().colorScheme.copyWith(
     primary: mainWhiteColor.shade500,

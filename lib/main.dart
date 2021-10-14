@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:file_picker_cross/file_picker_cross.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 // import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'assets/custom_icons.dart';
@@ -13,18 +13,17 @@ import 'theme/custom_theme.dart';
 
 const _url = "https://github.com/tesserato/Mark-Book";
 
-void main() {
+void main() {  
+  // LicenseRegistry.addLicense(() async* {
+  //   final license = await rootBundle.loadString('fonts/OFL.txt');
+  //   yield LicenseEntryWithLineBreaks(['Fira_Mono'], license);
+  // });
   Globals.getPreferences();
-  LicenseRegistry.addLicense(() async* {
-    final license = await rootBundle.loadString('fonts/OFL.txt');
-    yield LicenseEntryWithLineBreaks(['Fira_Mono'], license);
-  });
   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -38,6 +37,7 @@ class _MyAppState extends State<MyApp> {
   // Icon lineStartIcon = const Icon(Icons.toggle_on);
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: CustomTheme.light,
@@ -47,10 +47,10 @@ class _MyAppState extends State<MyApp> {
         home: Scaffold(
             key: _scaffoldKey,
             drawer: Drawer(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: ListView(
+                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text("settings:", style: drawer),
+                    Text("settings:", style: drawer, textAlign: TextAlign.center),
                     IconButton(
                       icon: const Icon(Icons.arrow_back),
                       tooltip: 'Return to app',
@@ -87,7 +87,7 @@ class _MyAppState extends State<MyApp> {
                           Globals.saveShowLineStart();
                           setState(() {});
                         }),
-                    Text("input font", style: drawer),
+                    Text("input font", style: drawer, textAlign: TextAlign.center),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -109,12 +109,12 @@ class _MyAppState extends State<MyApp> {
                             })
                       ],
                     ),
-                    Text("output font", style: drawer),
+                    Text("output font", style: drawer, textAlign: TextAlign.center),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         IconButton(
-                            tooltip: "Decrease input font",
+                            tooltip: "Decrease output font",
                             icon: const Icon(Icons.remove_circle),
                             onPressed: () {
                               Globals.outputFontSize -= .5;
@@ -122,7 +122,7 @@ class _MyAppState extends State<MyApp> {
                               setState(() {});
                             }),
                         IconButton(
-                            tooltip: "Increase input font",
+                            tooltip: "Increase output font",
                             icon: const Icon(Icons.add_circle),
                             onPressed: () {
                               Globals.outputFontSize += .5;
@@ -131,7 +131,7 @@ class _MyAppState extends State<MyApp> {
                             })
                       ],
                     ),
-                    Text("chord panel size", style: drawer),
+                    Text("chord panel size", style: drawer, textAlign: TextAlign.center),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -188,8 +188,7 @@ class _MyAppState extends State<MyApp> {
                       try {
                         FilePickerCross file =
                             await FilePickerCross.importFromStorage(
-                                type: FileTypeCross.custom,
-                                fileExtension: '.mb');
+                                type: FileTypeCross.any);
                         Globals.controller.text = file.toString();
                         Globals.saveRawText();
                         Globals.saveAppBarTitle();
@@ -244,6 +243,7 @@ class _MyAppState extends State<MyApp> {
                           if (Globals.buildTextOutput &&
                               Globals.buildTextInput) {
                             Globals.buildTextInput = false;
+                            FocusScope.of(context).unfocus();
                             Globals.oldRatio = Globals.ratio;
                             Globals.ratio = 0;
                             // print("destroy");
@@ -315,7 +315,7 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  final double _dividerWidth = 10;
+  final double _dividerWidth = 20;
   @override
   Widget build(BuildContext context) {
     var _totalWidth = MediaQuery.of(context).size.width;
@@ -329,26 +329,23 @@ class HomeState extends State<Home> {
           width: (_totalWidth - _dividerWidth) * Globals.ratio,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Expanded(
-              child: TextField(
-                
-                enableSuggestions:false,
-                autocorrect: false,
-                style: Theme.of(context).textTheme.bodyText1,
-                decoration: InputDecoration(
-                    label: Text(Globals.appBarTitle),
-                    border: const OutlineInputBorder(),
-                    alignLabelWithHint: true),
-                // expands: true,
-                controller: Globals.controller,
-                autofocus: true,
-                maxLines: null,
-                // onc: ,
-                onChanged: (text) {
-                  Globals.saveRawText();
-                  setState(() {});
-                },
-              ),
+            child: TextField(
+              enableSuggestions: false,
+              autocorrect: false,
+              style: Theme.of(context).textTheme.bodyText1,
+              decoration: InputDecoration(
+                  label: Text(Globals.appBarTitle),
+                  border: const OutlineInputBorder(),
+                  alignLabelWithHint: true),
+              // expands: true,
+              controller: Globals.controller,
+              autofocus: true,
+              maxLines: null,
+              // onc: ,
+              onChanged: (text) {
+                Globals.saveRawText();
+                setState(() {});
+              },
             ),
           ),
         ),
@@ -384,6 +381,7 @@ class HomeState extends State<Home> {
             } else if (Globals.ratio < 0.1) {
               Globals.ratio = 0.0;
               Globals.buildTextInput = false;
+              FocusScope.of(context).unfocus();
             }
             _rebuildAppBar.value ^= true;
             Globals.saveRatio();
