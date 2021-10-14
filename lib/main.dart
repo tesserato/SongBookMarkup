@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 // import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'assets/custom_icons.dart';
+// import 'assets/custom_icons.dart';
 import 'widgets/output.dart';
 import 'models/globals.dart' as Globals;
 import 'theme/custom_theme.dart';
@@ -153,15 +153,7 @@ class _MyAppState extends State<MyApp> {
                             })
                       ],
                     ),
-                    IconButton(
-                      icon: const Icon(CustomIcons.icon),
-                      tooltip:
-                          'Instructions, info, apps for other platforms ▶ $_url',
-                      onPressed: () {
-                        // print("launch");
-                        launch(_url);
-                      },
-                    ),
+
                     IconButton(
                       icon: const Icon(Icons.dangerous),
                       tooltip: 'Reset settings',
@@ -169,6 +161,15 @@ class _MyAppState extends State<MyApp> {
                         Globals.clearPreferences();
                         Globals.getPreferences();
                         setState(() {});
+                      },
+                    ),
+                                        IconButton(
+                      icon: Image.asset('assets/images/icon.png'),
+                      tooltip:
+                          'Instructions, info, apps for other platforms ▶ $_url',
+                      onPressed: () {
+                        // print("launch");
+                        launch(_url);
                       },
                     ),
                   ]),
