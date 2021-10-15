@@ -1,10 +1,10 @@
 
 
 $windows = $TRUE
-$windows = $FALSE
+# $windows = $FALSE
 
 $web = $TRUE
-$web = $FALSE
+# $web = $FALSE
 
 $android = $TRUE
 # $android = $FALSE

@@ -147,7 +147,7 @@ Example of chord plus lyrics line
 
 # Normal text can be divided into lines in the markup source (here), but will appear side by side in the rendered output, wrapped as necessary. This is the main motivation of this app: present songbooks compactly and gracefully in a wide range of available spaces, on different screens. 
 
-# Per default, a marker is inserted at the beginning of each verse, to facilitate the reading. This marker can be disabled in the settings, however. Font size for both input and output can be changed in the setting, as well as the chord panel size. Also, all songs can be collapsed and expanded uses the buttons in the upper bar. Files can be loaded and saved, in the Mark Book (.mb) format. Below is an example of a real song.
+# Per default, a marker is inserted at the beginning of each verse, to facilitate the reading. This marker can be disabled in the settings, however. Font size for both input and output can be changed in the setting, as well as the chord panel size. Also, all songs can be collapsed and expanded uses the buttons in the upper bar. Files can be loaded and saved, in the Mark Book (.mb) format. Below is an example of a real song. Details about the settings shown in the drawer (accessible through the hamburger menu) can be seen by hovering over the items or long-pressing in mobile.
 
       
 ! The Rising Sun Blues
