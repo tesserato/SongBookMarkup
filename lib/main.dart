@@ -8,6 +8,8 @@ import 'models/globals.dart' as Globals;
 import 'theme/custom_theme.dart';
 
 const _url = "https://github.com/tesserato/Mark-Book";
+final ValueNotifier<bool> _rebuildAppBar = ValueNotifier(false);
+GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
 void main() {  
   // LicenseRegistry.addLicense(() async* {
@@ -24,13 +26,8 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-final ValueNotifier<bool> _rebuildAppBar = ValueNotifier(false);
-
-GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
 class _MyAppState extends State<MyApp> {
-  // Icon themeIcon = const Icon(Icons.light_mode);
-  // Icon lineStartIcon = const Icon(Icons.toggle_on);
   @override
   Widget build(BuildContext context) {
     

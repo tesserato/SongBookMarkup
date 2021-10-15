@@ -1,19 +1,37 @@
 
 
+$windows = $TRUE
+# $windows = $FALSE
 
-
-
-# $windows = $TRUE
-$windows = $FALSE
-
-$web = $FALSE
+$web = $TRUE
 # $web = $FALSE
 
-# $android = $TRUE
-$android = $FALSE
+$android = $TRUE
+# $android = $FALSE
+
+# $upgrade = $TRUE
+$upgrade = $FALSE
+
+# $icons = $TRUE
+$icons = $FALSE
 
 
-$upgrade = $TRUE
+
+
+
+if ($icons) {
+  ## update in app image
+  magick.exe convert -background none .\assets\icon.svg -define icon:auto-resize .\assets\images\icon.png
+
+  ## Update android and ios icons (in app image)
+  flutter pub run flutter_launcher_icons:main
+
+  ## Windows Icon
+  magick.exe convert -background none .\assets\icon.svg -define icon:auto-resize .\windows\runner\resources\app_icon.ico
+
+  ## Web favicon
+  magick.exe convert -background none .\assets\icon.svg -define icon:auto-resize .\web\favicon.png
+}
 
 if ($upgrade) {
   flutter upgrade
@@ -21,16 +39,11 @@ if ($upgrade) {
   flutter pub outdated
 }
 
-## Update android and ios icons
-flutter pub run flutter_launcher_icons:main
-
 ## WINDOWS
 if ($windows) {
   flutter build windows --release
 
 }
-
-
 
 ## WEB
 if ($web) {
@@ -53,7 +66,6 @@ if ($web) {
   az storage blob upload-batch -s ".\build\web\" -d '$web' --account-name "markbookapp" --content-type 'text/html; charset=utf-8'
   az storage account show -n "markbookapp" -g "MarkBook" --query "primaryEndpoints.web" --output tsv
 }
-
 
 ## Android
 if ($android) {

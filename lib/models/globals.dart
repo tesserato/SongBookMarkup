@@ -3,7 +3,7 @@ import '../widgets/custom_expansion_tile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // preferences
-SharedPreferences? preferences;
+// SharedPreferences? preferences;
 
 
 
@@ -19,7 +19,8 @@ void clearPreferences()  {
 Future<void> getPreferences() async {
   WidgetsFlutterBinding.ensureInitialized();
   preferences = await SharedPreferences.getInstance();
-// theme
+
+  // theme
   bool darkTheme = preferences?.getBool('darkTheme') ?? true;
   if (darkTheme) {
     themeMode = ThemeMode.dark;
