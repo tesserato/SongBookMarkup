@@ -1,0 +1,87 @@
+! Instructions
+
+# Welcome to Mark Book! This is an implementation of a minimal markup language intended to the elaboration of songbooks.
+
+# The language is in fact very simple, and consists of four markers ( ! , # ,  >  and  [ ) used in the beggining of special lines. The rendered markup can be seen in the right panel. The function of each marker is as follows:
+
+# ! - The exclamation mark begging a new song, as seen in the first line.
+
+# # - As you probably noticed, lines starting with a hash are rendered as visible comments.
+
+# | - Lines starting with a pipe won't be rendered. They are invisible comments intended to be seen only in the source file, as the example below:
+
+| This line won't be rendered, and thus can't be seen in the right panel
+
+# [ - Lines starting with square brackets are lines that define a chord, to be used in the current song. They have to adhere to one of the following pattern:
+
+[0 4 x 2 5 0] A
+[x;x,2 2  2 2]      A6
+
+#     That is, six integers separated by spaces, semi colons or commas (or a combination of them) inside square brackets, followed by the name of the chord. Those chords can be subsequently used in chord lines, our last marker. An extensive list of chords in this format can be found in https://en.wikibooks.org/wiki/Guitar/Chords/Full_List_Standard_Tuning
+
+# > - Lines starting with a greater than sign are chord lines. The implementation provides a very rudimentary chord detection engine, so the chords will likely appear even if not defined beforehand. Defined chords,  however, have priority over auto generated ones.
+
+>A     A6
+
+carlos
+
+
+# The chords can be hovered or clicked in the rendered panel to the right wo expose a diagram of the chord. Also, chords above a line of normal text (that is, text starting without any marker) keep their original position in the rendered output. This allows precision in the placing of a chord in relation to the lirics.
+
+# Normal text can be divided in lines in the markup source (here), but will appear side by side in the redered output, wrapped as necessary. This is the main reason that motivated this app: presenting songbooks compactly and gracefully in a wide range of available spaces, in diffent screens. 
+
+# A marker is inserted in the beggining of each verse, to facilitate the reading. This marker can be disabled in the settings, however. Font size for both input and output can be changed in the setting, as well as the chord panel size. Below is an example of a real song.
+
+       
+
+
+
+
+
+! The Rising Sun Blues
+
+# Clarence Ashley, Gwen Foster
+
+
+>E                                    A    E   C      E
+ They are a house in New Orleans they call the Rising Sun.
+>      A         Am      E                         B
+ Where many poor boys to destruction has gone, and me, oh,
+>         E    E B E
+ God, for one.
+ 
+ 
+# verse 2:
+> E                                           A         C
+ Just fill the glass up to the brim, let the drinks go merrily 
+>E
+around.
+>      A     C      E                                B
+We'll drink to the life of a rounder, poor boy, who goes from 
+        E     E B E
+town to town.
+ 
+ 
+# verse 3:
+>       Em         E      A       E          A        C   B E
+All in this world does a rambler want, is a suitcase and a trunk.
+>    A    Am        E             B              E     E B E
+The only time he?s satisfied, is when he's on a drunk.
+ 
+ 
+# verse 4:
+>E                              A                E            A
+Now, boys don't believe what a young girl tells you, let her eyes 
+>           E
+be blue or brown.
+>A            C       A   E                   B
+Unless she's on some scaffold high, saying, 'Boys, I can't come 
+> E    E B E Dbm E
+down.'
+ 
+ 
+# verse 5:
+>E               Em   E  A   E               A       C B    E
+I@m going back, back to New Orleans, for my race is almost run..
+>   A     D   Dbm        E              B                E
+to spend the rest of my wicked life, beneath the Rising Sun.

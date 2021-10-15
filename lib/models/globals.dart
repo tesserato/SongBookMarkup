@@ -116,11 +116,11 @@ Future<void> saveRawText() async{
 String _rawText = '''
 ! Instructions
 
-# Welcome to Mark Book! This is an implementation of a minimal markup language intended to the elaboration of songbooks.
+# Welcome to Mark Book! This is an implementation of a minimal markup language intended for the elaboration of songbooks.
 
-# The language is in fact very simple, and consists of four markers ( ! , # ,  >  and  [ ) used in the beggining of special lines. The rendered markup can be seen in the right panel. The function of each marker is as follows:
+# The language is very simple, consisting of four markers ( ! , # ,  >  and  [ ) used at the beginning of special lines. The rendered markup can be seen in the right panel. The purpose of each marker is as follows:
 
-# ! - The exclamation mark begging a new song, as seen in the first line.
+# ! - The exclamation mark begins a new song, as seen in the first line.
 
 # # - As you probably noticed, lines starting with a hash are rendered as visible comments.
 
@@ -128,64 +128,81 @@ String _rawText = '''
 
 | This line won't be rendered, and thus can't be seen in the right panel
 
-# [ - Lines starting with square brackets are lines that define a chord, to be used in the current song. They have to adhere to one of the following pattern:
+# [ - Lines starting with square brackets are lines that define a chord to be used in the current song. They have to adhere to one of the following patterns:
 
-[0 4 x 2 5 0] A
-[x;x,2 2  2 2]      A6
+[x 0 2 2 2 0] A
+[x,2,4,4,4,2] B
+[0;3;2;0;1;0] C
 
-#     That is, six integers separated by spaces, semi colons or commas (or a combination of them) inside square brackets, followed by the name of the chord. Those chords can be subsequently used in chord lines, our last marker. An extensive list of chords in this format can be found in https://en.wikibooks.org/wiki/Guitar/Chords/Full_List_Standard_Tuning
+#     That is, six integers separated by spaces, semicolons or commas (or a combination of them) inside square brackets, followed by the name of the chord. Those chords can be subsequently used in chord lines, our last marker. An extensive list of chords in this format can be found in https://en.wikibooks.org/wiki/Guitar/Chords/Full_List_Standard_Tuning
 
-# > - Lines starting with a greater than sign are chord lines. The implementation provides a very rudimentary chord detection engine, so the chords will likely appear even if not defined beforehand. Defined chords,  however, have priority over auto generated ones.
+# > - Lines starting with a greater than sign are chord lines. The implementation provides a very rudimentary chord detection engine, so the chords will likely appear even if not defined beforehand. Defined chords,  however, have priority over auto-generated ones.
 
->A     A6
+>A     C                                        B
 
-carlos
-
-
-# The chords can be hovered or clicked in the rendered panel to the right wo expose a diagram of the chord. Also, chords above a line of normal text (that is, text starting without any marker) keep their original position in the rendered output. This allows precision in the placing of a chord in relation to the lirics.
-
-# Normal text can be divided in lines in the markup source (here), but will appear side by side in the redered output, wrapped as necessary. This is the main reason that motivated this app: presenting songbooks compactly and gracefully in a wide range of available spaces, in diffent screens. 
-
-# A marker is inserted in the beggining of each verse, to facilitate the reading. This marker can be disabled in the settings, however. Font size for both input and output can be changed in the setting, as well as the chord panel size. Below is an example of a real song.
-
-       
+Example of chord plus lyrics line
 
 
+# The chords can be hovered or clicked in the rendered panel to the right to expose a diagram of the chord. Also, chords above a line of normal text (that is, text starting without any marker) keep their original position in the rendered output. This allows precision in the placing of chords in relation to the lyrics.
 
+# Normal text can be divided into lines in the markup source (here), but will appear side by side in the rendered output, wrapped as necessary. This is the main motivation of this app: present songbooks compactly and gracefully in a wide range of available spaces, on different screens. 
 
+# Per default, a marker is inserted at the beginning of each verse, to facilitate the reading. This marker can be disabled in the settings, however. Font size for both input and output can be changed in the setting, as well as the chord panel size. Also, all songs can be collapsed and expanded uses the buttons in the upper bar. Files can be loaded and saved, in the Mark Book (.mb) format. Below is an example of a real song.
 
-! 2 Song's title (Start a new song with "!")
+      
+! The Rising Sun Blues
 
-# Artist's name ("Start a visible comment with "#")
-# Composer's name 
+# Clarence Ashley, Gwen Foster (VOCALION Records, 1933)
 
-|comment (Lines starting with "|" won't be rendered)
+| The "E" chord wasn't defined; Em also inferred automatically
+[x 0 2 2 2 0] A
+[0 3 2 0 1 0] C
+[x 0 2 2 1 0] Am
+[x 2 4 4 4 2] B
+[x 0 0 2 3 2] D
+[x x 2 1 2 0] Dbm
 
-|chord definitions
-[0 4 x 2 5 0] A
-       [x;x,2 2  2 2]      A6
-| OR
-[002420]A/B
-
-|chord line, (line starting with ">")
->A       A/B          A6        D7 
-|text line
-There is a house down in New Orleans 
-There is a house down in New Orleans 
->    G               D 
-They call the Rising Sun  
->D                           G 
-And it's been the ruin of a many poor boy 
->     D       A          D 
-And me, oh God , for one 
+# verse 2:
+>E                                    A    E   C      E
+They are a house in New Orleans they call the Rising Sun.
+>      A         Am      E                         B
+Where many poor boys to destruction has gone, and me, oh,
+>         E    E B E
+God, for one.
  
->D                        D7 
->D                        D7 
-Then fill the glasses to the brim 
->        G                   D 
-Let the drinks go merrily around 
->D                                  G 
-And we'll drink to the health of a rounder poor boy 
->    D         A7       D 
-Who goes from town to town 
+ 
+# verse 2:
+> E                                           A         C
+Just fill the glass up to the brim, let the drinks go merrily 
+>E
+around.
+>      A     C      E                                B
+We'll drink to the life of a rounder, poor boy, who goes from 
+        E     E B E
+town to town.
+ 
+ 
+# verse 3:
+>       Em         E      A       E          A        C   B E
+All in this world does a rambler want, is a suitcase and a trunk.
+>    A    Am        E             B              E     E B E
+The only time he's satisfied, is when he's on a drunk.
+ 
+ 
+# verse 4:
+>E                              A                E            A
+Now, boys don't believe what a young girl tells you, let her eyes 
+>           E
+be blue or brown.
+>A            C       A   E                   B
+Unless she's on some scaffold high, saying, 'Boys, I can't come 
+> E    E B E Dbm E
+down.'
+ 
+ 
+# verse 5:
+>E               Em   E  A   E               A       C B    E
+I'm going back, back to New Orleans, for my race is almost run.
+>   A     D   Dbm        E              B                E
+to spend the rest of my wicked life, beneath the Rising Sun.
 ''';

@@ -16,6 +16,12 @@ $icons = $TRUE
 $icons = $FALSE
 
 
+$config = $TRUE
+$config = $FALSE
+
+if ($config) {
+  keytool.exe -genkey -v -keystore .\0LD\upload-keystore.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+}
 
 
 
@@ -78,7 +84,8 @@ if ($web) {
 
 ## Android
 if ($android) {
-  flutter build apk --release
+  # flutter build apk --release
+  flutter build appbundle --release
 }
 
 

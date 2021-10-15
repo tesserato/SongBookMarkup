@@ -27,10 +27,20 @@ class _OutputState extends State<Output> {
       String rawLineTrimmed = rawLine.trim();
 
       if (rawLineTrimmed.isEmpty || rawLineTrimmed.startsWith("|")) {
+        if (currentChordLine != null) {
+          currentWidgets.addAll(makeChordsLine(context, chordNameToFingering,
+              chords: currentChordLine));
+          currentChordLine = null;
+        }
         continue;
       }
 
       if (rawLineTrimmed.startsWith("!")) {
+        if (currentChordLine != null) {
+          currentWidgets.addAll(makeChordsLine(context, chordNameToFingering,
+              chords: currentChordLine));
+          currentChordLine = null;
+        }
         if (currentWidgets.isEmpty) {
           currentSongTitle = rawLineTrimmed.substring(1);
         } else {
@@ -45,6 +55,11 @@ class _OutputState extends State<Output> {
       }
 
       if (rawLineTrimmed.startsWith("[")) {
+        if (currentChordLine != null) {
+          currentWidgets.addAll(makeChordsLine(context, chordNameToFingering,
+              chords: currentChordLine));
+          currentChordLine = null;
+        }
         List<int> fingering = [];
         List<String> rawFingering = rawLineTrimmed.split("]");
         String name = rawFingering.last.trim();
@@ -71,6 +86,11 @@ class _OutputState extends State<Output> {
       }
 
       if (rawLineTrimmed.startsWith("#")) {
+        if (currentChordLine != null) {
+          currentWidgets.addAll(makeChordsLine(context, chordNameToFingering,
+              chords: currentChordLine));
+          currentChordLine = null;
+        }
         currentWidgets.add(Container(
           // color: Theme.of(context).colorScheme.primaryVariant,
           margin: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
@@ -103,7 +123,9 @@ class _OutputState extends State<Output> {
       currentChordLine = null;
     }
 
-    return ListView(keyboardDismissBehavior : ScrollViewKeyboardDismissBehavior.onDrag, children: expansionPanels);
+    return ListView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        children: expansionPanels);
   }
 }
 
@@ -335,7 +357,8 @@ class _ChordWidgetState extends State<ChordWidget> {
         ),
         szb,
         Positioned(
-            top: -Globals.outputFontSize/4 - Globals.chordPanelSize * 5, // height
+            top: -Globals.outputFontSize / 4 -
+                Globals.chordPanelSize * 5, // height
             left: 0,
             child: Visibility(
               visible: _hovering || _toggle,
