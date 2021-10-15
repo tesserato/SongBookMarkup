@@ -96,7 +96,28 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
 
-  
+  fonts:
+    - family: FiraMono
+      fonts:
+        - asset: assets/fonts/FiraMono-Regular.ttf
+    - family: MajorMonoDisplay
+      fonts:
+        - asset: assets/fonts/MajorMonoDisplay-Regular.ttf
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        # - asset: assets/fonts/Roboto-Thin.ttf
+        #   weight: 100
+        - asset: assets/fonts/Roboto-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 700
+        # - asset: assets/fonts/Roboto-Black.ttf
+        #   weight: 900
+
+
   # fonts:
   #   - family: Schyler
   #     fonts:

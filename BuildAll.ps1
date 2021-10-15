@@ -1,18 +1,18 @@
 
 
 $windows = $TRUE
-# $windows = $FALSE
+$windows = $FALSE
 
 $web = $TRUE
-# $web = $FALSE
+$web = $FALSE
 
 $android = $TRUE
 # $android = $FALSE
 
-# $upgrade = $TRUE
+$upgrade = $TRUE
 $upgrade = $FALSE
 
-# $icons = $TRUE
+$icons = $TRUE
 $icons = $FALSE
 
 
@@ -21,7 +21,8 @@ $icons = $FALSE
 
 if ($icons) {
   ## update in app image
-  magick.exe convert -background none .\assets\icon.svg -define icon:auto-resize .\assets\images\icon.png
+  inkscape -w 192 -h 192 .\assets\icon.svg -o .\assets\images\icon.png
+  # magick.exe convert -background none .\assets\icon.svg -define icon:auto-resize .\assets\images\icon.png
 
   ## Update android and ios icons (in app image)
   flutter pub run flutter_launcher_icons:main
@@ -30,7 +31,15 @@ if ($icons) {
   magick.exe convert -background none .\assets\icon.svg -define icon:auto-resize .\windows\runner\resources\app_icon.ico
 
   ## Web favicon
-  magick.exe convert -background none .\assets\icon.svg -define icon:auto-resize .\web\favicon.png
+  inkscape -w 64 -h 64 .\assets\icon.svg -o .\web\favicon.png
+  # magick.exe convert -background none .\assets\icon.svg -define icon:auto-resize .\web\favicon.png
+
+  ## PWA icons
+  inkscape -w 192 -h 192 .\assets\icon.svg -o .\web\icons\Icon-192.png
+  inkscape -w 512 -h 512 .\assets\icon.svg -o .\web\icons\Icon-512.png
+
+  magick.exe convert -background none .\web\icons\Icon-512.png -gravity center -resize 130x130 -extent 192x192 .\web\icons\Icon-maskable-192.png
+  magick.exe convert -background none .\web\icons\Icon-512.png -gravity center -resize 350x350 -extent 512x512 .\web\icons\Icon-maskable-512.png
 }
 
 if ($upgrade) {

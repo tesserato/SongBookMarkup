@@ -1,4 +1,7 @@
 # MarkBook
+Carry your guitar songbook in your pocket
+
+Mark Book is an app that implements a very simple markup language, akin to markdown, to generate songbooks.
 
 Yet another songbook app (that's my third attempt). I've been pondering this concept for a long time now, and the idea now is to consolidate an opinionated app, with a minimalistic design and a concise set of features that just works, out of the box.
 
@@ -20,12 +23,14 @@ Flutter is a great library, and made it possible to make those 3 app with a sing
 
 # links
 
-## App
+## Web App
 
 https://markbookapp.z13.web.core.windows.net/
 https://markbookapp-secondary.z13.web.core.windows.net/
 https://markbook-app.web.app/#/
 
+## PWA
+https://markbook-app.web.app/#/
 
 # Symbols:
 

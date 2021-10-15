@@ -1,11 +1,11 @@
 {
-    "name": "MarkBook",
-    "short_name": "MarkBook",
+    "name": "Mark Book",
+    "short_name": "Mark Book",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A songbook markup language implementation.",
+    "background_color": "#15181a",
+    "theme_color": "#15181a",
+    "description": "A songbook mark up language implementation.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

@@ -11,12 +11,12 @@ const _url = "https://github.com/tesserato/Mark-Book";
 final ValueNotifier<bool> _rebuildAppBar = ValueNotifier(false);
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
-void main() {  
+Future<void> main() async {  
   // LicenseRegistry.addLicense(() async* {
   //   final license = await rootBundle.loadString('fonts/OFL.txt');
   //   yield LicenseEntryWithLineBreaks(['Fira_Mono'], license);
   // });
-  Globals.getPreferences();
+  await Globals.getPreferences();
   runApp(const MyApp());
 }
 

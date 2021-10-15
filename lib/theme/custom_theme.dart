@@ -7,7 +7,7 @@ var mainWhiteColor = Colors.blueGrey;
 var mainBlackColor = Colors.grey;
 
 
-var mainFontFamily = GoogleFonts.roboto().fontFamily;
+var mainFontFamily = "Roboto";
 
 ColorScheme lightColorScheme = ThemeData.light().colorScheme.copyWith(
     primary: mainWhiteColor.shade500,
@@ -21,20 +21,18 @@ ColorScheme darkColorScheme = ThemeData.light().colorScheme.copyWith(
     secondary: mainBlackColor.shade800,
     secondaryVariant: mainBlackColor.shade900);
 
-TextStyle drawer = TextStyle(
-    fontFamily: GoogleFonts.majorMonoDisplay().fontFamily,
-    fontSize: 18,
-    fontWeight: FontWeight.w900);
+TextStyle drawer = const TextStyle(
+    fontFamily: "MajorMonoDisplay",
+    fontSize: 18);
 
 class CustomTheme {
   static ThemeData get light {
     return ThemeData.light().copyWith(
       appBarTheme: ThemeData.light().appBarTheme.copyWith(
-          titleTextStyle: TextStyle(
-              fontFamily: GoogleFonts.majorMonoDisplay().fontFamily,
+          titleTextStyle: const TextStyle(
+              fontFamily: "MajorMonoDisplay",
               color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold)),
+              fontSize: 20,)),
       colorScheme: lightColorScheme,
       toggleButtonsTheme: ThemeData.light().toggleButtonsTheme.copyWith(
             borderRadius: BorderRadius.circular(10),
@@ -48,36 +46,35 @@ class CustomTheme {
             headline1: TextStyle(
                 fontSize: Globals.outputFontSize,
                 color: Colors.black,
-                fontWeight: FontWeight.w900,
+                fontWeight: FontWeight.w700,
                 fontFamily: mainFontFamily),
             headline2: TextStyle(
                 fontSize: Globals.outputFontSize,
-                color: Colors.black.withAlpha(150),
-                fontWeight: FontWeight.w600,
+                color: Colors.black,
+                fontWeight: FontWeight.w400,
                 fontFamily: mainFontFamily),
             // chord name
             headline3: TextStyle(
                 fontSize: Globals.outputFontSize,
                 color: Colors.black,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w500,
                 fontFamily: mainFontFamily),
             // chord panel annotations
             headline4: TextStyle(
                 fontSize: Globals.chordPanelSize * .8,
                 color: Colors.black,
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w700,
                 fontFamily: mainFontFamily),
             //input
             bodyText1: TextStyle(
-                fontFamily: GoogleFonts.firaCode().fontFamily,
+                fontFamily: "FiraMono",
                 fontSize: Globals.inputfontSize,
-                color: Colors.black,
-                fontWeight: FontWeight.w500),
+                color: Colors.black),
             //output
             bodyText2: TextStyle(
                 fontSize: Globals.outputFontSize,
                 color: Colors.black,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w300,
                 fontFamily: mainFontFamily),
           ),
     );
@@ -86,11 +83,10 @@ class CustomTheme {
   static ThemeData get dark {
     return ThemeData.dark().copyWith(
       appBarTheme: ThemeData.dark().appBarTheme.copyWith(
-          titleTextStyle: TextStyle(
-              fontFamily: GoogleFonts.majorMonoDisplay().fontFamily,
+          titleTextStyle: const TextStyle(
+              fontFamily: "MajorMonoDisplay",
               color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold)),
+              fontSize: 20,)),
       colorScheme: darkColorScheme,
       toggleButtonsTheme: ThemeData.dark().toggleButtonsTheme.copyWith(
             borderRadius: BorderRadius.circular(10),
@@ -108,32 +104,31 @@ class CustomTheme {
                 fontFamily: mainFontFamily),
             headline2: TextStyle(
                 fontSize: Globals.outputFontSize,
-                color: Colors.white.withAlpha(150),
-                fontWeight: FontWeight.w600,
+                color: Colors.white.withAlpha(180),
+                fontWeight: FontWeight.w400,
                 fontFamily: mainFontFamily),
             // chord name
             headline3: TextStyle(
                 fontSize: Globals.outputFontSize,
                 color: Colors.white,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w500,
                 fontFamily: mainFontFamily),
             // chord panel annotations
             headline4: TextStyle(
                 fontSize: Globals.chordPanelSize * .8,
                 color: Colors.white,
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w700,
                 fontFamily: mainFontFamily),
             //input
             bodyText1: TextStyle(
-                fontFamily: GoogleFonts.firaCode().fontFamily,
+                fontFamily: "FiraMono",
                 fontSize: Globals.inputfontSize,
-                color: Colors.white,
-                fontWeight: FontWeight.w500),
+                color: Colors.white),
             //output
             bodyText2: TextStyle(
                 fontSize: Globals.outputFontSize,
                 color: Colors.white,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w300,
                 fontFamily: mainFontFamily),
           ),
     );
