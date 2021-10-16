@@ -114,9 +114,11 @@ Future<void> saveRawText() async{
 }
 
 String _rawText = '''
-! Instructions
+! INSTRUCTIONS  ### Start reading this to get the hang of the app ###
 
-# Welcome to Mark Book! This is an implementation of a minimal markup language intended for the elaboration of songbooks.
+# WELCOME TO MARK BOOK!
+
+# This is an implementation of a minimal markup language intended for the elaboration of your own songbooks. You input the raw markup in the left panel, and the result is automatically rendered in the right panel. Any of the panels can be hidden in the upper bar. Read this tutorial in the left panel, where you can experiment and see the results in real-time.
 
 # The language is very simple, consisting of four markers ( ! , # ,  >  and  [ ) used at the beginning of special lines. The rendered markup can be seen in the right panel. The purpose of each marker is as follows:
 
@@ -128,26 +130,27 @@ String _rawText = '''
 
 | This line won't be rendered, and thus can't be seen in the right panel
 
-# [ - Lines starting with square brackets are lines that define a chord to be used in the current song. They have to adhere to one of the following patterns:
+# [ - Lines starting with square brackets are lines that define a chord to be subsequently used in the current song. They have to adhere to one of the following patterns:
 
 [x 0 2 2 2 0] A
 [x,2,4,4,4,2] B
 [0;3;2;0;1;0] C
 
-#     That is, six integers separated by spaces, semicolons or commas (or a combination of them) inside square brackets, followed by the name of the chord. Those chords can be subsequently used in chord lines, our last marker. An extensive list of chords in this format can be found in https://en.wikibooks.org/wiki/Guitar/Chords/Full_List_Standard_Tuning
+#     That is, six integers separated by spaces, semicolons or commas (or a combination of them) inside square brackets, followed by the name of the chord. Those chords can be subsequently used in chord lines, our last marker. An extensive list of chords roughly in this format can be found in https://en.wikibooks.org/wiki/Guitar/Chords/Full_List_Standard_Tuning
 
 # > - Lines starting with a greater than sign are chord lines. The implementation provides a very rudimentary chord detection engine, so the chords will likely appear even if not defined beforehand. Defined chords,  however, have priority over auto-generated ones.
 
 >A     C                                        B
-
-Example of chord plus lyrics line
+Example of chord plus lyrics line. Hover over a chord in the right panel to show fingering.
+>B     A                    C                    A
+Clicking in a chord will pin the fingering until the chord is clicked again.
 
 
 # The chords can be hovered or clicked in the rendered panel to the right to expose a diagram of the chord. Also, chords above a line of normal text (that is, text starting without any marker) keep their original position in the rendered output. This allows precision in the placing of chords in relation to the lyrics.
 
-# Normal text can be divided into lines in the markup source (here), but will appear side by side in the rendered output, wrapped as necessary. This is the main motivation of this app: present songbooks compactly and gracefully in a wide range of available spaces, on different screens. 
+# Normal text can be divided into lines in the markup source (left panel), but will appear side by side in the rendered output (right panel), wrapped as necessary. This is the main motivation of this app: present songbooks compactly and gracefully in a wide range of available spaces, on different screens. 
 
-# Per default, a marker is inserted at the beginning of each verse, to facilitate the reading. This marker can be disabled in the settings, however. Font size for both input and output can be changed in the setting, as well as the chord panel size. Also, all songs can be collapsed and expanded uses the buttons in the upper bar. Files can be loaded and saved, in the Mark Book (.mb) format. Below is an example of a real song. Details about the settings shown in the drawer (accessible through the hamburger menu) can be seen by hovering over the items or long-pressing in mobile.
+# Per default, a marker is inserted at the beginning of each verse, to facilitate the reading. This behavior can be disabled in the settings, however. Font size for both input and output can be changed in the setting, as well as the size of the chord panel. Also, all songs can be collapsed and expanded uses the buttons in the upper bar. Files can be loaded and saved, in the Mark Book (.mb) format. Below is an example of a real song. Details about the settings shown in the drawer (accessible through the hamburger menu) can be seen by hovering over the items or long-pressing in mobile.
 
       
 ! The Rising Sun Blues
@@ -162,7 +165,7 @@ Example of chord plus lyrics line
 [x 0 0 2 3 2] D
 [x x 2 1 2 0] Dbm
 
-# verse 2:
+# verse 1:
 >E                                    A    E   C      E
 They are a house in New Orleans they call the Rising Sun.
 >      A         Am      E                         B

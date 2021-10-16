@@ -1,10 +1,10 @@
 
 
 $windows = $TRUE
-# $windows = $FALSE
+$windows = $FALSE
 
 $web = $TRUE
-# $web = $FALSE
+$web = $FALSE
 
 $android = $TRUE
 # $android = $FALSE
@@ -57,7 +57,6 @@ if ($upgrade) {
 ## WINDOWS
 if ($windows) {
   flutter build windows --release
-
 }
 
 ## WEB
@@ -84,7 +83,7 @@ if ($web) {
 
 ## Android
 if ($android) {
-  # flutter build apk --release
+  flutter build apk --release
   flutter build appbundle --release
 }
 
