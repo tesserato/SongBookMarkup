@@ -4,10 +4,10 @@ $windows = $TRUE
 $windows = $FALSE
 
 $web = $TRUE
-$web = $FALSE
+# $web = $FALSE
 
 $android = $TRUE
-# $android = $FALSE
+$android = $FALSE
 
 $upgrade = $TRUE
 $upgrade = $FALSE

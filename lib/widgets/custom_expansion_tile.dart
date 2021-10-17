@@ -237,7 +237,7 @@ class CustomExpansionTileState extends State<CustomExpansionTile>
           _controller.forward();
         } else {
           _controller.reverse().then<void>((void value) {
-            // if (!mounted) return;
+            if (!mounted) return;
             setState(() {
               // Rebuild without widget.children.
             });
@@ -304,7 +304,8 @@ class CustomExpansionTileState extends State<CustomExpansionTile>
     final Color borderSideColor = _borderColor.value ?? Colors.transparent;
     return Container(
       decoration: BoxDecoration(
-        color: _backgroundColor.value ?? Colors.transparent,
+        // backgroundBlendMode: BlendMode.clear,
+        color: Colors.transparent,
         border: Border(
           top: BorderSide(color: borderSideColor),
           bottom: BorderSide(color: borderSideColor),
@@ -317,7 +318,11 @@ class CustomExpansionTileState extends State<CustomExpansionTile>
             iconColor: _iconColor.value,
             textColor: _headerColor.value,
             child: ListTile(
-              onTap: _handleTap,
+              tileColor: Colors.transparent,
+              selectedTileColor: Colors.transparent,
+              focusColor: Colors.transparent,
+              // hoverColor: ,
+                            onTap: _handleTap,
               contentPadding: widget.tilePadding,
               leading: widget.leading ?? _buildLeadingIcon(context),
               title: widget.title,

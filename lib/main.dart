@@ -11,7 +11,7 @@ const _url = "https://github.com/tesserato/Mark-Book";
 final ValueNotifier<bool> _rebuildAppBar = ValueNotifier(false);
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
-Future<void> main() async {  
+Future<void> main() async {
   // LicenseRegistry.addLicense(() async* {
   //   final license = await rootBundle.loadString('fonts/OFL.txt');
   //   yield LicenseEntryWithLineBreaks(['Fira_Mono'], license);
@@ -26,11 +26,9 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: CustomTheme.light,
@@ -39,11 +37,13 @@ class _MyAppState extends State<MyApp> {
         title: "MarkBook",
         home: Scaffold(
             key: _scaffoldKey,
+            // extendBodyBehindAppBar: true,
             drawer: Drawer(
               child: ListView(
                   // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text("settings:", style: drawer, textAlign: TextAlign.center),
+                    Text("settings:",
+                        style: drawer, textAlign: TextAlign.center),
                     IconButton(
                       icon: const Icon(Icons.arrow_back),
                       tooltip: 'Return to app',
@@ -80,7 +80,8 @@ class _MyAppState extends State<MyApp> {
                           Globals.saveShowLineStart();
                           setState(() {});
                         }),
-                    Text("input font", style: drawer, textAlign: TextAlign.center),
+                    Text("input font",
+                        style: drawer, textAlign: TextAlign.center),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -102,7 +103,8 @@ class _MyAppState extends State<MyApp> {
                             })
                       ],
                     ),
-                    Text("output font", style: drawer, textAlign: TextAlign.center),
+                    Text("output font",
+                        style: drawer, textAlign: TextAlign.center),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -124,7 +126,8 @@ class _MyAppState extends State<MyApp> {
                             })
                       ],
                     ),
-                    Text("chord panel size", style: drawer, textAlign: TextAlign.center),
+                    Text("chord panel size",
+                        style: drawer, textAlign: TextAlign.center),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -146,7 +149,6 @@ class _MyAppState extends State<MyApp> {
                             })
                       ],
                     ),
-
                     IconButton(
                       icon: const Icon(Icons.dangerous),
                       tooltip: 'Reset settings',
@@ -156,7 +158,7 @@ class _MyAppState extends State<MyApp> {
                         setState(() {});
                       },
                     ),
-                                        IconButton(
+                    IconButton(
                       icon: Image.asset('assets/images/icon.png'),
                       tooltip:
                           'Instructions, info, apps for other platforms ▶ $_url',
@@ -187,9 +189,9 @@ class _MyAppState extends State<MyApp> {
                         Globals.saveRawText();
                         Globals.saveAppBarTitle();
                         setState(() {
-                          Globals.appBarTitle = file.fileName
-                                  ?.replaceAll(".mb", "") ??
-                              "mark book";
+                          Globals.appBarTitle =
+                              file.fileName?.replaceAll(".mb", "") ??
+                                  "mark book";
                         });
                       } catch (e) {
                         // print(e);
@@ -289,6 +291,7 @@ class _MyAppState extends State<MyApp> {
                     for (var key in Globals.tiles) {
                       key.currentState?.collapse();
                     }
+                    setState(() {});
                   },
                 ),
               ],

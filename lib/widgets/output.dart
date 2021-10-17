@@ -5,7 +5,6 @@ import '../models/globals.dart' as Globals;
 import '../widgets/custom_expansion_tile.dart';
 
 class Output extends StatefulWidget {
-  // Map<Key, bool> expand = {};
   Output({Key? key}) : super(key: key);
 
   @override
@@ -16,10 +15,11 @@ class _OutputState extends State<Output> {
   List<Widget> currentWidgets = [];
   String? currentChordLine;
   String currentSongTitle = "";
-  // static Map<int, bool> isExpanded = {};
+  
 
-  @override
+  @override  
   Widget build(BuildContext context) {
+    // Globals.tiles = {};
     Map<String, List<int>> chordNameToFingering = {};
     List<Widget> expansionPanels = [];
     int counter = 0;
@@ -121,7 +121,7 @@ class _OutputState extends State<Output> {
       currentWidgets.addAll(makeChordsLine(context, chordNameToFingering,
           text: rawLine, chords: currentChordLine));
       currentChordLine = null;
-      print(chordNameToFingering);
+      // print(chordNameToFingering);
     }
 
     return ListView(
@@ -143,26 +143,28 @@ class EpWrapper extends StatefulWidget {
 }
 
 class _EpWrapperState extends State<EpWrapper> {
-  late GlobalKey<CustomExpansionTileState> _key;
+  final GlobalKey<CustomExpansionTileState> _key = GlobalKey();
 
   @override
   void initState() {
-    _key = GlobalKey();
-    Globals.tiles.add(_key);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    Globals.tiles.add(_key);
+    print(Globals.tiles);
     return CustomExpansionTile(
+        backgroundColor: Colors.transparent,
         index: widget.index,
         key: _key,
         initiallyExpanded: true,
-        title: RichText(
-            overflow: TextOverflow.visible,
-            text: TextSpan(
-                text: widget.title,
-                style: Theme.of(context).textTheme.headline1)),
+        maintainState: true,
+        title: Text(widget.title,
+            style: Theme.of(context)
+                .textTheme
+                .headline1
+                ?.copyWith(backgroundColor: Colors.transparent)),
         children: [
           Wrap(
               // runSpacing: outputFontSize,
@@ -250,8 +252,8 @@ List<Widget> makeChordsLine(
         end = i;
         final name = chords.substring(start, end).trim();
         final fingering = _chordNameToFingering[name];
-        print(_chordNameToFingering);
-        print("$name > $fingering");
+        // print(_chordNameToFingering);
+        // print("$name > $fingering");
         W.add(ChordWidget(text.substring(start, end), name,
             fingering: fingering));
       }
