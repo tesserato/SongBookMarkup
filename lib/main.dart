@@ -173,7 +173,7 @@ class _MyAppState extends State<MyApp> {
               elevation: 0,
               automaticallyImplyLeading: true,
 
-              title: Text(Globals.appBarTitle),
+              title: Text(Globals.appBarTitle.toLowerCase()),
               actions: [
                 IconButton(
                     icon: const Icon(Icons.folder),
@@ -188,12 +188,11 @@ class _MyAppState extends State<MyApp> {
                         Globals.saveAppBarTitle();
                         setState(() {
                           Globals.appBarTitle = file.fileName
-                                  ?.replaceAll(".mb", "")
-                                  .toLowerCase() ??
+                                  ?.replaceAll(".mb", "") ??
                               "mark book";
                         });
                       } catch (e) {
-                        print(e);
+                        // print(e);
                       }
                     }),
                 IconButton(
@@ -207,7 +206,7 @@ class _MyAppState extends State<MyApp> {
                     var file = FilePickerCross(bytes,
                         type: FileTypeCross.custom, fileExtension: '.mb');
                     file.exportToStorage(
-                        fileName: "Mark Book.mb", text: "Test");
+                        fileName: Globals.appBarTitle + ".mb", text: "Test");
                   },
                 ),
                 ValueListenableBuilder(

@@ -15,12 +15,12 @@ class Output extends StatefulWidget {
 class _OutputState extends State<Output> {
   List<Widget> currentWidgets = [];
   String? currentChordLine;
-  Map<String, List<int>> chordNameToFingering = {};
   String currentSongTitle = "";
   // static Map<int, bool> isExpanded = {};
 
   @override
   Widget build(BuildContext context) {
+    Map<String, List<int>> chordNameToFingering = {};
     List<Widget> expansionPanels = [];
     int counter = 0;
     for (var rawLine in Globals.controller.text.split("\n") + ["!"]) {
@@ -81,7 +81,7 @@ class _OutputState extends State<Output> {
             }
           }
         }
-        chordNameToFingering[name] = fingering;
+        chordNameToFingering.putIfAbsent(name, () => fingering);
         continue;
       }
 
@@ -121,6 +121,7 @@ class _OutputState extends State<Output> {
       currentWidgets.addAll(makeChordsLine(context, chordNameToFingering,
           text: rawLine, chords: currentChordLine));
       currentChordLine = null;
+      print(chordNameToFingering);
     }
 
     return ListView(
@@ -172,7 +173,7 @@ class _EpWrapperState extends State<EpWrapper> {
 }
 
 List<Widget> makeChordsLine(
-    BuildContext context, Map<String, List<int>> chordNameToFingering,
+    BuildContext context, final Map<String, List<int>> _chordNameToFingering,
     {String? chords, String? text}) {
   // final chords = rawChords?.codeUnits;
   // final text = rawChords?.codeUnits;
@@ -219,7 +220,7 @@ List<Widget> makeChordsLine(
     for (var name in chordNames) {
       final trimmedName = name.trim();
       if (trimmedName.isNotEmpty) {
-        final fingering = chordNameToFingering[trimmedName];
+        final fingering = _chordNameToFingering[trimmedName];
         W.add(
           ChordWidget("  ".padRight(trimmedName.length), trimmedName,
               fingering: fingering),
@@ -247,8 +248,10 @@ List<Widget> makeChordsLine(
         // left chord name
         insideChord = false;
         end = i;
-        final name = chords.substring(start, end);
-        final fingering = chordNameToFingering[name];
+        final name = chords.substring(start, end).trim();
+        final fingering = _chordNameToFingering[name];
+        print(_chordNameToFingering);
+        print("$name > $fingering");
         W.add(ChordWidget(text.substring(start, end), name,
             fingering: fingering));
       }

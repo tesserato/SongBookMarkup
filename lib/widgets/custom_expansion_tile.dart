@@ -191,7 +191,7 @@ class CustomExpansionTileState extends State<CustomExpansionTile>
   @override
   void initState() {
     super.initState();
-    print("rebuilding");
+    // print("rebuilding");
     _controller = AnimationController(duration: _kExpand, vsync: this);
     _heightFactor = _controller.drive(_easeInTween);
     _iconTurns = _controller.drive(_halfTween.chain(_easeInTween));

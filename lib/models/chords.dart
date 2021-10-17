@@ -162,7 +162,7 @@ class Chord {
     }
     String extensions = name.substring(index).toLowerCase();
     if (extensions.isEmpty) {
-      print("No extensions!");
+      // print("No extensions!");
       return Chord(root);
     } else {
       if (extensions.startsWith("m") ||
@@ -221,24 +221,24 @@ class Chord {
         if (fingering[index] == 0) {
           oldDistanceFromRoot = 0;
         }
-        print(
-            "note=$note, string=${index + 1}, fret=$fret old distance=$oldDistanceFromRoot, new distance=$newDistanceFromRoot");
+        // print(
+        //     "note=$note, string=${index + 1}, fret=$fret old distance=$oldDistanceFromRoot, new distance=$newDistanceFromRoot");
         if (newDistanceFromRoot < oldDistanceFromRoot &&
             newDistanceFromRoot < 4) {
           fingering[index] = fret;
         }
       }
-      print(fingering);
+      // print(fingering);
     }
     return fingering;
   }
 }
 
-void main() {
-  Chord C = Chord.fromName("C(b5)");
-  // Note n1 = Note.g;
-  // Note n2 = Note.e;
-  // int dist = n1.distanceFrom(n2);
-  // print("$n1 , $n2 + $dist -> ${n2 + dist}");
-  print(C.getFingering());
-}
+// void main() {
+//   Chord C = Chord.fromName("C(b5)");
+//   // Note n1 = Note.g;
+//   // Note n2 = Note.e;
+//   // int dist = n1.distanceFrom(n2);
+//   // print("$n1 , $n2 + $dist -> ${n2 + dist}");
+//   print(C.getFingering());
+// }
