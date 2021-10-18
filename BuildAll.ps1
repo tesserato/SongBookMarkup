@@ -4,10 +4,10 @@ $windows = $TRUE
 $windows = $FALSE
 
 $web = $TRUE
-# $web = $FALSE
+$web = $FALSE
 
 $android = $TRUE
-$android = $FALSE
+# $android = $FALSE
 
 $upgrade = $TRUE
 $upgrade = $FALSE
@@ -23,6 +23,11 @@ if ($config) {
   keytool.exe -genkey -v -keystore .\0LD\upload-keystore.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias upload
 }
 
+if ($upgrade) {
+  flutter upgrade
+  flutter pub upgrade
+  flutter pub outdated
+}
 
 
 if ($icons) {
@@ -48,11 +53,7 @@ if ($icons) {
   magick.exe convert -background none .\web\icons\Icon-512.png -gravity center -resize 350x350 -extent 512x512 .\web\icons\Icon-maskable-512.png
 }
 
-if ($upgrade) {
-  flutter upgrade
-  flutter pub upgrade
-  flutter pub outdated
-}
+
 
 ## WINDOWS
 if ($windows) {

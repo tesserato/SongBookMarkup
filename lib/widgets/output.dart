@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mark_book/theme/custom_theme.dart';
+// import 'package:mark_book/theme/custom_theme.dart';
 import '../models/chords.dart';
 import '../models/globals.dart' as Globals;
 import '../widgets/custom_expansion_tile.dart';
@@ -152,8 +152,8 @@ class _EpWrapperState extends State<EpWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    Globals.tiles.add(_key);
-    print(Globals.tiles);
+    // Globals.tiles.add(_key);
+    // print(Globals.tiles);
     return CustomExpansionTile(
         backgroundColor: Colors.transparent,
         index: widget.index,

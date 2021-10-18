@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import '../models/globals.dart' as Globals;
 
-Map<int, bool> expandedState = {};
+// Map<int, bool> expandedState = {};
 
 const Duration _kExpand = Duration(milliseconds: 200);
 
@@ -184,7 +185,7 @@ class CustomExpansionTileState extends State<CustomExpansionTile>
   late Animation<Color?> _borderColor;
   late Animation<Color?> _headerColor;
   late Animation<Color?> _iconColor;
-  late Animation<Color?> _backgroundColor;
+  // late Animation<Color?> _backgroundColor;
 
   bool _isExpanded = false;
 
@@ -198,11 +199,11 @@ class CustomExpansionTileState extends State<CustomExpansionTile>
     _borderColor = _controller.drive(_borderColorTween.chain(_easeOutTween));
     _headerColor = _controller.drive(_headerColorTween.chain(_easeInTween));
     _iconColor = _controller.drive(_iconColorTween.chain(_easeInTween));
-    _backgroundColor =
-        _controller.drive(_backgroundColorTween.chain(_easeOutTween));
+    // _backgroundColor =
+    //     _controller.drive(_backgroundColorTween.chain(_easeOutTween));
 
-    _isExpanded = expandedState[widget.index] ?? widget.initiallyExpanded;
-    expandedState[widget.index] = _isExpanded;
+    _isExpanded = Globals.tileControls[widget.index]?.isExpanded ?? Globals.TileControl.initiallyExpanded;
+    // expandedState[widget.index] = _isExpanded;
 
     if (_isExpanded) _controller.value = 1.0;
   }
@@ -225,25 +226,21 @@ class CustomExpansionTileState extends State<CustomExpansionTile>
     _setExpanded(!_isExpanded);
   }
 
-  // bool isCurrentlyExpanded() {
-  //   return _isExpanded;
-  // }
-
   void _setExpanded(bool isExpanded) {
-    if (_isExpanded != isExpanded) {
+    if (mounted && _isExpanded != isExpanded) {
       setState(() {
         _isExpanded = isExpanded;
         if (_isExpanded) {
           _controller.forward();
         } else {
           _controller.reverse().then<void>((void value) {
-            if (!mounted) return;
+            // if (!mounted) return;
             setState(() {
               // Rebuild without widget.children.
             });
           });
         }
-        expandedState[widget.index] = _isExpanded;
+        Globals.tileControls[widget.index]?.isExpanded = _isExpanded;
         // PageStorage.of(context)?.writeState(context, _isExpanded);
       });
       widget.onExpansionChanged?.call(_isExpanded);
@@ -263,7 +260,7 @@ class CustomExpansionTileState extends State<CustomExpansionTile>
           });
         });
       }
-      expandedState[widget.index] = _isExpanded;
+      Globals.tileControls[widget.index]?.isExpanded = _isExpanded;
       // PageStorage.of(context)?.writeState(context, _isExpanded);
     });
     widget.onExpansionChanged?.call(_isExpanded);
@@ -322,7 +319,7 @@ class CustomExpansionTileState extends State<CustomExpansionTile>
               selectedTileColor: Colors.transparent,
               focusColor: Colors.transparent,
               // hoverColor: ,
-                            onTap: _handleTap,
+              onTap: _handleTap,
               contentPadding: widget.tilePadding,
               leading: widget.leading ?? _buildLeadingIcon(context),
               title: widget.title,
@@ -361,6 +358,7 @@ class CustomExpansionTileState extends State<CustomExpansionTile>
 
   @override
   Widget build(BuildContext context) {
+    Globals.tileControls[widget.index] = Globals.TileControl(expand, collapse);
     final bool closed = !_isExpanded && _controller.isDismissed;
     final bool shouldRemoveChildren = closed && !widget.maintainState;
     // bool? init = PageStorage.of(context)?.readState(context) as bool?;

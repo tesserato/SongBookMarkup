@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(song_book_markup LANGUAGES CXX)
 
-set(BINARY_NAME "song_book_markup")
+set(BINARY_NAME "MarkBook")
 
 cmake_policy(SET CMP0063 NEW)
 

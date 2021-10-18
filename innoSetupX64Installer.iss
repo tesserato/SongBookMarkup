@@ -2,10 +2,10 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Mark Book"
-#define MyAppVersion "1.0"
+#define MyAppVersion "1.3"
 #define MyAppPublisher "tesserato"
 #define MyAppURL "https://github.com/tesserato/Mark-Book"
-#define MyAppExeName "song_book_markup.exe"
+#define MyAppExeName "MarkBook.exe"
 #define MyAppAssocName MyAppName + " files"
 #define MyAppAssocExt ".mb"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt

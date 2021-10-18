@@ -5,16 +5,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 // preferences
 // SharedPreferences? preferences;
 
+class TileControl {
+  static bool initiallyExpanded = true;
+  bool isExpanded = true;
+  Function expand;
+  Function collapse;
+  TileControl(this.expand, this.collapse);
+}
 
-
-Set<GlobalKey<CustomExpansionTileState>> tiles = {};
+final Map<int, TileControl> tileControls = {};
 final TextEditingController controller = TextEditingController(text: _rawText);
 
 Future<void> clearPreferences() async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
-   preferences.clear();
+  preferences.clear();
 }
-
 
 Future<void> getPreferences() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,14 +58,14 @@ Future<void> getPreferences() async {
 
 // App bar title
 String appBarTitle = "mark book";
-Future<void> saveAppBarTitle()async {
+Future<void> saveAppBarTitle() async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
   preferences.setString('appBarTitle', appBarTitle);
 }
 
 // Chord panel size
 double chordPanelSize = 15.0;
-Future<void> saveChordPanelSize()async {
+Future<void> saveChordPanelSize() async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
   preferences.setDouble('chordPanelSize', chordPanelSize);
 }
@@ -68,7 +73,7 @@ Future<void> saveChordPanelSize()async {
 // font
 double inputfontSize = 16.0;
 double outputFontSize = 16.0;
-Future<void> saveFont()async {
+Future<void> saveFont() async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
   preferences.setDouble('inputfontSize', inputfontSize);
   preferences.setDouble('outputFontSize', outputFontSize);
@@ -76,7 +81,7 @@ Future<void> saveFont()async {
 
 // line start
 bool showLineStart = true;
-Future<void> saveShowLineStart()async {
+Future<void> saveShowLineStart() async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
   preferences.setBool('showLineStart', showLineStart);
 }
@@ -86,7 +91,7 @@ double ratio = 0.4;
 double oldRatio = 0.4;
 bool buildTextInput = true;
 bool buildTextOutput = true;
-Future<void> saveRatio() async{
+Future<void> saveRatio() async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
 
   preferences.setDouble('ratio', ratio);
@@ -98,7 +103,7 @@ Future<void> saveRatio() async{
 // themeMode
 ThemeMode themeMode = ThemeMode.system;
 
-Future<void> savethemeMode(ThemeMode themeMode) async{
+Future<void> savethemeMode(ThemeMode themeMode) async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
   if (themeMode == ThemeMode.dark) {
     preferences.setBool('darkTheme', true);
@@ -108,7 +113,7 @@ Future<void> savethemeMode(ThemeMode themeMode) async{
 }
 
 // rawText
-Future<void> saveRawText() async{
+Future<void> saveRawText() async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
   preferences.setString('rawText', controller.text);
 }

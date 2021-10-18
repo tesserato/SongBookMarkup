@@ -278,9 +278,13 @@ class _MyAppState extends State<MyApp> {
                   tooltip: "Expand all songs",
                   icon: const Icon(Icons.unfold_more),
                   onPressed: () {
-                    for (var key in Globals.tiles) {
-                      key.currentState?.expand();
+                    for (var tileControl in Globals.tileControls.values) {
+                      tileControl.expand();
+                      tileControl.isExpanded = true;
                     }
+                    Globals.TileControl.initiallyExpanded = true;
+
+                    // print(Globals.tileControls);
                     setState(() {});
                   },
                 ),
@@ -288,9 +292,12 @@ class _MyAppState extends State<MyApp> {
                   tooltip: "Collapse all songs",
                   icon: const Icon(Icons.unfold_less),
                   onPressed: () {
-                    for (var key in Globals.tiles) {
-                      key.currentState?.collapse();
+                    for (var tileControl in Globals.tileControls.values) {
+                      tileControl.collapse();
+                      tileControl.isExpanded = false;
                     }
+                    Globals.TileControl.initiallyExpanded = false;
+
                     setState(() {});
                   },
                 ),
