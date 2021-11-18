@@ -1,0 +1,700 @@
+<?xml version="1.0" standalone="no"?>
+<mlt LC_NUMERIC="C" version="6.23.0" title="Shotcut version 20.11.28" producer="main_bin">
+  <profile description="PAL 4:3 DV or DVD" width="1920" height="1080" progressive="1" sample_aspect_num="1" sample_aspect_den="1" display_aspect_num="16" display_aspect_den="9" frame_rate_num="25" frame_rate_den="1" colorspace="709"/>
+  <playlist id="main_bin">
+    <property name="xml_retain">1</property>
+  </playlist>
+  <producer id="black" in="00:00:00.000" out="00:03:03.400">
+    <property name="length">00:03:03.440</property>
+    <property name="eof">pause</property>
+    <property name="resource">0</property>
+    <property name="aspect_ratio">1</property>
+    <property name="mlt_service">color</property>
+    <property name="mlt_image_format">rgb24a</property>
+    <property name="set.test_audio">0</property>
+  </producer>
+  <playlist id="background">
+    <entry producer="black" in="00:00:00.000" out="00:03:03.400"/>
+  </playlist>
+  <producer id="producer0" in="00:00:00.000" out="00:00:16.120">
+    <property name="length">00:00:16.160</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/introFinal.mp4</property>
+    <property name="audio_index">-1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2021-10-31T00:44:41</property>
+    <property name="shotcut:hash">f8022f9225a12d1e4aba194843a60b22</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">introFinal.mp4</property>
+  </producer>
+  <producer id="producer1" in="00:00:00.000" out="00:00:33.800">
+    <property name="length">00:00:33.840</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/heading to github.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2021-10-29T02:59:44</property>
+    <property name="shotcut:hash">8347f7b367de22fdf2ca0292ee585219</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">heading to github.mkv</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer2" in="00:00:00.000" out="00:00:32.280">
+    <property name="length">00:00:32.320</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Videos/2021-10-29 02-20-23.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2021-10-29T05:20:56</property>
+    <property name="shotcut:hash">08db1a2a2a854294e96ca0effe34ceab</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">2021-10-29 02-20-23.mkv</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer3" in="00:00:00.000" out="00:01:08.240">
+    <property name="length">00:01:08.280</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Videos/2021-10-29 02-33-41.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2021-10-29T05:34:50</property>
+    <property name="shotcut:hash">47c006b1775db6ab184c8c16d72ba580</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">2021-10-29 02-33-41.mkv</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer4" in="00:00:00.000" out="00:00:36.560">
+    <property name="length">00:00:36.600</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Videos/2021-10-29 02-36-33.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2021-10-29T05:37:10</property>
+    <property name="shotcut:hash">414e04063e94213b77188444a0fd4b12</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">2021-10-29 02-36-33.mkv</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer5" in="00:00:00.000" out="00:00:32.160">
+    <property name="length">00:00:32.200</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Videos/2021-10-29 03-21-43.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2021-10-29T06:22:16</property>
+    <property name="shotcut:hash">2cb6a6f0fdcff8e576a26041b56e9a24</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">2021-10-29 03-21-43.mkv</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer6" in="00:00:00.000" out="00:01:15.680">
+    <property name="length">00:01:15.720</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Videos/2021-10-29 03-36-09.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2021-10-29T06:37:25</property>
+    <property name="shotcut:hash">db685d282ec1ec26a8188b9624f8375f</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">2021-10-29 03-36-09.mkv</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer7" in="00:00:00.000" out="00:01:15.680">
+    <property name="length">00:01:15.720</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Videos/2021-10-29 03-36-09.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2021-10-29T06:37:25</property>
+    <property name="shotcut:hash">db685d282ec1ec26a8188b9624f8375f</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">2021-10-29 03-36-09.mkv</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer8" in="00:00:00.000" out="00:01:15.680">
+    <property name="length">00:01:15.720</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Videos/2021-10-29 03-36-09.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2021-10-29T06:37:25</property>
+    <property name="shotcut:hash">db685d282ec1ec26a8188b9624f8375f</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">2021-10-29 03-36-09.mkv</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer9" in="00:00:00.000" out="00:01:15.680">
+    <property name="length">00:01:15.720</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Videos/2021-10-29 03-36-09.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2021-10-29T06:37:25</property>
+    <property name="shotcut:hash">db685d282ec1ec26a8188b9624f8375f</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">2021-10-29 03-36-09.mkv</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer10" in="00:00:00.000" out="00:00:35.880">
+    <property name="length">00:00:35.920</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Videos/2021-10-29 03-52-49.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2021-10-29T06:53:26</property>
+    <property name="shotcut:hash">143816f1f9ba894989df466dcdd78cb5</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">2021-10-29 03-52-49.mkv</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer11" in="00:00:00.000" out="00:00:18.200">
+    <property name="length">00:00:18.240</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Videos/2021-10-29 05-04-17.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2021-10-29T08:04:36</property>
+    <property name="shotcut:hash">bb0ccdf19329524534f03b2afb78b00c</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">2021-10-29 05-04-17.mkv</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer12" in="00:00:00.000" out="00:00:38.360">
+    <property name="length">00:00:38.400</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Videos/2021-10-29 04-34-42.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2021-10-29T07:35:21</property>
+    <property name="shotcut:hash">acf045a4a9cfe80be95e31e67a8d5b8a</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">2021-10-29 04-34-42.mkv</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer13" in="00:00:00.000" out="00:00:35.880">
+    <property name="length">00:00:35.920</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Videos/2021-10-29 05-22-10.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2021-10-29T08:22:47</property>
+    <property name="shotcut:hash">9eb0d93b53ea3a7c751da0a763999842</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">2021-10-29 05-22-10.mkv</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer14" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/0LD/screenshots/Credits.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2021-10-31T01:27:56</property>
+    <property name="shotcut:hash">b63e8952c93fde7f22e93210b892c8c2</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">Credits.png</property>
+  </producer>
+  <playlist id="playlist0">
+    <property name="shotcut:video">1</property>
+    <property name="shotcut:name">V1</property>
+    <property name="shotcut:lock">0</property>
+    <entry producer="producer0" in="00:00:00.000" out="00:00:16.120"/>
+    <entry producer="producer1" in="00:00:02.000" out="00:00:28.480"/>
+    <entry producer="producer2" in="00:00:04.800" out="00:00:19.480"/>
+    <entry producer="producer3" in="00:00:06.960" out="00:00:13.880"/>
+    <entry producer="producer4" in="00:00:02.080" out="00:00:30.040"/>
+    <entry producer="producer5" in="00:00:11.600" out="00:00:25.080"/>
+    <entry producer="producer6" in="00:00:02.560" out="00:00:06.760"/>
+    <entry producer="producer7" in="00:00:36.640" out="00:00:44.760"/>
+    <entry producer="producer8" in="00:00:46.360" out="00:00:52.880"/>
+    <entry producer="producer9" in="00:01:03.600" out="00:01:07.560"/>
+    <entry producer="producer10" in="00:00:21.920" out="00:00:31.040"/>
+    <entry producer="producer11" in="00:00:02.080" out="00:00:10.640"/>
+    <entry producer="producer12" in="00:00:01.800" out="00:00:11.960"/>
+    <entry producer="producer13" in="00:00:02.920" out="00:00:26.880"/>
+    <entry producer="producer14" in="00:00:00.000" out="00:00:02.600"/>
+  </playlist>
+  <producer id="producer15" in="00:00:00.000" out="00:00:16.120">
+    <property name="length">00:00:16.160</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/introFinal.mp4</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2021-10-31T00:44:41</property>
+    <property name="shotcut:hash">f8022f9225a12d1e4aba194843a60b22</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">introFinal.mp4</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer16" in="00:00:00.000" out="00:00:03.840">
+    <property name="length">00:00:03.880</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/the first thing you wanna do is grab a version of the app for yourself.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T04:18:33</property>
+    <property name="shotcut:hash">9a6b5d21320f91d70d0906bac6885104</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">the first thing you wanna do is grab a version of the app for yourself.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer17" in="00:00:00.000" out="00:00:02.400">
+    <property name="length">00:00:02.440</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/to do that, you can head over to github.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T02:54:41</property>
+    <property name="shotcut:hash">39d4f5a7f042a1278b33e2e86c08b558</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">to do that, you can head over to github.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer18" in="00:00:00.000" out="00:00:09.360">
+    <property name="length">00:00:09.400</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/url.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T05:11:00</property>
+    <property name="shotcut:hash">c68588562b42c5b09384474254922186</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">url.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer19" in="00:00:00.000" out="00:00:05.320">
+    <property name="length">00:00:05.360</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/there you'll find versions.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T03:21:25</property>
+    <property name="shotcut:hash">a3bb82660f8ca1c46d2a106dd240104e</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">there you'll find versions.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer20" in="00:00:00.000" out="00:00:04.480">
+    <property name="length">00:00:04.520</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/android versions.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T05:18:02</property>
+    <property name="shotcut:hash">70412fdd5c2272f5b2e37bdc8be1a0c2</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">android versions.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer21" in="00:00:00.000" out="00:00:16.840">
+    <property name="length">00:00:16.880</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/overview.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T05:31:46</property>
+    <property name="shotcut:hash">fb2caf4b8435120a518d7f9bfc167f52</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">overview.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer22" in="00:00:00.000" out="00:00:05.560">
+    <property name="length">00:00:05.600</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/security prompts.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T07:15:08</property>
+    <property name="shotcut:hash">c4f065a3ba46e383a2e4745cd629491a</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">security prompts.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer23" in="00:00:00.000" out="00:00:06.760">
+    <property name="length">00:00:06.800</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/readme.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T06:09:35</property>
+    <property name="shotcut:hash">57a3da4cf5af8a8b518e8546f1808c46</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">readme.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer24" in="00:00:00.000" out="00:00:05.320">
+    <property name="length">00:00:05.360</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/raw markup.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T06:01:02</property>
+    <property name="shotcut:hash">ca5f54f033efd422de3db97dbf75582a</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">raw markup.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer25" in="00:00:00.000" out="00:00:03.440">
+    <property name="length">00:00:03.480</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/rendered in the right.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T06:06:11</property>
+    <property name="shotcut:hash">c7f719ff9a63b1a1c6994db0738c13e9</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">rendered in the right.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer26" in="00:00:00.000" out="00:00:19.680">
+    <property name="length">00:00:19.720</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/gui instructions.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T06:30:23</property>
+    <property name="shotcut:hash">a6fe45dbbae5d8ae1e5dedba9aee79a3</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">gui instructions.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer27" in="00:00:00.000" out="00:00:08.320">
+    <property name="length">00:00:08.360</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/hovering over.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T06:51:29</property>
+    <property name="shotcut:hash">ac88d8abdcfbc6144fa32e5d7bfb9562</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">hovering over.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer28" in="00:00:00.000" out="00:00:04.840">
+    <property name="length">00:00:04.880</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/markup.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T07:19:41</property>
+    <property name="shotcut:hash">0ef49ba76503b27baf31fe195c7a7246</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">markup.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer29" in="00:00:00.000" out="00:00:02.160">
+    <property name="length">00:00:02.200</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/exclamation.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T07:22:16</property>
+    <property name="shotcut:hash">c4f92b30f1bd6081c009453ffff8ad70</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">exclamation.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer30" in="00:00:00.000" out="00:00:03.160">
+    <property name="length">00:00:03.200</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/hash.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T07:24:29</property>
+    <property name="shotcut:hash">96b462cf2274dcebf04f16cca0f1bc7b</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">hash.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer31" in="00:00:00.000" out="00:00:05.040">
+    <property name="length">00:00:05.080</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/pipe.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T07:27:26</property>
+    <property name="shotcut:hash">cceb0bdbad9208b737f24a5715bcd6d2</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">pipe.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer32" in="00:00:00.000" out="00:00:08.480">
+    <property name="length">00:00:08.520</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/brackets.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T07:33:06</property>
+    <property name="shotcut:hash">b0582794993c9f5cae6fb91d12774691</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">brackets.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer33" in="00:00:00.000" out="00:00:10.320">
+    <property name="length">00:00:10.360</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/chord lines.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T07:52:20</property>
+    <property name="shotcut:hash">3711781ad9052765b3580cac49404979</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">chord lines.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer34" in="00:00:00.000" out="00:00:04.040">
+    <property name="length">00:00:04.080</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/lyrics.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-29T07:55:21</property>
+    <property name="shotcut:hash">6b08b1ea8f59cb004cdf117ea6a0126e</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">lyrics.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <playlist id="playlist1">
+    <property name="shotcut:audio">1</property>
+    <property name="shotcut:name">A1</property>
+    <property name="shotcut:lock">0</property>
+    <entry producer="producer15" in="00:00:00.000" out="00:00:16.120"/>
+    <blank length="00:00:00.400"/>
+    <entry producer="producer16" in="00:00:00.000" out="00:00:03.840"/>
+    <blank length="00:00:00.760"/>
+    <entry producer="producer17" in="00:00:00.600" out="00:00:02.400"/>
+    <blank length="00:00:00.760"/>
+    <entry producer="producer18" in="00:00:00.000" out="00:00:09.360"/>
+    <blank length="00:00:02.280"/>
+    <entry producer="producer19" in="00:00:00.240" out="00:00:05.320"/>
+    <blank length="00:00:00.560"/>
+    <entry producer="producer20" in="00:00:00.000" out="00:00:04.480"/>
+    <blank length="00:00:07.320"/>
+    <entry producer="producer21" in="00:00:00.000" out="00:00:16.840"/>
+    <blank length="00:00:00.600"/>
+    <entry producer="producer22" in="00:00:00.000" out="00:00:05.560"/>
+    <blank length="00:00:11.800"/>
+    <entry producer="producer23" in="00:00:00.000" out="00:00:06.760"/>
+    <blank length="00:00:00.760"/>
+    <entry producer="producer24" in="00:00:00.000" out="00:00:05.320"/>
+    <blank length="00:00:00.720"/>
+    <entry producer="producer25" in="00:00:00.000" out="00:00:03.440"/>
+    <blank length="00:00:04.120"/>
+    <entry producer="producer26" in="00:00:00.000" out="00:00:19.680"/>
+    <blank length="00:00:00.520"/>
+    <entry producer="producer27" in="00:00:00.000" out="00:00:08.320"/>
+    <blank length="00:00:00.280"/>
+    <entry producer="producer28" in="00:00:00.000" out="00:00:04.840"/>
+    <blank length="00:00:01.120"/>
+    <entry producer="producer29" in="00:00:00.000" out="00:00:02.160"/>
+    <blank length="00:00:00.480"/>
+    <entry producer="producer30" in="00:00:00.000" out="00:00:03.160"/>
+    <blank length="00:00:01.600"/>
+    <entry producer="producer31" in="00:00:00.000" out="00:00:05.040"/>
+    <blank length="00:00:00.520"/>
+    <entry producer="producer32" in="00:00:00.000" out="00:00:08.480"/>
+    <blank length="00:00:00.360"/>
+    <entry producer="producer33" in="00:00:00.000" out="00:00:10.320"/>
+    <blank length="00:00:00.400"/>
+    <entry producer="producer34" in="00:00:00.000" out="00:00:04.040"/>
+  </playlist>
+  <producer id="producer35" in="00:00:00.000" out="00:01:59.920">
+    <property name="length">00:01:59.960</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/Songs/Aria.mp3</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-08-23T01:22:07</property>
+    <property name="shotcut:hash">bb351b38d2b360d135f4a78f8758aab2</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">Aria.mp3</property>
+  </producer>
+  <producer id="producer36" in="00:00:00.000" out="00:01:59.920">
+    <property name="length">00:01:59.960</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/Songs/Aria.mp3</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-08-23T01:22:07</property>
+    <property name="shotcut:hash">bb351b38d2b360d135f4a78f8758aab2</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">Aria.mp3</property>
+    <property name="xml">was here</property>
+  </producer>
+  <playlist id="playlist2">
+    <property name="shotcut:audio">1</property>
+    <property name="shotcut:name">A2</property>
+    <entry producer="producer35" in="00:00:00.000" out="00:01:59.920"/>
+    <entry producer="producer36" in="00:00:00.000" out="00:01:03.440"/>
+    <filter id="filter0" out="00:03:03.400">
+      <property name="window">75</property>
+      <property name="max_gain">20dB</property>
+      <property name="level">-20.7</property>
+      <property name="mlt_service">volume</property>
+    </filter>
+  </playlist>
+  <tractor id="tractor0" title="Shotcut version 20.11.28" global_feed="1" in="00:00:00.000" out="00:03:03.400">
+    <property name="shotcut">1</property>
+    <property name="shotcut:projectAudioChannels">2</property>
+    <property name="shotcut:projectFolder">1</property>
+    <property name="shotcut:scaleFactor">1.65303</property>
+    <track producer="background"/>
+    <track producer="playlist0" hide="audio"/>
+    <track producer="playlist1" hide="video"/>
+    <track producer="playlist2" hide="video"/>
+    <transition id="transition0">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+    <transition id="transition1">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="version">0.9</property>
+      <property name="mlt_service">frei0r.cairoblend</property>
+      <property name="disable">1</property>
+    </transition>
+    <transition id="transition2">
+      <property name="a_track">0</property>
+      <property name="b_track">2</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+    <transition id="transition3">
+      <property name="a_track">0</property>
+      <property name="b_track">3</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+  </tractor>
+</mlt>

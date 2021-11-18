@@ -1,0 +1,157 @@
+<?xml version="1.0" standalone="no"?>
+<mlt LC_NUMERIC="C" version="6.23.0" title="Shotcut version 20.11.28" producer="main_bin">
+  <profile description="automatic" width="1920" height="1080" progressive="1" sample_aspect_num="1" sample_aspect_den="1" display_aspect_num="1920" display_aspect_den="1080" frame_rate_num="60000" frame_rate_den="1001" colorspace="709"/>
+  <playlist id="main_bin">
+    <property name="xml_retain">1</property>
+  </playlist>
+  <producer id="black" in="00:00:00.000" out="00:00:16.099">
+    <property name="length">00:00:16.116</property>
+    <property name="eof">pause</property>
+    <property name="resource">0</property>
+    <property name="aspect_ratio">1</property>
+    <property name="mlt_service">color</property>
+    <property name="mlt_image_format">rgb24a</property>
+    <property name="set.test_audio">0</property>
+  </producer>
+  <playlist id="background">
+    <entry producer="black" in="00:00:00.000" out="00:00:16.099"/>
+  </playlist>
+  <producer id="producer0" in="00:00:00.000" out="03:59:60.010">
+    <property name="length">04:00:00.017</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/0LD/screenshots/Feature.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2021-10-15T18:02:52</property>
+    <property name="shotcut:hash">6183d88b0ff5fb7a33b46f6da888607b</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">Feature.png</property>
+  </producer>
+  <playlist id="playlist0">
+    <property name="shotcut:video">1</property>
+    <property name="shotcut:name">V1</property>
+    <property name="shotcut:lock">0</property>
+    <entry producer="producer0" in="00:00:00.000" out="00:00:16.099"/>
+  </playlist>
+  <producer id="producer1" in="00:00:00.000" out="00:00:16.099">
+    <property name="length">00:00:16.116</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/New folder/introFinal.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2021-10-31T00:14:45</property>
+    <property name="shotcut:hash">54bd4cb98bb70f0947f78ddeadba8a4b</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">introFinal.wav</property>
+  </producer>
+  <playlist id="playlist1">
+    <property name="shotcut:audio">1</property>
+    <property name="shotcut:name">A1</property>
+    <property name="shotcut:lock">0</property>
+    <entry producer="producer1" in="00:00:00.000" out="00:00:16.099"/>
+  </playlist>
+  <producer id="producer2" in="00:00:00.000" out="00:05:36.787">
+    <property name="length">00:05:36.803</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/tesse/Desktop/Files/Reps/song_book_markup/imagine cup/Video/pitchVideo/New folder/MVI_1166.MP4</property>
+    <property name="audio_index">-1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2021-10-30T22:59:23</property>
+    <property name="shotcut:hash">fa740c5b88668e04bf0b910e8ec1cbae</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">MVI_1166.MP4</property>
+    <property name="xml">was here</property>
+    <filter id="filter0" in="00:03:27.194" out="00:03:43.293">
+      <property name="version">0.2</property>
+      <property name="mlt_service">frei0r.IIRblur</property>
+      <property name="shotcut:filter">blur_gaussian</property>
+      <property name="1">0.99</property>
+      <property name="0">0.2</property>
+      <property name="disable">0</property>
+    </filter>
+    <filter id="filter1" in="00:03:27.194" out="00:03:43.293">
+      <property name="rect">518 -34 1110 1144 1</property>
+      <property name="circle">0</property>
+      <property name="color">#2a307e</property>
+      <property name="radius">0</property>
+      <property name="mlt_service">qtcrop</property>
+      <property name="shotcut:filter">cropRectangle</property>
+      <property name="disable">0</property>
+    </filter>
+    <filter id="filter2" in="00:03:27.194" out="00:03:43.293">
+      <property name="version">0.6</property>
+      <property name="mlt_service">frei0r.select0r</property>
+      <property name="0">#141742</property>
+      <property name="1">1</property>
+      <property name="2">0.071</property>
+      <property name="3">1</property>
+      <property name="4">1</property>
+      <property name="5">0</property>
+      <property name="6">1</property>
+      <property name="7">0.5</property>
+      <property name="8">0.7</property>
+      <property name="9">0</property>
+      <property name="disable">0</property>
+    </filter>
+  </producer>
+  <playlist id="playlist2">
+    <property name="shotcut:video">1</property>
+    <property name="shotcut:name">V2</property>
+    <entry producer="producer2" in="00:03:27.194" out="00:03:43.293"/>
+  </playlist>
+  <tractor id="tractor0" title="Shotcut version 20.11.28" global_feed="1" in="00:00:00.000" out="00:00:16.099">
+    <property name="shotcut">1</property>
+    <property name="shotcut:projectAudioChannels">2</property>
+    <property name="shotcut:projectFolder">1</property>
+    <property name="shotcut:scaleFactor">0.691472</property>
+    <track producer="background"/>
+    <track producer="playlist0"/>
+    <track producer="playlist1" hide="video"/>
+    <track producer="playlist2"/>
+    <transition id="transition0">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+    <transition id="transition1">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="version">0.9</property>
+      <property name="mlt_service">frei0r.cairoblend</property>
+      <property name="disable">1</property>
+    </transition>
+    <transition id="transition2">
+      <property name="a_track">0</property>
+      <property name="b_track">2</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+    <transition id="transition3">
+      <property name="a_track">0</property>
+      <property name="b_track">3</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+    <transition id="transition4">
+      <property name="a_track">1</property>
+      <property name="b_track">3</property>
+      <property name="version">0.9</property>
+      <property name="mlt_service">frei0r.cairoblend</property>
+      <property name="disable">0</property>
+    </transition>
+  </tractor>
+</mlt>
