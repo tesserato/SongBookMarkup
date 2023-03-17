@@ -1,0 +1,14 @@
+## Web App
+- [markbookapp.z13.web.core.windows.net](https://markbookapp.z13.web.core.windows.net/)
+- [markbookapp-secondary.z13.web.core.windows.net](https://markbookapp-secondary.z13.web.core.windows.net/)
+
+## Progressive Web App (PWA)
+- [markbook-app.web.app](https://markbook-app.web.app/#/)
+
+## Windows 64 bit
+- [Installer](https://github.com/tesserato/Mark-Book/releases/download/v1.2/MarkBook_1_3_Installer.exe)
+- [Zip](https://github.com/tesserato/Mark-Book/releases/download/v1.2/MarkBook_1_3.zip)
+
+## Android
+- [Play Store](https://play.google.com/store/apps/details?id=mark.book)
+- [APK](https://github.com/tesserato/Mark-Book/releases/download/v1.2/MarkBook_1_3.apk)
